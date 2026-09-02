@@ -1557,7 +1557,7 @@ function updateRefreshLabel(){
   const hh=String(d.getHours()).padStart(2,"0"),mm=String(d.getMinutes()).padStart(2,"0");
   btn.title=T("lastUpd")+" "+fmtDate(d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"))+" "+hh+":"+mm;
 }
-const LIVE_API=store.get("apiBase","http://localhost:8787");
+const LIVE_API=store.get("apiBase","https://thaigoverment-connect.onrender.com");
 let liveStatus="unknown";
 function renderLiveNote(){
   const el=document.getElementById("live-note");
@@ -1572,7 +1572,7 @@ function renderLiveNote(){
 function fetchLive(){
   if(typeof fetch==="undefined")return Promise.resolve(false);
   let ctl=null,to=null;
-  try{ctl=new AbortController();to=setTimeout(()=>ctl.abort(),4500)}catch(e){}
+  try{ctl=new AbortController();to=setTimeout(()=>ctl.abort(),25000)}catch(e){}
   return fetch(LIVE_API+"/api/news",ctl?{signal:ctl.signal}:{})
     .then(r=>r.json())
     .then(d=>{
