@@ -1,0 +1,13 @@
+{
+  "name": "thaigov-connect",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ThaiGov Connect - Thai government news aggregator (web + live news API)",
+  "main": "thaigov-live-server.js",
+  "scripts": {
+    "start": "node thaigov-live-server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
