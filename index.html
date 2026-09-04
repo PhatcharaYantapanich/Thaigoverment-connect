@@ -6,6 +6,8 @@
 <title>ThaiGov Connect — Government News & Benefits Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <style>
 :root{
   --bg1:#eef2f7; --bg2:#e6ecf5; --bg3:#dfe7f2;
@@ -119,9 +121,9 @@ html[data-theme="dark"] .sug{box-shadow:0 28px 64px rgba(0,0,0,.7),0 4px 14px rg
 .star:hover{background:var(--glass-inner)}
 /* hover-open dropdowns: stay while pointer inside, fade in/out */
 .dd::after{content:"";position:absolute;top:100%;left:0;height:16px;width:min(420px,86vw);pointer-events:none}
-.dd:hover::after,.dd.open::after{pointer-events:auto}
+.dd.open::after{pointer-events:auto}
 .dd .dd-menu{display:block;opacity:0;visibility:hidden;transform:translateY(7px) scale(.985);transition:opacity .18s ease,transform .18s ease,visibility 0s linear .35s}
-.dd.open .dd-menu,.dd:hover .dd-menu{opacity:1;visibility:visible;transform:none;transition:opacity .18s ease,transform .18s ease,visibility 0s}
+.dd.open .dd-menu{opacity:1;visibility:visible;transform:none;transition:opacity .18s ease,transform .18s ease,visibility 0s}
 .dd.closing .dd-menu{opacity:0!important;visibility:hidden!important;transition:none!important}
 .dd.closing::after{pointer-events:none!important}
 /* category tabs inside ministry dropdown */
@@ -185,7 +187,8 @@ body,.glass,.card,.dd-btn,.hbtn,nav.main button{transition-property:background,b
 .sug mark{background:transparent;color:var(--accent);font-weight:700}
 /* ministry hero */
 .min-hero{display:flex;align-items:center;gap:18px;padding:22px 24px;border-radius:22px;margin:14px 0 4px;position:relative;overflow:hidden}
-.min-hero::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,var(--hero),transparent 65%);opacity:.14;pointer-events:none}
+.min-hero::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,var(--hero),transparent 65%);opacity:.14;pointer-events:none;z-index:0}
+.min-hero>*{position:relative;z-index:1}
 .min-hero .hero-logo .min-logo,.min-hero .hero-logo .min-logo-fb{width:72px;height:72px;font-size:22px;background:#fff;padding:5px;border:3px solid #fff;box-shadow:0 0 0 2px rgba(0,0,0,.08),0 8px 22px rgba(0,0,0,.22)}
 .hero-link{display:inline-flex;align-items:center;gap:4px;margin-top:6px;font-size:12px;font-weight:700;color:var(--accent);text-decoration:none;background:var(--accent-soft);padding:4px 11px;border-radius:20px;transition:.2s}
 .hero-link:hover{transform:translateY(-1px);text-decoration:underline}
@@ -407,6 +410,97 @@ footer{text-align:center;font-size:12px;color:var(--txt3);padding:30px 14px 10px
 }
 @media (min-width:721px){.mobile-nav{display:none}}
 body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #footer-credit{display:none!important}
+/* ===== Netflix-style feed rails ===== */
+.rails{display:flex;flex-direction:column;gap:26px;margin-top:8px}
+.rail{position:relative}
+.rail-head{display:flex;align-items:center;gap:9px;margin:0 2px 9px}
+.rail-head h3{font-size:16px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:8px;margin:0}
+.rail-emoji{font-size:17px;line-height:1}
+.rail-count{font-size:11.5px;color:var(--txt3);font-weight:700;background:var(--glass);padding:2px 8px;border-radius:20px}
+.rail-tools{margin-left:auto;display:flex;align-items:center;gap:8px}
+.rail-seeall{font-size:12px;font-weight:700;color:var(--accent);background:none;border:none;cursor:pointer;padding:4px 6px;border-radius:8px;font-family:inherit}
+.rail-seeall:hover{text-decoration:underline}
+.rail-arrows{display:flex;gap:6px}
+.rail-arrows button{width:30px;height:30px;border-radius:50%;border:1px solid var(--glass-border);background:var(--glass-strong);color:var(--txt2);cursor:pointer;display:grid;place-items:center;transition:.2s}
+.rail-arrows button:hover{color:var(--txt);transform:translateY(-1px);box-shadow:var(--shadow-sm)}
+.rail-track{display:flex;gap:14px;overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;scroll-snap-type:x proximity;padding:16px;scrollbar-width:thin;scrollbar-color:var(--glass-border) transparent;border:1px solid var(--glass-border);border-radius:20px;background:var(--glass)}
+.rail-track::-webkit-scrollbar{height:8px}
+.rail-track::-webkit-scrollbar-thumb{background:var(--glass-border);border-radius:10px}
+.rail-track::-webkit-scrollbar-track{background:transparent}
+.rail-track>.card{flex:0 0 300px;width:300px;scroll-snap-align:start}
+.rail-track>.card p{-webkit-line-clamp:2}
+.rail-track>.card .card-img{height:140px;object-fit:cover}
+.rail-track>.card h3{font-size:14.5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media(max-width:600px){.rail-track>.card{flex:0 0 82vw;width:82vw}.rail-arrows{display:none}}
+.badge.new{background:#ef4444;color:#fff}
+/* ===== Pro: card layout fix + present mode ===== */
+.card-top{padding-right:22px}
+.card-top .min-link{flex:1;min-width:0}
+.card-min{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0;font-weight:700;color:var(--txt)}
+.card-tags{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.rail-track>.card .card-tags .badge,.rail-track>.card .card-tags .ext-tag{font-size:10px}
+.user-chip{display:none;align-items:center;gap:7px;border:1px solid var(--glass-border);background:var(--glass-strong);color:var(--txt);font-family:inherit;font-weight:700;font-size:12.5px;padding:5px 11px 5px 5px;border-radius:30px;cursor:pointer;transition:.2s}
+.user-chip:hover{border-color:var(--accent)}
+.user-chip .un{line-height:1}
+.ua{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:12px;flex:none}
+.ua.sm{width:20px;height:20px;font-size:10px}
+.ua.big{width:56px;height:56px;font-size:24px}
+.user-overlay{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);padding:20px}
+.user-overlay.open{display:flex}
+.user-modal{position:relative;background:var(--menu-bg);border-radius:24px;padding:32px 30px;max-width:520px;width:100%;box-shadow:var(--shadow);text-align:center}
+.user-modal h2{font-size:22px;font-weight:800;margin:0 0 6px}
+.uo-sub{color:var(--txt2);font-size:13.5px;margin:0 0 22px}
+.uo-x{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:none;background:var(--glass);color:var(--txt2);cursor:pointer;display:grid;place-items:center}
+.user-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.user-card{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 12px;border-radius:18px;border:2px solid var(--glass-border);background:var(--glass);cursor:pointer;transition:.2s;font-family:inherit}
+.user-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.user-card[data-cur="1"]{border-color:var(--accent);background:var(--accent-soft)}
+.user-card .ucn{font-weight:800;font-size:15px;color:var(--txt)}
+.user-card .ucc{font-size:11.5px;color:var(--txt3);font-weight:600}
+.team-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:2px 0 14px}
+.team-bar .tb-label{font-size:12.5px;color:var(--txt2);font-weight:700;margin-right:2px}
+.team-chip{display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 5px;border-radius:30px;border:1px solid var(--glass-border);background:var(--glass);color:var(--txt2);font-family:inherit;font-weight:700;font-size:12.5px;cursor:pointer;transition:.2s}
+.team-chip:hover{border-color:var(--accent);color:var(--txt)}
+.team-chip.cur{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.team-chip .tc-count{background:var(--menu-bg);border-radius:20px;padding:1px 7px;font-size:11px}
+@media(max-width:600px){.user-chip .un{display:none}}
+/* ===== notes/comments + notifications ===== */
+.notif-wrap{position:relative}
+.notif-badge{position:absolute;top:-3px;right:-3px;min-width:17px;height:17px;padding:0 4px;border-radius:20px;background:#ef4444;color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;line-height:1}
+.notif-panel{position:absolute;top:calc(100% + 8px);right:0;width:min(340px,86vw);background:var(--menu-bg);border:1px solid var(--glass-border);border-radius:16px;box-shadow:0 20px 50px rgba(15,25,45,.28);z-index:920;display:none;overflow:hidden}
+.notif-panel.open{display:block}
+.np-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;font-weight:800;font-size:13.5px;border-bottom:1px solid var(--glass-border)}
+.np-clear{border:none;background:none;color:var(--accent);font-family:inherit;font-weight:700;font-size:11.5px;cursor:pointer}
+.np-list{max-height:min(60vh,420px);overflow-y:auto;padding:6px}
+.nt-item{padding:10px 11px;border-radius:12px;cursor:pointer;transition:.15s}
+.nt-item:hover{background:var(--accent-soft)}
+.nt-item.unread{background:var(--accent-soft)}
+.nt-item.unread .nt-title{font-weight:700}
+.nt-top{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--txt2)}
+.nt-title{font-size:13px;color:var(--txt);margin:4px 0 2px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nt-text{font-size:12px;color:var(--txt3);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cmt-wrap{margin-top:20px;border-top:1px solid var(--glass-border);padding-top:16px}
+.cmt-head{font-size:14px;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.cmt-local{font-size:10.5px;font-weight:600;color:var(--txt3);background:var(--glass);padding:2px 8px;border-radius:20px}
+.cmt-list{display:flex;flex-direction:column;gap:12px;margin-bottom:14px}
+.cmt-empty{font-size:12.5px;color:var(--txt3);text-align:center;padding:14px}
+.cmt-item{display:flex;gap:10px;align-items:flex-start}
+.cmt-body{flex:1;min-width:0}
+.cmt-meta{font-size:12px;color:var(--txt3)}
+.cmt-meta b{color:var(--txt);font-size:12.5px}
+.cmt-text{font-size:13.5px;line-height:1.55;color:var(--txt);margin-top:2px;word-break:break-word}
+.mention{color:var(--accent);font-weight:700;background:var(--accent-soft);padding:0 5px;border-radius:6px}
+.cmt-form{display:flex;gap:9px;align-items:flex-end}
+.cmt-input-wrap{flex:1;position:relative}
+.cmt-input-wrap textarea{width:100%;resize:none;border:1px solid var(--glass-border);border-radius:14px;background:var(--glass);color:var(--txt);font-family:inherit;font-size:13.5px;padding:10px 12px;line-height:1.5;outline:none;transition:.2s;max-height:120px;overflow-y:auto}
+.cmt-input-wrap textarea:focus{border-color:var(--accent)}
+.cmt-send{flex:none;padding:9px 16px;font-size:13px}
+.mention-pop{position:absolute;bottom:calc(100% + 6px);left:0;min-width:180px;background:var(--menu-bg);border:1px solid var(--glass-border);border-radius:12px;box-shadow:0 14px 34px rgba(15,25,45,.24);padding:5px;z-index:10;display:none}
+.mp-item{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:9px;cursor:pointer;font-size:13px;font-weight:600}
+.mp-item:hover{background:var(--accent-soft)}
+.cmt-tagrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.cmt-tagbtn{border:1px solid var(--glass-border);background:var(--glass);color:var(--txt2);font-family:inherit;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:20px;cursor:pointer;transition:.15s}
+.cmt-tagbtn:hover{border-color:var(--accent);color:var(--accent)}
 </style>
 </head>
 <body>
@@ -421,12 +515,20 @@ body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #fo
     </div>
   </div>
   <nav class="main">
-    <button id="nav-feed" class="active" onclick="setView('feed')" data-i18n="navFeed">ฟีดข่าว</button>
+    <button id="nav-feed" class="active" onclick="goHome()" data-i18n="navFeed">ฟีดข่าว</button>
     <button id="nav-cal" onclick="setView('cal')" data-i18n="navCal">ปฏิทิน</button>
     <button id="nav-saved" onclick="setView('saved')" data-i18n="navSaved">ที่บันทึก</button>
     <button id="nav-ai" onclick="setView('ai')" data-i18n="navAI">แหล่งข้อมูล &amp; AI</button>
   </nav>
   <div class="hspace"></div>
+  <div class="notif-wrap">
+    <button class="hbtn" id="notif-bell" onclick="event.stopPropagation();toggleNotifPanel()" title="Notifications" style="display:none;position:relative">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+      <span class="notif-badge" id="notif-badge" style="display:none">0</span>
+    </button>
+    <div class="notif-panel" id="notif-panel"></div>
+  </div>
+  <button class="user-chip" id="user-chip" onclick="openUserPicker()" title="Switch user"></button>
   <div class="lang-toggle">
     <button id="lang-th" class="active" onclick="setLang('th')">TH</button>
     <button id="lang-en" onclick="setLang('en')">EN</button>
@@ -442,8 +544,8 @@ body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #fo
   <!-- FEED VIEW -->
   <section id="view-feed">
     <div class="toolbar" id="feed-toolbar">
-      <div class="dd" id="min-dd" onmouseleave="this.classList.remove('closing')">
-        <button class="dd-btn" onclick="toggleDD(event)">
+      <div class="dd" id="min-dd" onmouseenter="ddHover(this,true)" onmouseleave="ddHover(this,false)">
+        <button class="dd-btn" onclick="ddClick(event,this)">
           <span id="dd-icon" style="display:flex;align-items:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/></svg></span>
           <span id="dd-label"></span>
           <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -456,19 +558,33 @@ body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #fo
         <button class="sx" id="search-x" onclick="clearSearch()" title="clear"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
         <div class="sug" id="search-sug"></div>
       </div>
-      <div class="dd fdd" id="type-dd" onmouseleave="this.classList.remove('closing')">
-        <button class="dd-btn glass" onclick="this.parentElement.classList.toggle('open')">
+      <div class="dd fdd" id="type-dd" onmouseenter="ddHover(this,true)" onmouseleave="ddHover(this,false)">
+        <button class="dd-btn glass" onclick="ddClick(event,this)">
           <span id="type-label"></span>
           <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="dd-menu" id="type-menu"></div>
       </div>
-      <div class="dd fdd" id="status-dd" onmouseleave="this.classList.remove('closing')">
-        <button class="dd-btn glass" onclick="this.parentElement.classList.toggle('open')">
+      <div class="dd fdd" id="status-dd" onmouseenter="ddHover(this,true)" onmouseleave="ddHover(this,false)">
+        <button class="dd-btn glass" onclick="ddClick(event,this)">
           <span class="dot" id="status-dot"></span><span id="status-label"></span>
           <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="dd-menu" id="status-menu"></div>
+      </div>
+      <div class="dd fdd" id="date-dd" onmouseenter="ddHover(this,true)" onmouseleave="ddHover(this,false)">
+        <button class="dd-btn glass" onclick="ddClick(event,this)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span id="date-label"></span>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="dd-menu" id="date-menu"></div>
+      </div>
+      <div class="dd fdd" id="sort-dd" onmouseenter="ddHover(this,true)" onmouseleave="ddHover(this,false)">
+        <button class="dd-btn glass" onclick="ddClick(event,this)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg><span id="sort-label"></span>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="dd-menu" id="sort-menu"></div>
       </div>
       <button class="refresh-btn glass" id="refresh-btn" onclick="refreshData()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
@@ -481,6 +597,7 @@ body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #fo
       <span id="clear-min-slot"></span>
     </div>
     <div id="agency-slot"></div>
+    <div id="team-slot"></div>
     <div class="grid" id="feed-grid"></div>
   </section>
 
@@ -537,7 +654,7 @@ body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #fo
 </div>
 
 <div class="mobile-nav glass">
-  <button id="mnav-feed" class="active" onclick="setView('feed')"><span data-i18n="navFeed">ฟีดข่าว</span></button>
+  <button id="mnav-feed" class="active" onclick="goHome()"><span data-i18n="navFeed">ฟีดข่าว</span></button>
   <button id="mnav-cal" onclick="setView('cal')"><span data-i18n="navCal">ปฏิทิน</span></button>
   <button id="mnav-saved" onclick="setView('saved')"><span data-i18n="navSaved">ที่บันทึก</span></button>
   <button id="mnav-ai" onclick="setView('ai')"><span data-i18n="navAI">AI</span></button>
@@ -548,6 +665,15 @@ body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #fo
 </div>
 
 <div class="toast" id="toast"></div>
+
+<div class="user-overlay" id="user-overlay" onclick="if(event.target===this)closeUserPicker()">
+  <div class="user-modal">
+    <button class="uo-x" id="uo-x" onclick="closeUserPicker()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <h2 data-i18n="chooseUser">เลือกผู้ใช้งาน</h2>
+    <p class="uo-sub" data-i18n="chooseUserSub"></p>
+    <div class="user-grid" id="user-grid"></div>
+  </div>
+</div>
 
 <script>
 /* ================= MINISTRIES (8) ================= */
@@ -1159,7 +1285,7 @@ stAll:"ทุกช่วงเวลา",stUpcoming:"กำลังจะถ�
 tabMin:"กระทรวง",tabDept:"กรม/หน่วยงาน",tabSE:"รัฐวิสาหกิจ",tabPO:"องค์การมหาชน",
 searchAllFor:"แสดงผลการค้นหาทั้งหมด",backToMin:"กลับหน้ากระทรวง",underMin:"สังกัด",
 srcApis:"API / ช่องทางข้อมูลเปิดของหน่วยงาน (เชื่อมต่อได้จริง)",liveOk:"ดึงข่าวสดสำเร็จ {n} รายการ จากเซิร์ฟเวอร์ตัวเชื่อมต่อ",
-searchResults:"ผลการค้นหา",sgMinistries:"กระทรวง / หน่วยงาน",sgItems:"ข่าวและกิจกรรม",viewMinistry:"ดูหน้ากระทรวง →",savedMark:"รายการที่บันทึกไว้",calAll:"ทั้งหมด",calSaved:"ที่บันทึกไว้",calFav:"กระทรวงที่ปักดาว",calBenefit:"Benefit",calAgenda:"รายการกิจกรรมเดือนนี้",calEmpty:"ไม่มีกิจกรรมตามตัวกรองในเดือนนี้ — ลองเปลี่ยนตัวกรองด้านบน",calLegendHint:"คลิกที่สีเพื่อกรองเฉพาะกระทรวงนั้น (คลิกซ้ำเพื่อยกเลิก)",calNoFav:"ยังไม่ได้ปักดาวกระทรวง — กดรูปดาวในเมนูกระทรวงก่อน",calNoSaved:"ยังไม่มีกิจกรรมที่บันทึกไว้",extMedia:"ข้อมูลจากแหล่งอื่น (สื่อภายนอก)",liveOffNote:"โหมดออฟไลน์ — กำลังแสดงข้อมูลตัวอย่าง {n} ชิ้น ข่าวสดจากอินเทอร์เน็ต (31 feed: หน่วยงานรัฐ + Google News + ไทยรัฐ/มติชน/ข่าวสด ฯลฯ) ยังไม่เชื่อมต่อ",liveOnNote:"LIVE — เชื่อมต่อแล้ว มีข่าวสดจากอินเทอร์เน็ต {n} รายการรวมอยู่ในฟีด",liveHowBtn:"วิธีเปิดข่าวสด →",extGnews:"รวบรวมโดย Google News",extFrom:"จาก",heroCount:"รายการทั้งหมด",
+searchResults:"ผลการค้นหา",sgMinistries:"กระทรวง / หน่วยงาน",sgItems:"ข่าวและกิจกรรม",viewMinistry:"ดูหน้ากระทรวง →",savedMark:"รายการที่บันทึกไว้",calAll:"ทั้งหมด",calSaved:"ที่บันทึกไว้",calFav:"กระทรวงที่ปักดาว",calBenefit:"Benefit",calAgenda:"รายการกิจกรรมเดือนนี้",calEmpty:"ไม่มีกิจกรรมตามตัวกรองในเดือนนี้ — ลองเปลี่ยนตัวกรองด้านบน",calLegendHint:"คลิกที่สีเพื่อกรองเฉพาะกระทรวงนั้น (คลิกซ้ำเพื่อยกเลิก)",calNoFav:"ยังไม่ได้ปักดาวกระทรวง — กดรูปดาวในเมนูกระทรวงก่อน",calNoSaved:"ยังไม่มีกิจกรรมที่บันทึกไว้",extMedia:"ข้อมูลจากแหล่งอื่น (สื่อภายนอก)",liveOffNote:"โหมดออฟไลน์ — กำลังแสดงข้อมูลตัวอย่าง {n} ชิ้น ข่าวสดจากอินเทอร์เน็ต (31 feed: หน่วยงานรัฐ + Google News + ไทยรัฐ/มติชน/ข่าวสด ฯลฯ) ยังไม่เชื่อมต่อ",liveOnNote:"LIVE — เชื่อมต่อแล้ว มีข่าวสดจากอินเทอร์เน็ต {n} รายการรวมอยู่ในฟีด",liveHowBtn:"วิธีเปิดข่าวสด →",extGnews:"รวบรวมโดย Google News",extFrom:"จาก",heroCount:"รายการทั้งหมด",dateAll:"ทุกวันที่",date7:"7 วันล่าสุด",date30:"30 วันล่าสุด",date90:"3 เดือนล่าสุด",dateYear:"ปีนี้",sortLatest:"ล่าสุด",sortImpact:"Impact สูงสุด",sortDeadline:"ใกล้เดดไลน์",shareBtn:"แชร์",shareCopied:"คัดลอกลิงก์แล้ว",chooseUser:"เลือกผู้ใช้งาน",chooseUserSub:"เลือกว่าคุณเป็นใคร เพื่อบันทึกข่าว/กิจกรรมแยกเป็นรายคน",savedShort:"บันทึก",teamTrack:"ดูของทีม:",userSwitched:"สลับเป็น {u}",commentsTitle:"โน้ต & คอมเมนต์",cmtLocal:"(เก็บในเครื่องนี้)",commentPh:"เขียนโน้ต… พิมพ์ @ เพื่อแท็กเพื่อน",commentSend:"ส่ง",commentEmpty:"ยังไม่มีโน้ต — เริ่มเขียนได้เลย",commentPosted:"เพิ่มโน้ตแล้ว",mentionedYou:"แท็กคุณในข่าว",notifTitle:"การแจ้งเตือน",noNotif:"ยังไม่มีการแจ้งเตือน",markAllRead:"อ่านทั้งหมด",presentExit:"✕ ออกจากโหมดนำเสนอ",presentTitle:"โหมดนำเสนอ (กด P เพื่อออก)",
 aiTag:"สรุปโดย AI",bkbTag:"โอกาสของ BITKUB (Corporate Affairs & Sustainability)",
 dPub:"วันที่เผยแพร่ข่าว",dEvent:"วันจัดกิจกรรม",dTime:"เวลา",dLoc:"สถานที่",dChair:"ประธาน / หน่วยงานหลัก",dAct:"กิจกรรมนี้ทำอะไร",
 engP:"เข้าร่วม",engS:"สนับสนุน",engC:"คอนเนกต์",
@@ -1191,7 +1317,7 @@ stAll:"All time",stUpcoming:"Upcoming",stOngoing:"Ongoing",stPast:"Ended",
 tabMin:"Ministries",tabDept:"Departments",tabSE:"State enterprises",tabPO:"Public bodies",
 searchAllFor:"Show all results for",backToMin:"Back to ministry",underMin:"under",
 srcApis:"Agency open-data APIs / feeds (real, connectable)",liveOk:"Pulled {n} live items from the connector server",
-searchResults:"Search results",sgMinistries:"Ministries / Agencies",sgItems:"News & activities",viewMinistry:"Open ministry page →",savedMark:"Saved items",calAll:"All",calSaved:"Saved",calFav:"Starred ministries",calBenefit:"Benefit",calAgenda:"This month's events",calEmpty:"No events match the current filter this month — try another filter above",calLegendHint:"Click a colour to show only that ministry (click again to clear)",calNoFav:"No starred ministries yet — star one in the ministry menu first",calNoSaved:"No saved events yet",extMedia:"External media source",liveOffNote:"Offline mode — showing {n} sample items. Live news from the internet (31 feeds: government + Google News + Thairath/Matichon/Khaosod etc.) is not connected",liveOnNote:"LIVE — connected, {n} live items from the internet are in your feed",liveHowBtn:"How to enable live news →",extGnews:"Via Google News",extFrom:"From",heroCount:"total items",
+searchResults:"Search results",sgMinistries:"Ministries / Agencies",sgItems:"News & activities",viewMinistry:"Open ministry page →",savedMark:"Saved items",calAll:"All",calSaved:"Saved",calFav:"Starred ministries",calBenefit:"Benefit",calAgenda:"This month's events",calEmpty:"No events match the current filter this month — try another filter above",calLegendHint:"Click a colour to show only that ministry (click again to clear)",calNoFav:"No starred ministries yet — star one in the ministry menu first",calNoSaved:"No saved events yet",extMedia:"External media source",liveOffNote:"Offline mode — showing {n} sample items. Live news from the internet (31 feeds: government + Google News + Thairath/Matichon/Khaosod etc.) is not connected",liveOnNote:"LIVE — connected, {n} live items from the internet are in your feed",liveHowBtn:"How to enable live news →",extGnews:"Via Google News",extFrom:"From",heroCount:"total items",dateAll:"Any date",date7:"Last 7 days",date30:"Last 30 days",date90:"Last 3 months",dateYear:"This year",sortLatest:"Latest",sortImpact:"Top impact",sortDeadline:"By deadline",shareBtn:"Share",shareCopied:"Link copied",chooseUser:"Who are you?",chooseUserSub:"Pick your profile so saved news & events are tracked per person",savedShort:"saved",teamTrack:"View team:",userSwitched:"Switched to {u}",commentsTitle:"Notes & comments",cmtLocal:"(saved on this device)",commentPh:"Write a note… type @ to tag a teammate",commentSend:"Send",commentEmpty:"No notes yet — be the first",commentPosted:"Note added",mentionedYou:"mentioned you",notifTitle:"Notifications",noNotif:"No notifications yet",markAllRead:"Mark all read",presentExit:"✕ Exit presentation",presentTitle:"Presentation mode (press P to exit)",
 aiTag:"AI SUMMARY",bkbTag:"BITKUB OPPORTUNITY (Corporate Affairs & Sustainability)",
 dPub:"Published",dEvent:"Event date",dTime:"Time",dLoc:"Venue",dChair:"Chair / Lead agency",dAct:"What this activity does",
 engP:"Participate",engS:"Support",engC:"Connect",
@@ -1236,15 +1362,58 @@ const S={
   live:[],
   calYM:null,
   calFilter:store.get("calFilter","all"),
+  dateFilter:store.get("dateFilter","all"),
+  sortBy:store.get("sortBy","latest"),
+  user:store.get("user",null),
+  viewUser:null,
   calMinSel:[]
 };
 if(S.view==="foryou")S.view="feed";
-function persist(){["lang","theme","view","minFilter","typeFilter","statusFilter","agFilter","favs","saved","custom","lastRefresh","calFilter"].forEach(k=>store.set(k,S[k]))}
+function persist(){["lang","theme","view","minFilter","typeFilter","statusFilter","agFilter","custom","lastRefresh","calFilter","dateFilter","sortBy","user"].forEach(k=>store.set(k,S[k]));if(S.user){store.set("saved__"+S.user,S.saved||[]);store.set("favs__"+S.user,S.favs||[])}}
 window.addEventListener("beforeunload",persist);
 const T=k=>(I18N[S.lang][k]!==undefined?I18N[S.lang][k]:I18N.th[k]||k);
 const allItems=()=>ITEMS.concat(S.live||[],S.custom);
+const USERS=["Nate","Oat","Nine","Boui"];
+const USER_COLORS={Nate:"#2563eb",Oat:"#0e9f6e",Nine:"#d97706",Boui:"#8b5cf6"};
+function userColor(u){return USER_COLORS[u]||"#64748b"}
+function savedCountOf(u){try{return (store.get("saved__"+u,[])||[]).length}catch(e){return 0}}
+function loadUser(u){
+  S.user=u;
+  S.saved=store.get("saved__"+u,[])||[];
+  S.favs=store.get("favs__"+u,[])||[];
+  S.viewUser=u;
+  store.set("user",u);
+  updateUserChip();
+  subscribeNotifs();
+}
+function updateUserChip(){
+  var c=document.getElementById("user-chip"); if(!c)return;
+  if(!S.user){c.style.display="none";return}
+  c.style.display="inline-flex";
+  c.innerHTML='<span class="ua" style="background:'+userColor(S.user)+'">'+esc(S.user.charAt(0))+'</span><span class="un">'+esc(S.user)+'</span>'+
+    '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>';
+}
+function openUserPicker(){
+  var g=document.getElementById("user-grid");
+  if(g)g.innerHTML=USERS.map(function(u){return '<button class="user-card"'+(S.user===u?' data-cur="1"':'')+' onclick="pickUser(\''+u+'\')"><span class="ua big" style="background:'+userColor(u)+'">'+esc(u.charAt(0))+'</span><span class="ucn">'+esc(u)+'</span><span class="ucc">'+savedCountOf(u)+' '+T("savedShort")+'</span></button>'}).join("");
+  var x=document.getElementById("uo-x"); if(x)x.style.display=S.user?"grid":"none";
+  document.getElementById("user-overlay").classList.add("open");
+}
+function closeUserPicker(){if(!S.user)return;document.getElementById("user-overlay").classList.remove("open")}
+function pickUser(u){
+  loadUser(u); askNotifPerm();
+  document.getElementById("user-overlay").classList.remove("open");
+  renderAll(); if(S.view==="cal")renderCal(); renderDD();
+  if(typeof toast==="function")toast(T("userSwitched").replace("{u}",u));
+}
+function teamBarHTML(){
+  if(S.view!=="saved")return"";
+  return '<div class="team-bar"><span class="tb-label">'+T("teamTrack")+'</span>'+USERS.map(function(u){
+    return '<button class="team-chip'+(S.user===u?" cur":"")+'" onclick="pickUser(\''+u+'\')"><span class="ua sm" style="background:'+userColor(u)+'">'+esc(u.charAt(0))+'</span>'+esc(u)+'<span class="tc-count">'+savedCountOf(u)+'</span></button>';
+  }).join("")+'</div>';
+}
 function goHome(){
-  S.minFilter=null;S.agFilter=null;S.typeFilter="all";S.statusFilter="all";S.qApplied="";
+  S.minFilter=null;S.agFilter=null;S.typeFilter="all";S.statusFilter="all";S.qApplied="";S.dateFilter="all";S.sortBy="latest";
   const se=document.getElementById("search");if(se)se.value="";
   const sx=document.getElementById("search-x");if(sx)sx.style.display="none";
   const sug=document.getElementById("search-sug");if(sug){sug.classList.remove("open");sug.innerHTML=""}
@@ -1376,13 +1545,27 @@ function setView(v){
 }
 
 /* ---------- ministry dropdown ---------- */
-function toggleDD(e){
-  e.stopPropagation();
-  document.getElementById("min-dd").classList.toggle("open");
+function ddSetOpen(dd,on){
+  clearTimeout(dd._closeT);
+  if(on){dd.classList.add("open");dd.classList.remove("closing")}
+  else{dd.classList.remove("open");dd.classList.add("closing");dd._closeT=setTimeout(function(){dd.classList.remove("closing")},240)}
 }
+function ddHover(dd,entering){
+  clearTimeout(dd._leaveT);
+  if(entering){if(dd._suppress)return;ddSetOpen(dd,true)}
+  else{if(dd._pin)return;dd._leaveT=setTimeout(function(){ddSetOpen(dd,false)},150)}
+}
+function ddClick(e,btn){
+  e.stopPropagation();
+  var dd=btn.closest(".dd");clearTimeout(dd._leaveT);
+  if(dd.classList.contains("open")){dd._pin=false;dd._suppress=true;ddSetOpen(dd,false);setTimeout(function(){dd._suppress=false},450)}
+  else{dd._pin=true;ddSetOpen(dd,true)}
+}
+function toggleDD(e){ddClick(e,document.querySelector('#min-dd .dd-btn'))}
 document.addEventListener("click",e=>{
-  const dd=document.getElementById("min-dd");
-  if(dd&&!dd.contains(e.target))dd.classList.remove("open");
+  document.querySelectorAll(".dd.open").forEach(function(dd){if(!dd.contains(e.target)){dd._pin=false;ddSetOpen(dd,false)}});
+  var np=document.getElementById("notif-panel"),nw=document.querySelector(".notif-wrap");
+  if(np&&np.classList.contains("open")&&nw&&!nw.contains(e.target))np.classList.remove("open");
 });
 function latestPub(id){let m="";allItems().forEach(it=>{if(it.min===id&&it.pub&&it.pub>m)m=it.pub});return m}
 function minOrder(){
@@ -1448,7 +1631,7 @@ function agObj(){
   if(!S.agFilter||!S.minFilter||typeof AGENCIES==="undefined")return null;
   return(AGENCIES[S.minFilter]||[]).find(a=>a.n===S.agFilter)||null;
 }
-function closeMinDD(){const dd=document.getElementById("min-dd");dd.classList.remove("open");dd.classList.add("closing")}
+function closeMinDD(){const dd=document.getElementById("min-dd");dd._pin=false;dd._suppress=true;ddSetOpen(dd,false);setTimeout(function(){dd._suppress=false},450)}
 function pickAgIdx(minId,i){
   const a=((typeof AGENCIES!=="undefined"&&AGENCIES[minId])||[])[i];if(!a)return;
   S.minFilter=minId;S.agFilter=a.n;persist();
@@ -1487,10 +1670,20 @@ function renderSegs(){
     '<div class="fd-item '+(S.statusFilter===s?"sel":"")+'" onclick="setStatus(\''+s+'\')">'+
     (s==="all"?"":'<span class="dot" style="background:'+dots[s]+'"></span>')+T(labels[s])+"</div>"
   ).join("");
+  var dlab={all:T("dateAll"),d7:T("date7"),d30:T("date30"),d90:T("date90"),year:T("dateYear")};
+  var dEl=document.getElementById("date-label"); if(dEl)dEl.textContent=dlab[S.dateFilter]||T("dateAll");
+  var dm=document.getElementById("date-menu"); if(dm)dm.innerHTML=["all","d7","d30","d90","year"].map(function(d){return '<div class="fd-item '+(S.dateFilter===d?"sel":"")+'" onclick="setDate(\''+d+'\')">'+dlab[d]+"</div>"}).join("");
+  var slab={latest:T("sortLatest"),impact:T("sortImpact"),deadline:T("sortDeadline")};
+  var sEl=document.getElementById("sort-label"); if(sEl)sEl.textContent=slab[S.sortBy]||T("sortLatest");
+  var sm=document.getElementById("sort-menu"); if(sm)sm.innerHTML=["latest","impact","deadline"].map(function(x){return '<div class="fd-item '+(S.sortBy===x?"sel":"")+'" onclick="setSort(\''+x+'\')">'+slab[x]+"</div>"}).join("");
 }
-function closeFdd(id){const el=document.getElementById(id);if(el){el.classList.remove("open");el.classList.add("closing")}}
+function closeFdd(id){const el=document.getElementById(id);if(el){el._pin=false;el._suppress=true;ddSetOpen(el,false);setTimeout(function(){el._suppress=false},450)}}
 function setType(t){S.typeFilter=t;persist();closeFdd("type-dd");render()}
 function setStatus(s){S.statusFilter=s;persist();closeFdd("status-dd");render()}
+function setDate(d){S.dateFilter=d;persist();closeFdd("date-dd");render()}
+function setSort(x){S.sortBy=x;persist();closeFdd("sort-dd");render()}
+function impactScore(it){var s=0;if(it.bkb)s+=4;if(it.type==="benefit")s+=2;var st=itemStatus(it);if(st==="upcoming")s+=2;else if(st==="ongoing")s+=1;if(it.img)s+=1;if(it.srcType==="official"||!it.srcType)s+=1;var d=it.pub?daysUntil2(todayISO(),it.pub):-999;if(d<=0&&d>=-7)s+=2;else if(d>=-30)s+=1;return s}
+function inDateRange(it){if(S.dateFilter==="all")return true;if(!it.pub)return false;var d=daysUntil2(it.pub,todayISO());if(S.dateFilter==="d7")return d>=0&&d<=7;if(S.dateFilter==="d30")return d>=0&&d<=30;if(S.dateFilter==="d90")return d>=0&&d<=90;if(S.dateFilter==="year")return it.pub>=todayISO().slice(0,4)+"-01-01";return true}
 function itemStatus(it){
   const t=todayISO();
   if(!it.evStart)return"none";
@@ -1515,9 +1708,15 @@ function filteredItems(){
       return[it.title,it.sum,it.bkb,it.loc,it.chair,m&&m.th,m&&m.en].filter(Boolean).join(" ").toLowerCase().includes(q);
     });
   }
-  if(S.view!=="saved"&&(S.statusFilter==="upcoming"||S.statusFilter==="ongoing"))
-    return list.slice().sort((a,b)=>(a.evStart||"9999").localeCompare(b.evStart||"9999"));
-  return list.slice().sort((a,b)=>(b.pub||"").localeCompare(a.pub||""));
+  if(S.view!=="saved"&&S.dateFilter!=="all")list=list.filter(inDateRange);
+  const sorters={
+    latest:(a,b)=>(b.pub||"").localeCompare(a.pub||""),
+    impact:(a,b)=>impactScore(b)-impactScore(a)||(b.pub||"").localeCompare(a.pub||""),
+    deadline:(a,b)=>(a.evStart||"9999-12-31").localeCompare(b.evStart||"9999-12-31")
+  };
+  let sortKey=S.view==="saved"?"latest":(S.sortBy||"latest");
+  if(S.view!=="saved"&&(S.statusFilter==="upcoming"||S.statusFilter==="ongoing"))sortKey="deadline";
+  return list.slice().sort(sorters[sortKey]||sorters.latest);
 }
 function extTagHTML(it){
   if(it.srcType==="media")return'<span class="ext-tag" title="'+T("extMedia")+'">'+T("extFrom")+" "+esc(it.srcName)+"</span>";
@@ -1531,9 +1730,9 @@ function cardHTML(it){
     '<button class="bookmark-btn '+(saved?"on":"")+'" onclick="event.stopPropagation();toggleSave('+it.id+')" title="'+(saved?T("unsave"):T("save"))+'">'+
     '<svg width="15" height="15" viewBox="0 0 24 24" fill="'+(saved?"currentColor":"none")+'" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg></button>'+
     (it.img?'<img class="card-img" src="'+esc(it.img)+'" alt="" loading="lazy" onerror="this.remove()">':"")+
-    '<div class="card-top"><span class="min-link" onclick="event.stopPropagation();sugMin(\''+it.min+'\')" title="'+T("viewMinistry")+'">'+logoHTML(it.min)+
-      '<span class="card-min">'+esc(m?(S.lang==="th"?m.th:m.en):"")+"</span></span>"+
-      extTagHTML(it)+'<span class="badge '+it.type+'">'+T(it.type)+"</span></div>"+
+    '<div class="card-top"><span class="min-link" onclick="event.stopPropagation();sugMin(\''+it.min+'\')" title="'+esc(m?(S.lang==="th"?m.th:m.en):"")+'">'+logoHTML(it.min)+
+      '<span class="card-min">'+esc(m?(S.lang==="th"?m.th:m.en):"")+"</span></span></div>"+
+    '<div class="card-tags">'+extTagHTML(it)+(isNewItem(it)?'<span class="badge new">'+(S.lang==="en"?"NEW":"ใหม่")+'</span>':"")+'<span class="badge '+it.type+'">'+T(it.type)+"</span></div>"+
     "<h3>"+esc(it.title)+"</h3>"+
     "<p>"+esc(it.sum)+"</p>"+
     engTagsHTML(it)+
@@ -1634,10 +1833,48 @@ function heroHTML(){
     '<button class="hero-x" onclick="pickMin(null)" title="'+T("clearMin")+'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>'+
     "</div>";
 }
+/* ===== Netflix-style rails ===== */
+const RAIL_LABELS={
+  th:{live:"ข่าวสดล่าสุด",latest:"ใหม่ล่าสุด",team:"ไฮไลต์สำหรับทีม CAS",benefit:"สิทธิประโยชน์ & โอกาส",soon:"ใกล้ถึงกำหนด / เดดไลน์",fav:"กระทรวงที่คุณปักดาว",seeAll:"ดูทั้งหมด →",empty:"ยังไม่มีข่าวในหมวดนี้"},
+  en:{live:"Latest Live News",latest:"Just In",team:"Highlights for CAS",benefit:"Benefits & Opportunities",soon:"Closing Soon / Deadlines",fav:"Your Starred Ministries",seeAll:"See all →",empty:"No items in this category yet"}
+};
+function RL(k){return (RAIL_LABELS[S.lang==="en"?"en":"th"]||RAIL_LABELS.th)[k]}
+function isNewItem(it){if(!it||!it.pub)return false;const d=daysUntil2(todayISO(),it.pub);return d<=0&&d>=-7}
+function useRailsMode(){return S.view==="feed"&&!S.minFilter&&!S.agFilter&&!((S.qApplied||"").trim())&&S.typeFilter==="all"&&S.statusFilter==="all"&&S.dateFilter==="all"&&(S.sortBy||"latest")==="latest"}
+function railHTML(emoji,title,items,seeAllFn){
+  if(!items.length)return"";
+  const arrows='<div class="rail-arrows">'+
+    '<button onclick="railScroll(this,-1)" aria-label="prev"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>'+
+    '<button onclick="railScroll(this,1)" aria-label="next"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button></div>';
+  const seeAll=seeAllFn?'<button class="rail-seeall" onclick="'+seeAllFn+'">'+RL("seeAll")+'</button>':"";
+  return '<div class="rail"><div class="rail-head"><h3><span class="rail-emoji">'+emoji+'</span>'+esc(title)+'<span class="rail-count">'+items.length+'</span></h3><div class="rail-tools">'+seeAll+arrows+'</div></div>'+
+    '<div class="rail-track">'+items.map(cardHTML).join("")+'</div></div>';
+}
+function railScroll(btn,dir){
+  const rail=btn.closest(".rail");if(!rail)return;
+  const track=rail.querySelector(".rail-track");if(!track)return;
+  track.scrollBy({left:dir*Math.max(track.clientWidth*0.8,320),behavior:"smooth"});
+}
+function renderRows(){
+  const all=allItems();
+  const byPub=(a,b)=>(b.pub||"").localeCompare(a.pub||"");
+  const rows=[];
+  const ben=all.filter(it=>it.type==="benefit").sort(byPub);
+  rows.push(railHTML("🎁",RL("benefit"),ben.slice(0,20),"setType('benefit')"));
+  rows.push(railHTML("🆕",RL("latest"),all.slice().sort(byPub).slice(0,24)));
+  const team=all.filter(it=>it.bkb).sort(byPub);
+  rows.push(railHTML("⭐",RL("team"),team.slice(0,20)));
+  const soon=all.filter(it=>{const s=itemStatus(it);return s==="upcoming"||s==="ongoing"}).sort((a,b)=>(a.evStart||"9999").localeCompare(b.evStart||"9999"));
+  rows.push(railHTML("⏰",RL("soon"),soon.slice(0,20),"setStatus('upcoming')"));
+  if(S.favs&&S.favs.length){const fav=all.filter(it=>S.favs.includes(it.min)).sort(byPub);rows.push(railHTML("📌",RL("fav"),fav.slice(0,20)));}
+  const html=rows.filter(Boolean).join("");
+  return html||('<div class="empty glass">'+RL("empty")+'</div>');
+}
 function render(){
   renderDD();renderSegs();updateRefreshLabel();
   document.getElementById("min-hero").innerHTML=heroHTML();
   document.getElementById("agency-slot").innerHTML=agencyHTML();
+  var _ts=document.getElementById("team-slot"); if(_ts)_ts.innerHTML=teamBarHTML();
   const list=filteredItems();
   const q=S.view==="saved"?"":(S.qApplied||"");
   document.getElementById("feed-title").textContent=
@@ -1649,9 +1886,15 @@ function render(){
   renderLiveNote();
   document.getElementById("clear-min-slot").innerHTML=
     (S.view==="saved"&&list.length)?'<button class="btn ghost" onclick="downloadICS()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>'+T("icsBtn")+"</button>":"";
-  document.getElementById("feed-grid").innerHTML=
-    list.length?list.map(cardHTML).join(""):
-    '<div class="empty glass" style="grid-column:1/-1">'+(S.view==="saved"?T("emptySaved"):T("emptySearch"))+"</div>";
+  const fg=document.getElementById("feed-grid");
+  if(useRailsMode()){
+    fg.className="rails";
+    fg.innerHTML=renderRows();
+  }else{
+    fg.className="grid";
+    fg.innerHTML=list.length?list.map(cardHTML).join(""):
+      '<div class="empty glass" style="grid-column:1/-1">'+(S.view==="saved"?T("emptySaved"):T("emptySearch"))+"</div>";
+  }
 }
 function toggleSave(id){
   const i=S.saved.indexOf(id);
@@ -1731,6 +1974,140 @@ document.addEventListener("click",e=>{
 });
 
 /* ---------- modal ---------- */
+/* ===== Comments & @mention notifications (Firebase cloud + localStorage fallback) ===== */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBYmVHEsjSUYO9P4zzV57oMFjjjAuPxzGo",
+  authDomain: "thaigoverment-connect.firebaseapp.com",
+  databaseURL: "https://thaigoverment-connect-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "thaigoverment-connect",
+  storageBucket: "thaigoverment-connect.firebasestorage.app",
+  messagingSenderId: "420177694379",
+  appId: "1:420177694379:web:3013ec2d506961790cb1ee"
+};
+var CLOUD=false, fdb=null, _notifRef=null, NOTIFS={}, _seenNotif={}, _notifPrimed=false, _curComment=null;
+function initCloud(){
+  try{
+    if(FIREBASE_CONFIG && FIREBASE_CONFIG.databaseURL && window.firebase){
+      firebase.initializeApp(FIREBASE_CONFIG);
+      fdb=firebase.database();
+      CLOUD=true;
+    }
+  }catch(e){CLOUD=false}
+}
+function parseMentions(text){
+  var out=[],m,re=/@([A-Za-z]+)/g;
+  while((m=re.exec(text||""))){var u=USERS.find(function(x){return x.toLowerCase()===m[1].toLowerCase()});if(u&&out.indexOf(u)<0)out.push(u)}
+  return out;
+}
+function postComment(itemId,itemTitle,text){
+  text=(text||"").trim(); if(!text||!S.user)return;
+  var mentions=parseMentions(text).filter(function(u){return u!==S.user});
+  var c={author:S.user,text:text,ts:Date.now(),mentions:mentions};
+  if(CLOUD){
+    fdb.ref("comments/"+itemId).push(c);
+    mentions.forEach(function(u){fdb.ref("notifications/"+u).push({from:S.user,itemId:itemId,itemTitle:itemTitle||"",text:text,ts:Date.now(),read:false})});
+  }else{
+    var key="cmt__"+itemId,arr=store.get(key,[])||[]; c.id="c"+Date.now(); arr.push(c); store.set(key,arr);
+    mentions.forEach(function(u){var nk="notif__"+u,o=store.get(nk,{})||{},id="n"+Date.now()+Math.floor(Math.random()*9999);o[id]={from:S.user,itemId:itemId,itemTitle:itemTitle||"",text:text,ts:Date.now(),read:false};store.set(nk,o)});
+    refreshLocalNotifs();
+  }
+}
+function cmtTime(ts){if(!ts)return"";var d=new Date(ts),p=function(n){return String(n).padStart(2,"0")};return p(d.getDate())+"/"+p(d.getMonth()+1)+" "+p(d.getHours())+":"+p(d.getMinutes())}
+function renderComments(itemId,itemTitle){
+  _curComment={id:itemId,title:itemTitle||""};
+  var wrap=document.getElementById("cmt-wrap"); if(!wrap)return;
+  wrap.innerHTML='<div class="cmt-head">'+T("commentsTitle")+(CLOUD?'':' <span class="cmt-local">'+T("cmtLocal")+'</span>')+'</div>'+
+    '<div class="cmt-list" id="cmt-list"></div>'+
+    '<div class="cmt-form">'+
+      '<span class="ua sm" style="background:'+userColor(S.user||"")+'">'+esc((S.user||"?").charAt(0))+'</span>'+
+      '<div class="cmt-input-wrap"><textarea id="comment-input" rows="1" placeholder="'+T("commentPh")+'" oninput="onCommentInput(event,'+itemId+')"></textarea><div class="mention-pop" id="mention-pop"></div></div>'+
+      '<button class="btn primary cmt-send" onclick="sendComment('+itemId+')">'+T("commentSend")+'</button>'+
+    '</div>'+
+    '<div class="cmt-tagrow">'+USERS.filter(function(u){return u!==S.user}).map(function(u){return '<button class="cmt-tagbtn" onmousedown="quickTag(event,\''+u+'\')">@'+u+'</button>'}).join("")+'</div>';
+  listenComments(itemId);
+}
+function drawComments(arr){
+  var list=document.getElementById("cmt-list"); if(!list)return;
+  arr=(arr||[]).slice().sort(function(a,b){return (a.ts||0)-(b.ts||0)});
+  if(!arr.length){list.innerHTML='<div class="cmt-empty">'+T("commentEmpty")+'</div>';return}
+  list.innerHTML=arr.map(function(c){
+    var body=esc(c.text).replace(/@([A-Za-z]+)/g,function(mm,n){var u=USERS.find(function(x){return x.toLowerCase()===n.toLowerCase()});return u?'<span class="mention">@'+u+'</span>':mm});
+    return '<div class="cmt-item"><span class="ua sm" style="background:'+userColor(c.author)+'">'+esc((c.author||"?").charAt(0))+'</span><div class="cmt-body"><div class="cmt-meta"><b>'+esc(c.author)+'</b> <span>'+cmtTime(c.ts)+'</span></div><div class="cmt-text">'+body+'</div></div></div>';
+  }).join("");
+}
+function listenComments(itemId){
+  if(CLOUD){fdb.ref("comments/"+itemId).on("value",function(snap){var v=snap.val()||{};drawComments(Object.keys(v).map(function(k){return v[k]}))})}
+  else{drawComments(store.get("cmt__"+itemId,[])||[])}
+}
+function sendComment(itemId){
+  var inp=document.getElementById("comment-input"); if(!inp||!inp.value.trim())return;
+  postComment(itemId,(_curComment&&_curComment.title)||"",inp.value);
+  inp.value=""; inp.style.height="auto";
+  var mp=document.getElementById("mention-pop"); if(mp)mp.style.display="none";
+  if(!CLOUD)listenComments(itemId);
+  if(typeof toast==="function")toast(T("commentPosted"));
+}
+function onCommentInput(e,itemId){
+  var inp=e.target; inp.style.height="auto"; inp.style.height=Math.min(inp.scrollHeight,120)+"px";
+  var caret=inp.selectionStart,upto=inp.value.slice(0,caret),m=upto.match(/@([A-Za-z]*)$/);
+  var box=document.getElementById("mention-pop"); if(!box)return;
+  if(m){var q=m[1].toLowerCase(),mm=USERS.filter(function(u){return u.toLowerCase().indexOf(q)===0&&u!==S.user});
+    if(mm.length){box.innerHTML=mm.map(function(u){return '<div class="mp-item" onmousedown="completeMention(event,\''+u+'\')"><span class="ua sm" style="background:'+userColor(u)+'">'+u.charAt(0)+'</span>'+u+'</div>'}).join("");box.style.display="block";return}}
+  box.style.display="none";
+}
+function completeMention(e,u){
+  e.preventDefault();
+  var inp=document.getElementById("comment-input"),caret=inp.selectionStart,v=inp.value;
+  var before=v.slice(0,caret).replace(/@([A-Za-z]*)$/,"@"+u+" ");
+  inp.value=before+v.slice(caret); inp.focus();
+  var box=document.getElementById("mention-pop"); if(box)box.style.display="none";
+}
+function quickTag(e,u){
+  e.preventDefault();
+  var inp=document.getElementById("comment-input"); if(!inp)return;
+  inp.value=(inp.value?inp.value.replace(/\s*$/,"")+" ":"")+"@"+u+" "; inp.focus();
+}
+function subscribeNotifs(){
+  _notifPrimed=false; _seenNotif={};
+  if(CLOUD){
+    if(_notifRef){try{_notifRef.off()}catch(e){}}
+    if(!S.user)return;
+    _notifRef=fdb.ref("notifications/"+S.user);
+    _notifRef.on("value",function(snap){NOTIFS=snap.val()||{};renderBell();desktopNotify()});
+  }else{refreshLocalNotifs()}
+}
+function refreshLocalNotifs(){if(CLOUD)return;NOTIFS=(S.user?store.get("notif__"+S.user,{}):{})||{};renderBell();desktopNotify()}
+function unreadCount(){var n=0;Object.keys(NOTIFS||{}).forEach(function(k){if(NOTIFS[k]&&!NOTIFS[k].read)n++});return n}
+function renderBell(){
+  var bell=document.getElementById("notif-bell"); if(bell)bell.style.display=S.user?"inline-flex":"none";
+  var b=document.getElementById("notif-badge"); if(b){var n=unreadCount();b.textContent=n;b.style.display=n?"grid":"none"}
+  var panel=document.getElementById("notif-panel"); if(panel&&panel.classList.contains("open"))renderNotifPanel();
+}
+function toggleNotifPanel(){var p=document.getElementById("notif-panel");if(!p)return;if(p.classList.toggle("open"))renderNotifPanel()}
+function renderNotifPanel(){
+  var p=document.getElementById("notif-panel"); if(!p)return;
+  var ids=Object.keys(NOTIFS||{}).sort(function(a,b){return (NOTIFS[b].ts||0)-(NOTIFS[a].ts||0)});
+  var body=ids.length?ids.map(function(id){var x=NOTIFS[id];return '<div class="nt-item'+(x.read?"":" unread")+'" onclick="openNotif(\''+id+'\','+x.itemId+')"><div class="nt-top"><span class="ua sm" style="background:'+userColor(x.from)+'">'+esc((x.from||"?").charAt(0))+'</span><b>'+esc(x.from)+'</b> '+T("mentionedYou")+'</div><div class="nt-title">'+esc(x.itemTitle||"")+'</div><div class="nt-text">&ldquo;'+esc(x.text||"")+'&rdquo;</div></div>'}).join(""):'<div class="cmt-empty">'+T("noNotif")+'</div>';
+  p.innerHTML='<div class="np-head">'+T("notifTitle")+(ids.length?' <button class="np-clear" onclick="clearNotifs(event)">'+T("markAllRead")+'</button>':'')+'</div><div class="np-list">'+body+'</div>';
+}
+function openNotif(id,itemId){markNotifRead(id);var np=document.getElementById("notif-panel");if(np)np.classList.remove("open");if(findItem(+itemId))openModal(+itemId)}
+function markNotifRead(id){
+  if(CLOUD){fdb.ref("notifications/"+S.user+"/"+id+"/read").set(true)}
+  else{var nk="notif__"+S.user,o=store.get(nk,{})||{};if(o[id]){o[id].read=true;store.set(nk,o)}refreshLocalNotifs()}
+}
+function clearNotifs(e){if(e)e.stopPropagation();Object.keys(NOTIFS||{}).forEach(function(id){if(!NOTIFS[id].read)markNotifRead(id)})}
+function desktopNotify(){
+  var prime=!_notifPrimed; _notifPrimed=true;
+  try{
+    var can=("Notification" in window)&&Notification.permission==="granted";
+    Object.keys(NOTIFS||{}).forEach(function(id){
+      var x=NOTIFS[id]; if(!x)return;
+      if(prime){_seenNotif[id]=true;return}
+      if(!x.read&&!_seenNotif[id]){_seenNotif[id]=true;if(can){var nn=new Notification("💬 "+x.from+" "+T("mentionedYou"),{body:x.text||"",tag:String(id)});nn.onclick=function(){window.focus();openNotif(id,x.itemId)}}}
+    });
+  }catch(e){}
+}
+function askNotifPerm(){try{if(("Notification" in window)&&Notification.permission==="default")Notification.requestPermission()}catch(e){}}
 function openModal(id){
   const it=findItem(id);if(!it)return;
   const m=MINISTRIES[it.min],saved=S.saved.includes(it.id);
@@ -1753,11 +2130,14 @@ function openModal(id){
       (it.evStart?'<a class="btn primary" href="'+gcalURL(it)+'" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4"/></svg>'+T("addGcal")+"</a>":"")+
       '<button class="btn ghost" onclick="toggleSave('+it.id+');openModal('+it.id+')">'+(saved?T("unsave"):T("save"))+"</button>"+
       '<button class="btn ghost" onclick="copyItem('+it.id+')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'+T("copyBtn")+"</button>"+
+      '<button class="btn ghost" onclick="shareItem('+it.id+')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>'+T("shareBtn")+"</button>"+
       (it.src?'<a class="btn ghost" href="'+it.src+'" target="_blank" rel="noopener">'+T("source")+"</a>":"")+
-    "</div>";
+    "</div>"+
+    '<div class="cmt-wrap" id="cmt-wrap"></div>';
   document.getElementById("overlay").classList.add("open");
+  renderComments(it.id,it.title);
 }
-function closeModal(){document.getElementById("overlay").classList.remove("open")}
+function closeModal(){document.getElementById("overlay").classList.remove("open");if(/item=/.test(location.hash)){try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}}}
 // ---- copy summary to clipboard ----
 function buildCopyText(it){
   const m=MINISTRIES[it.min];
@@ -1774,6 +2154,12 @@ function copyItem(id){
   const txt=buildCopyText(it),done=()=>toast(T("copiedToast"));
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(done,()=>fallbackCopy(txt,done));
   else fallbackCopy(txt,done);
+}
+function shareItem(id){
+  var url=location.origin+location.pathname+"#item="+id;
+  try{history.replaceState(null,"",url)}catch(e){}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){toast(T("shareCopied"))},function(){fallbackCopy(url,function(){toast(T("shareCopied"))})})}
+  else fallbackCopy(url,function(){toast(T("shareCopied"))});
 }
 function fallbackCopy(txt,done){
   const ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";
@@ -2060,6 +2446,8 @@ function renderSources(){
 
 /* ---------- boot ---------- */
 function renderAll(){render();renderSources();if(S.view==="cal")renderCal()}
+initCloud();
+if(S.user){loadUser(S.user)}else{S.saved=[];S.favs=[]}
 applyTheme();
 document.getElementById("lang-th").classList.toggle("active",S.lang==="th");
 document.getElementById("lang-en").classList.toggle("active",S.lang==="en");
@@ -2072,6 +2460,10 @@ fetchLive().then(ok=>{
   if(ok){S.lastRefresh=Date.now();persist();updateRefreshLabel()}
   renderAll();
 });
+(function(){var m=(location.hash||"").match(/item=(\d+)/);if(m&&findItem(+m[1]))openModal(+m[1]);})();
+window.addEventListener("hashchange",function(){var m=(location.hash||"").match(/item=(\d+)/);if(m&&findItem(+m[1]))openModal(+m[1]);});
+updateUserChip();
+if(!S.user)openUserPicker();
 
 /* ---------- ปุ่มลัด Ctrl+Shift+B: ซ่อน/แสดง โลโก้ Bitkub + เครดิตทีม CAS ---------- */
 (function(){
