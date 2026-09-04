@@ -406,6 +406,7 @@ footer{text-align:center;font-size:12px;color:var(--txt3);padding:30px 14px 10px
   .dd-tabs button{font-size:10px;padding:6px 2px}
 }
 @media (min-width:721px){.mobile-nav{display:none}}
+body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #footer-credit{display:none!important}
 </style>
 </head>
 <body>
@@ -530,7 +531,7 @@ footer{text-align:center;font-size:12px;color:var(--txt3);padding:30px 14px 10px
   </section>
 
   <footer>
-    <span data-i18n="footer1"></span><br>
+    <span id="footer-credit" data-i18n="footer1"></span><br>
     <span data-i18n="footer2"></span>
   </footer>
 </div>
@@ -2071,6 +2072,27 @@ fetchLive().then(ok=>{
   if(ok){S.lastRefresh=Date.now();persist();updateRefreshLabel()}
   renderAll();
 });
+
+/* ---------- ปุ่มลัด Ctrl+Shift+B: ซ่อน/แสดง โลโก้ Bitkub + เครดิตทีม CAS ---------- */
+(function(){
+  function applyBrandHidden(){
+    document.body.classList.toggle("brand-hidden", store.get("brandHidden", false));
+  }
+  applyBrandHidden();
+  document.addEventListener("keydown", function(e){
+    if(e.ctrlKey && e.shiftKey && !e.metaKey && !e.altKey && (e.key==="B" || e.key==="b")){
+      e.preventDefault();
+      var next = !store.get("brandHidden", false);
+      store.set("brandHidden", next);
+      applyBrandHidden();
+      if(typeof toast==="function"){
+        toast(next
+          ? (S.lang==="en" ? "Bitkub logo & CAS credit hidden" : "ซ่อนโลโก้ Bitkub และชื่อทีม CAS แล้ว")
+          : (S.lang==="en" ? "Bitkub logo & CAS credit shown"  : "แสดงโลโก้ Bitkub และชื่อทีม CAS แล้ว"));
+      }
+    }
+  });
+})();
 </script>
 
 <script type="text/plain" id="server-src">
