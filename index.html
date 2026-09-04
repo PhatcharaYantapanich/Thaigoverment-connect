@@ -248,6 +248,11 @@ a.src-item{text-decoration:none;color:inherit}
 .card:hover .bookmark-btn{display:block}
 .bookmark-btn.on{display:block;color:var(--accent)}
 .empty{padding:60px 20px;text-align:center;color:var(--txt3);font-size:14px}
+.empty-nores{display:flex;flex-direction:column;align-items:center;gap:9px;padding:48px 20px}
+.empty-nores svg{color:var(--txt3);opacity:.7;margin-bottom:2px}
+.empty-nores .empty-t{font-size:16px;font-weight:800;color:var(--txt)}
+.empty-nores .empty-s{font-size:13px;color:var(--txt3);max-width:340px;line-height:1.55}
+.empty-nores .btn{margin-top:6px}
 /* ===== modal ===== */
 .overlay{
   position:fixed;inset:0;background:rgba(15,22,35,.4);backdrop-filter:blur(8px);
@@ -501,6 +506,127 @@ body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #fo
 .cmt-tagrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
 .cmt-tagbtn{border:1px solid var(--glass-border);background:var(--glass);color:var(--txt2);font-family:inherit;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:20px;cursor:pointer;transition:.15s}
 .cmt-tagbtn:hover{border-color:var(--accent);color:var(--accent)}
+.acct-wrap{position:relative}
+.acct-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:195px;background:var(--menu-bg);border:1px solid var(--glass-border);border-radius:14px;box-shadow:0 18px 44px rgba(15,25,45,.26);padding:6px;z-index:930;display:none}
+.acct-menu.open{display:block}
+.acct-head{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 10px 10px;border-bottom:1px solid var(--glass-border);margin:0 2px 5px}
+.acct-head .acct-hn{font-size:14px;font-weight:800;color:var(--txt)}
+.acct-head .acct-hr{font-size:10.5px;font-weight:800;color:var(--accent);background:var(--accent-soft);padding:1px 9px;border-radius:10px}
+.acct-menu button{display:flex;align-items:center;gap:10px;width:100%;border:none;background:none;color:var(--txt);font-family:inherit;font-size:13px;font-weight:600;padding:9px 11px;border-radius:10px;cursor:pointer;text-align:left}
+.acct-menu button:hover{background:var(--accent-soft);color:var(--accent)}
+#login-pw{text-align:center;position:relative}
+.lg-brand{font-size:13px;font-weight:800;color:var(--accent);letter-spacing:.02em;margin-bottom:6px}
+.lg-uname{font-size:17px;font-weight:800;margin-bottom:14px}
+#lg-pw,.cpw-in{width:100%;border:1px solid var(--glass-border);border-radius:12px;background:var(--glass);color:var(--txt);font-family:inherit;font-size:14px;padding:11px 13px;outline:none;transition:.2s;margin-bottom:10px}
+#lg-pw:focus,.cpw-in:focus{border-color:var(--accent)}
+.lg-err{color:#ef4444;font-size:12.5px;font-weight:600;min-height:16px;margin-bottom:4px}
+.lg-submit{width:100%;justify-content:center;padding:11px}
+.lg-hint{font-size:11.5px;color:var(--txt3);margin-top:12px}
+.lg-back{position:absolute;top:-8px;left:-6px;width:32px;height:32px;border-radius:50%;border:none;background:var(--glass);color:var(--txt2);cursor:pointer;display:grid;place-items:center}
+.viewonly-note{font-size:12px;color:var(--warn);font-weight:700;margin:2px 0 12px;background:rgba(217,119,6,.12);padding:6px 12px;border-radius:10px;display:inline-block}
+body.viewother .bookmark-btn{display:none!important}
+.admin-modal{position:relative;background:var(--menu-bg);border-radius:22px;padding:28px 26px;max-width:660px;width:100%;box-shadow:var(--shadow);max-height:86vh;overflow-y:auto;text-align:left}
+.admin-modal h2{font-size:20px;font-weight:800;margin:0 0 16px}
+.adm-add{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.adm-add .cpw-in{flex:1;min-width:110px;margin-bottom:0}
+.adm-add .btn{flex:none;padding:10px 14px}
+.adm-list{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.adm-row{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--glass-border);border-radius:12px;background:var(--glass);flex-wrap:wrap}
+.adm-row.blk{opacity:.55}
+.adm-name{font-weight:700;font-size:13.5px;flex:1;min-width:80px}
+.adm-name em{color:var(--txt3);font-weight:500;font-style:normal;font-size:11.5px}
+.adm-role{border:1px solid var(--glass-border);border-radius:9px;background:var(--menu-bg);color:var(--txt);font-family:inherit;font-size:12px;font-weight:600;padding:5px 7px;cursor:pointer}
+.adm-team{width:96px;border:1px solid var(--glass-border);border-radius:9px;background:var(--menu-bg);color:var(--txt);font-family:inherit;font-size:12px;font-weight:600;padding:5px 8px;outline:none}
+.adm-team:focus{border-color:var(--accent)}
+.tb-team{font-size:13px;font-weight:800;color:var(--accent);background:var(--accent-soft);padding:3px 12px;border-radius:20px}
+.adm-sec-title{font-size:13px;font-weight:800;color:var(--txt2);margin:18px 0 8px}
+.adm-teams-box{margin-top:14px}
+.adm-teams{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:9px}
+.adm-empty{font-size:12px;color:var(--txt3)}
+.team-tag{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:12.5px;padding:4px 6px 4px 12px;border-radius:20px}
+.team-tag button{border:none;background:rgba(0,0,0,.08);color:inherit;width:18px;height:18px;border-radius:50%;cursor:pointer;font-size:13px;line-height:1;display:grid;place-items:center}
+.adm-team-add{display:flex;gap:8px;align-items:center}
+.badge.bf{font-weight:800}
+.badge.bf.bf-hi{background:rgba(14,159,110,.16);color:var(--benefit)}
+.badge.bf.bf-mid{background:rgba(217,119,6,.16);color:var(--warn)}
+.badge.bf.bf-lo{background:var(--glass);color:var(--txt3)}
+.adm-hint{font-size:11.5px;color:var(--txt3);margin:-2px 0 10px;line-height:1.55}
+.crit-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.crit-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.crit-row input{border:1px solid var(--glass-border);border-radius:9px;background:var(--menu-bg);color:var(--txt);font-family:inherit;font-size:12px;padding:6px 8px;outline:none}
+.crit-row input:focus{border-color:var(--accent)}
+.crit-label{flex:1;min-width:120px}
+.crit-kw{flex:2;min-width:160px}
+.crit-w{width:64px}
+.overlay,.user-overlay{transition:opacity .25s ease}
+.overlay.open #modal,.user-overlay.open .user-modal,.user-overlay.open .admin-modal{animation:modalIn .3s cubic-bezier(.2,.85,.25,1)}
+@keyframes modalIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.card{transition:transform .2s ease,box-shadow .2s ease,opacity .3s,border-color .2s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.btn,.hbtn,.dd-btn,.team-chip,.adm-btn,.user-chip,.nav-main button,.rail-arrows button{transition:all .18s ease}
+.btn:active,.hbtn:active,.adm-btn:active{transform:scale(.96)}
+.badge.bf{transition:all .2s ease}
+.adm-btn{border:1px solid var(--glass-border);background:var(--glass);color:var(--txt2);font-family:inherit;font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:8px;cursor:pointer;transition:.15s}
+.adm-btn:hover{border-color:var(--accent);color:var(--accent)}
+.adm-btn.on{background:var(--warn);color:#fff;border-color:transparent}
+.adm-btn.danger:hover{border-color:#ef4444;color:#ef4444}
+.adm-btn:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:560px){.adm-row{font-size:12px;gap:6px}.adm-btn{padding:4px 8px}}
+.admin-modal{max-width:720px}
+.adm-tabs{display:flex;gap:6px;margin:2px 0 18px;border-bottom:1px solid var(--glass-border);flex-wrap:wrap}
+.adm-tab{border:none;background:none;font-family:inherit;font-size:13px;font-weight:700;color:var(--txt3);padding:9px 13px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;display:inline-flex;align-items:center;gap:6px;transition:color .18s,border-color .18s}
+.adm-tab:hover{color:var(--txt2)}
+.adm-tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.adm-tab .tb-badge{background:var(--glass);color:var(--txt2);font-size:10.5px;font-weight:800;padding:1px 6px;border-radius:10px}
+.adm-pane{display:none;animation:modalIn .25s cubic-bezier(.2,.85,.25,1)}
+.adm-pane.on{display:block}
+.adm-count{font-size:12px;color:var(--txt3);font-weight:600;margin-left:auto}
+.adm-row .adm-saved{font-size:11px;color:var(--txt3);font-weight:600;background:var(--glass);padding:2px 8px;border-radius:8px;white-space:nowrap}
+.adm-row .adm-status{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:8px;white-space:nowrap}
+.adm-row .adm-status.act{background:rgba(14,159,110,.16);color:var(--benefit)}
+.adm-row .adm-status.blk{background:rgba(239,68,68,.16);color:#ef4444}
+.adm-row .adm-status.adm{background:var(--accent-soft);color:var(--accent)}
+.ai-card{border:1px solid var(--glass-border);border-radius:16px;background:var(--glass);padding:16px 16px 14px;margin-bottom:14px}
+.ai-card h3{font-size:13.5px;font-weight:800;margin:0 0 4px;display:flex;align-items:center;gap:7px}
+.ai-card .ai-desc{font-size:11.5px;color:var(--txt3);line-height:1.5;margin:0 0 12px}
+.ai-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.ai-field{display:flex;flex-direction:column;gap:5px}
+.ai-field label{font-size:11.5px;font-weight:700;color:var(--txt2)}
+.ai-field .ai-sub{font-size:10.5px;color:var(--txt3);font-weight:500}
+.ai-field input,.ai-field select{border:1px solid var(--glass-border);border-radius:10px;background:var(--menu-bg);color:var(--txt);font-family:inherit;font-size:13px;font-weight:600;padding:8px 10px;outline:none}
+.ai-field input:focus,.ai-field select:focus{border-color:var(--accent)}
+.ai-range{display:flex;align-items:center;gap:9px}
+.ai-range input[type=range]{flex:1;accent-color:var(--accent)}
+.ai-range .ai-val{font-size:13px;font-weight:800;color:var(--accent);min-width:38px;text-align:right}
+.sc-box{display:flex;flex-direction:column;gap:9px}
+.sc-box textarea{border:1px solid var(--glass-border);border-radius:10px;background:var(--menu-bg);color:var(--txt);font-family:inherit;font-size:13px;padding:9px 11px;outline:none;resize:vertical;min-height:38px}
+.sc-box textarea:focus{border-color:var(--accent)}
+.sc-result{margin-top:12px;border-top:1px dashed var(--glass-border);padding-top:13px;display:none}
+.sc-result.on{display:block}
+.sc-score{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.sc-ring{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:17px;font-weight:800;color:#fff;flex:none}
+.sc-verdict{font-size:12.5px;color:var(--txt2);line-height:1.5}
+.sc-verdict b{color:var(--txt)}
+.sc-crits{display:flex;flex-direction:column;gap:6px}
+.sc-crit{display:flex;align-items:center;gap:9px;font-size:12px;padding:6px 10px;border-radius:9px;background:var(--glass)}
+.sc-crit .sc-ic{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:800;flex:none;color:#fff}
+.sc-crit.hit .sc-ic{background:var(--benefit)}
+.sc-crit.miss .sc-ic{background:var(--txt3)}
+.sc-crit.miss{opacity:.7}
+.sc-crit .sc-lb{flex:1;font-weight:600}
+.sc-crit .sc-wt{font-size:11px;color:var(--txt3);font-weight:700}
+.sc-crit .sc-mk{font-size:11px;color:var(--benefit);font-weight:700}
+.ai-saved{font-size:11.5px;color:var(--benefit);font-weight:700;opacity:0;transition:opacity .3s;margin-left:8px}
+.ai-saved.on{opacity:1}
+.agnote{padding:16px 18px;border-radius:18px;margin:6px 0 4px}
+.agnote-head{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;margin-bottom:12px}
+.agnote-list{display:flex;flex-direction:column;gap:11px;margin-bottom:12px}
+.agnote-item{display:flex;gap:10px;align-items:flex-start}
+.agnote-body{flex:1;min-width:0}
+.agnote-form{display:flex;gap:9px;align-items:flex-end}
+.agnote-form textarea{flex:1;resize:none;border:1px solid var(--glass-border);border-radius:12px;background:var(--glass);color:var(--txt);font-family:inherit;font-size:13.5px;padding:10px 12px;line-height:1.5;outline:none;max-height:120px}
+.agnote-form textarea:focus{border-color:var(--accent)}
+.agnote-form .btn{flex:none;padding:9px 16px}
 </style>
 </head>
 <body>
@@ -528,7 +654,18 @@ body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #fo
     </button>
     <div class="notif-panel" id="notif-panel"></div>
   </div>
-  <button class="user-chip" id="user-chip" onclick="openUserPicker()" title="Switch user"></button>
+  <div class="acct-wrap">
+    <button class="user-chip" id="user-chip" onclick="toggleAcct(event)" title="Account"></button>
+    <div class="acct-menu" id="acct-menu">
+      <div class="acct-head" id="acct-head"></div>
+      <input type="file" id="photo-input" accept="image/*" style="display:none" onchange="onPhotoPick(event)">
+      <button onclick="pickPhoto()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><span data-i18n="changePhoto">เปลี่ยนรูปโปรไฟล์</span></button>
+      <button id="acct-rmphoto" style="display:none" onclick="removePhoto()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg><span data-i18n="removePhoto">ลบรูปโปรไฟล์</span></button>
+      <button onclick="openChangePw()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="changePw">เปลี่ยนรหัสผ่าน</span></button>
+      <button id="acct-admin" style="display:none" onclick="openAdmin()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v6c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/></svg><span data-i18n="adminPanel">จัดการระบบ (Admin)</span></button>
+      <button onclick="logout()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5M21 12H9"/></svg><span data-i18n="logout">ออกจากระบบ</span></button>
+    </div>
+  </div>
   <div class="lang-toggle">
     <button id="lang-th" class="active" onclick="setLang('th')">TH</button>
     <button id="lang-en" onclick="setLang('en')">EN</button>
@@ -586,6 +723,13 @@ body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #fo
         </button>
         <div class="dd-menu" id="sort-menu"></div>
       </div>
+      <div class="dd fdd" id="bf-dd" onmouseenter="ddHover(this,true)" onmouseleave="ddHover(this,false)">
+        <button class="dd-btn glass" onclick="ddClick(event,this)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3 7h7l-5.5 4 2 7-6.5-4.5L5.5 27l2-7L2 9h7z" transform="scale(0.85) translate(2 0)"/></svg><span id="bf-label"></span>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="dd-menu" id="bf-menu"></div>
+      </div>
       <button class="refresh-btn glass" id="refresh-btn" onclick="refreshData()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
       </button>
@@ -597,6 +741,7 @@ body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #fo
       <span id="clear-min-slot"></span>
     </div>
     <div id="agency-slot"></div>
+    <div id="agnote-slot"></div>
     <div id="team-slot"></div>
     <div class="grid" id="feed-grid"></div>
   </section>
@@ -666,12 +811,90 @@ body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #fo
 
 <div class="toast" id="toast"></div>
 
-<div class="user-overlay" id="user-overlay" onclick="if(event.target===this)closeUserPicker()">
+<div class="user-overlay" id="user-overlay">
   <div class="user-modal">
-    <button class="uo-x" id="uo-x" onclick="closeUserPicker()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-    <h2 data-i18n="chooseUser">เลือกผู้ใช้งาน</h2>
-    <p class="uo-sub" data-i18n="chooseUserSub"></p>
-    <div class="user-grid" id="user-grid"></div>
+    <div class="lg-brand">ThaiGov Connect</div>
+    <h2 data-i18n="loginTitle">เข้าสู่ระบบ</h2>
+    <p class="uo-sub" data-i18n="loginSub">กรอกชื่อผู้ใช้และรหัสผ่าน</p>
+    <input type="text" id="lg-user" class="cpw-in" placeholder="ชื่อผู้ใช้" autocomplete="off" onkeydown="if(event.key==='Enter')document.getElementById('lg-pw').focus()">
+    <input type="password" id="lg-pw" class="cpw-in" placeholder="รหัสผ่าน" onkeydown="if(event.key==='Enter')submitLogin()">
+    <div class="lg-err" id="lg-err"></div>
+    <button class="btn primary lg-submit" onclick="submitLogin()" data-i18n="loginBtn">เข้าสู่ระบบ</button>
+    <div class="lg-hint" data-i18n="loginHint">รหัสเริ่มต้น: 00000000 (เปลี่ยนได้ในเมนูผู้ใช้)</div>
+  </div>
+</div>
+
+<div class="user-overlay" id="cpw-overlay" onclick="if(event.target===this)closeChangePw()">
+  <div class="user-modal" style="max-width:380px">
+    <button class="uo-x" onclick="closeChangePw()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <h2 data-i18n="changePw">เปลี่ยนรหัสผ่าน</h2>
+    <input type="password" id="cpw-old" class="cpw-in" placeholder="รหัสผ่านเดิม">
+    <input type="password" id="cpw-new" class="cpw-in" placeholder="รหัสผ่านใหม่ (อย่างน้อย 4 ตัว)">
+    <input type="password" id="cpw-new2" class="cpw-in" placeholder="ยืนยันรหัสผ่านใหม่">
+    <div class="lg-err" id="cpw-err"></div>
+    <button class="btn primary lg-submit" onclick="submitChangePw()" data-i18n="saveBtn">บันทึก</button>
+  </div>
+</div>
+
+<div class="user-overlay" id="admin-overlay" onclick="if(event.target===this)closeAdmin()">
+  <div class="admin-modal">
+    <button class="uo-x" onclick="closeAdmin()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <h2 data-i18n="adminPanel">จัดการระบบ (Admin)</h2>
+    <div class="adm-tabs">
+      <button class="adm-tab on" id="admtab-people" onclick="adminTab('people')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="tabPeople">ผู้ใช้งาน</span> <span class="tb-badge" id="admtab-people-n"></span></button>
+      <button class="adm-tab" id="admtab-teams" onclick="adminTab('teams')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 21a8 8 0 0 0-16 0"/><circle cx="10" cy="8" r="5"/><path d="M22 20a5.5 5.5 0 0 0-5-4"/></svg><span data-i18n="tabTeams">ทีม</span> <span class="tb-badge" id="admtab-teams-n"></span></button>
+      <button class="adm-tab" id="admtab-ai" onclick="adminTab('ai')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a5 5 0 0 1 5 5v1h1.27A2 2 0 1 1 20 17h-1v1a5 5 0 0 1-5 5h-4a5 5 0 0 1-5-5v-1H4a2 2 0 1 1 .73-3H6v-1a5 5 0 0 1 5-5h1V5.73A2 2 0 0 1 12 2Z"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/></svg><span data-i18n="tabAI">AI &amp; การให้คะแนน</span></button>
+    </div>
+
+    <div class="adm-pane on" id="admpane-people">
+      <div class="adm-add">
+        <input id="adm-new-name" class="cpw-in" placeholder="ชื่อผู้ใช้ใหม่" autocomplete="off">
+        <input id="adm-new-pw" class="cpw-in" placeholder="รหัสผ่าน" autocomplete="off">
+        <select id="adm-new-team" class="adm-role" style="max-width:150px"></select>
+        <select id="adm-new-role" class="adm-role"><option value="member">member</option><option value="admin">admin</option></select>
+        <button class="btn primary" onclick="adminAddUser()" data-i18n="addUser">เพิ่มผู้ใช้</button>
+      </div>
+      <div class="lg-err" id="adm-add-err"></div>
+      <div class="adm-sec-title" style="display:flex;align-items:center"><span data-i18n="usersTitle">ผู้ใช้งาน</span><span class="adm-count" id="adm-users-count"></span></div>
+      <div class="adm-list" id="admin-users"></div>
+    </div>
+
+    <div class="adm-pane" id="admpane-teams">
+      <div class="adm-team-add"><input id="adm-team-new" class="cpw-in" placeholder="ชื่อทีมใหม่" autocomplete="off" style="max-width:200px;margin:0"><button class="btn primary" onclick="adminAddTeam()" data-i18n="addTeam">เพิ่มทีม</button></div>
+      <div class="adm-hint" data-i18n="teamsHint" style="margin-top:10px"></div>
+      <div class="adm-list" id="admin-teams-list"></div>
+    </div>
+
+    <div class="adm-pane" id="admpane-ai">
+      <div class="ai-card">
+        <h3><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg><span data-i18n="aiThreshTitle">ระดับป้ายคะแนน Benefit</span></h3>
+        <p class="ai-desc" data-i18n="aiThreshDesc"></p>
+        <div class="ai-grid">
+          <div class="ai-field"><label data-i18n="aiHi">เกณฑ์ "สูง" (สีเขียว)</label><div class="ai-range"><input type="range" id="ai-hi" min="0" max="100" step="5" oninput="aiRangeSync()"><span class="ai-val" id="ai-hi-v">60%</span></div></div>
+          <div class="ai-field"><label data-i18n="aiMid">เกณฑ์ "กลาง" (สีส้ม)</label><div class="ai-range"><input type="range" id="ai-mid" min="0" max="100" step="5" oninput="aiRangeSync()"><span class="ai-val" id="ai-mid-v">30%</span></div></div>
+          <div class="ai-field"><label data-i18n="aiMinShow">ซ่อนข่าวที่คะแนนต่ำกว่า</label><span class="ai-sub" data-i18n="aiMinShowSub"></span><div class="ai-range"><input type="range" id="ai-min" min="0" max="100" step="5" oninput="aiRangeSync()"><span class="ai-val" id="ai-min-v">0%</span></div></div>
+        </div>
+        <div style="margin-top:14px"><button class="btn primary" onclick="adminSaveAI()" data-i18n="saveSettings">บันทึกการตั้งค่า</button><span class="ai-saved" id="ai-saved-msg" data-i18n="settingsSaved">บันทึกแล้ว</span></div>
+      </div>
+
+      <div class="ai-card">
+        <h3><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span data-i18n="scoringTitle">เกณฑ์ให้คะแนน Benefit (%)</span></h3>
+        <p class="ai-desc" data-i18n="scoringHint"></p>
+        <div class="crit-list" id="admin-criteria"></div>
+        <button class="btn ghost" onclick="adminAddCriterion()" data-i18n="addCrit">+ เพิ่มเกณฑ์</button>
+      </div>
+
+      <div class="ai-card">
+        <h3><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4"/><path d="M12 2v13m0 0 3-3m-3 3-3-3"/></svg><span data-i18n="scenTitle">ทดสอบการให้คะแนน (Scenario)</span></h3>
+        <p class="ai-desc" data-i18n="scenDesc"></p>
+        <div class="sc-box">
+          <textarea id="sc-title" rows="1" placeholder="หัวข้อข่าว..." oninput="autoGrow(this)"></textarea>
+          <textarea id="sc-sum" rows="2" placeholder="เนื้อหา / รายละเอียด (ถ้ามี)..." oninput="autoGrow(this)"></textarea>
+          <div style="display:flex;gap:8px"><button class="btn primary" onclick="runScenario()" data-i18n="scenRun">ทดสอบคะแนน</button><button class="btn ghost" onclick="scenExamples()" data-i18n="scenSample">ใส่ตัวอย่าง</button></div>
+        </div>
+        <div class="sc-result" id="sc-result"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1285,7 +1508,7 @@ stAll:"ทุกช่วงเวลา",stUpcoming:"กำลังจะถ�
 tabMin:"กระทรวง",tabDept:"กรม/หน่วยงาน",tabSE:"รัฐวิสาหกิจ",tabPO:"องค์การมหาชน",
 searchAllFor:"แสดงผลการค้นหาทั้งหมด",backToMin:"กลับหน้ากระทรวง",underMin:"สังกัด",
 srcApis:"API / ช่องทางข้อมูลเปิดของหน่วยงาน (เชื่อมต่อได้จริง)",liveOk:"ดึงข่าวสดสำเร็จ {n} รายการ จากเซิร์ฟเวอร์ตัวเชื่อมต่อ",
-searchResults:"ผลการค้นหา",sgMinistries:"กระทรวง / หน่วยงาน",sgItems:"ข่าวและกิจกรรม",viewMinistry:"ดูหน้ากระทรวง →",savedMark:"รายการที่บันทึกไว้",calAll:"ทั้งหมด",calSaved:"ที่บันทึกไว้",calFav:"กระทรวงที่ปักดาว",calBenefit:"Benefit",calAgenda:"รายการกิจกรรมเดือนนี้",calEmpty:"ไม่มีกิจกรรมตามตัวกรองในเดือนนี้ — ลองเปลี่ยนตัวกรองด้านบน",calLegendHint:"คลิกที่สีเพื่อกรองเฉพาะกระทรวงนั้น (คลิกซ้ำเพื่อยกเลิก)",calNoFav:"ยังไม่ได้ปักดาวกระทรวง — กดรูปดาวในเมนูกระทรวงก่อน",calNoSaved:"ยังไม่มีกิจกรรมที่บันทึกไว้",extMedia:"ข้อมูลจากแหล่งอื่น (สื่อภายนอก)",liveOffNote:"โหมดออฟไลน์ — กำลังแสดงข้อมูลตัวอย่าง {n} ชิ้น ข่าวสดจากอินเทอร์เน็ต (31 feed: หน่วยงานรัฐ + Google News + ไทยรัฐ/มติชน/ข่าวสด ฯลฯ) ยังไม่เชื่อมต่อ",liveOnNote:"LIVE — เชื่อมต่อแล้ว มีข่าวสดจากอินเทอร์เน็ต {n} รายการรวมอยู่ในฟีด",liveHowBtn:"วิธีเปิดข่าวสด →",extGnews:"รวบรวมโดย Google News",extFrom:"จาก",heroCount:"รายการทั้งหมด",dateAll:"ทุกวันที่",date7:"7 วันล่าสุด",date30:"30 วันล่าสุด",date90:"3 เดือนล่าสุด",dateYear:"ปีนี้",sortLatest:"ล่าสุด",sortImpact:"Impact สูงสุด",sortDeadline:"ใกล้เดดไลน์",shareBtn:"แชร์",shareCopied:"คัดลอกลิงก์แล้ว",chooseUser:"เลือกผู้ใช้งาน",chooseUserSub:"เลือกว่าคุณเป็นใคร เพื่อบันทึกข่าว/กิจกรรมแยกเป็นรายคน",savedShort:"บันทึก",teamTrack:"ดูของทีม:",userSwitched:"สลับเป็น {u}",commentsTitle:"โน้ต & คอมเมนต์",cmtLocal:"(เก็บในเครื่องนี้)",commentPh:"เขียนโน้ต… พิมพ์ @ เพื่อแท็กเพื่อน",commentSend:"ส่ง",commentEmpty:"ยังไม่มีโน้ต — เริ่มเขียนได้เลย",commentPosted:"เพิ่มโน้ตแล้ว",mentionedYou:"แท็กคุณในข่าว",notifTitle:"การแจ้งเตือน",noNotif:"ยังไม่มีการแจ้งเตือน",markAllRead:"อ่านทั้งหมด",presentExit:"✕ ออกจากโหมดนำเสนอ",presentTitle:"โหมดนำเสนอ (กด P เพื่อออก)",
+searchResults:"ผลการค้นหา",sgMinistries:"กระทรวง / หน่วยงาน",sgItems:"ข่าวและกิจกรรม",viewMinistry:"ดูหน้ากระทรวง →",savedMark:"รายการที่บันทึกไว้",calAll:"ทั้งหมด",calSaved:"ที่บันทึกไว้",calFav:"กระทรวงที่ปักดาว",calBenefit:"Benefit",calAgenda:"รายการกิจกรรมเดือนนี้",calEmpty:"ไม่มีกิจกรรมตามตัวกรองในเดือนนี้ — ลองเปลี่ยนตัวกรองด้านบน",calLegendHint:"คลิกที่สีเพื่อกรองเฉพาะกระทรวงนั้น (คลิกซ้ำเพื่อยกเลิก)",calNoFav:"ยังไม่ได้ปักดาวกระทรวง — กดรูปดาวในเมนูกระทรวงก่อน",calNoSaved:"ยังไม่มีกิจกรรมที่บันทึกไว้",extMedia:"ข้อมูลจากแหล่งอื่น (สื่อภายนอก)",liveOffNote:"โหมดออฟไลน์ — กำลังแสดงข้อมูลตัวอย่าง {n} ชิ้น ข่าวสดจากอินเทอร์เน็ต (31 feed: หน่วยงานรัฐ + Google News + ไทยรัฐ/มติชน/ข่าวสด ฯลฯ) ยังไม่เชื่อมต่อ",liveOnNote:"LIVE — เชื่อมต่อแล้ว มีข่าวสดจากอินเทอร์เน็ต {n} รายการรวมอยู่ในฟีด",liveHowBtn:"วิธีเปิดข่าวสด →",extGnews:"รวบรวมโดย Google News",extFrom:"จาก",heroCount:"รายการทั้งหมด",dateAll:"ทุกวันที่",date7:"7 วันล่าสุด",date30:"30 วันล่าสุด",date90:"3 เดือนล่าสุด",dateYear:"ปีนี้",sortLatest:"ล่าสุด",sortImpact:"Impact สูงสุด",sortDeadline:"ใกล้เดดไลน์",shareBtn:"แชร์",shareCopied:"คัดลอกลิงก์แล้ว",chooseUser:"เลือกผู้ใช้งาน",chooseUserSub:"เลือกว่าคุณเป็นใคร เพื่อบันทึกข่าว/กิจกรรมแยกเป็นรายคน",savedShort:"บันทึก",teamTrack:"ดูของทีม:",userSwitched:"สลับเป็น {u}",commentsTitle:"โน้ต & คอมเมนต์",cmtLocal:"(เก็บในเครื่องนี้)",commentPh:"เขียนโน้ต… พิมพ์ @ เพื่อแท็กเพื่อน",commentSend:"ส่ง",commentEmpty:"ยังไม่มีโน้ต — เริ่มเขียนได้เลย",commentPosted:"เพิ่มโน้ตแล้ว",mentionedYou:"แท็กคุณในข่าว",notifTitle:"การแจ้งเตือน",noNotif:"ยังไม่มีการแจ้งเตือน",markAllRead:"อ่านทั้งหมด",loginTitle:"เข้าสู่ระบบ",loginPick:"เลือกผู้ใช้งานของคุณ",loginBtn:"เข้าสู่ระบบ",loginHint:"รหัสเริ่มต้น: 00000000 (เปลี่ยนได้ในเมนูผู้ใช้)",loginNoUser:"ไม่พบผู้ใช้นี้",loginBlocked:"บัญชีนี้ถูกระงับ",loginWrong:"ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",loginSub:"กรอกชื่อผู้ใช้และรหัสผ่าน",welcome:"ยินดีต้อนรับ {u}",changePw:"เปลี่ยนรหัสผ่าน",logout:"ออกจากระบบ",saveBtn:"บันทึก",pwTooShort:"รหัสใหม่ต้องอย่างน้อย 4 ตัว",pwMismatch:"รหัสใหม่ไม่ตรงกัน",pwWrongOld:"รหัสผ่านเดิมไม่ถูกต้อง",pwChanged:"เปลี่ยนรหัสผ่านแล้ว",readonly:"กำลังดูแบบอ่านอย่างเดียว",viewingOf:"กำลังดูรายการที่ {u} บันทึกไว้ (อ่านอย่างเดียว)",adminPanel:"จัดการระบบ (Admin)",adminTitle:"จัดการผู้ใช้งาน",addUser:"เพิ่มผู้ใช้",resetPw:"รีเซ็ตรหัส",block:"บล็อก",unblock:"ปลดบล็อก",delete:"ลบ",you:"คุณ",noPerm:"ไม่มีสิทธิ์",nameRule:"ชื่อใช้ได้เฉพาะ A-Z 0-9 _ (2-20 ตัว)",nameExists:"มีชื่อนี้อยู่แล้ว",userAdded:"เพิ่มผู้ใช้แล้ว",pwReset:"รีเซ็ตรหัสของ {u} เป็น 00000000",lastAdmin:"ต้องมี admin อย่างน้อย 1 คน",cantSelf:"ลบบัญชีตัวเองไม่ได้",confirmDel:"ลบผู้ใช้ {u}? ย้อนกลับไม่ได้",userDeleted:"ลบผู้ใช้แล้ว",teamPh:"ทีม",teamName:"ทีม {t}",noTeam:"— ไม่มีทีม —",teamsTitle:"จัดการทีม",usersTitle:"ผู้ใช้งาน",addTeam:"เพิ่มทีม",noTeams:"ยังไม่มีทีม",agNotesTitle:"โน้ตของทีมเกี่ยวกับหน่วยงานนี้",agNotePh:"เพิ่มข้อมูล/โน้ตเกี่ยวกับหน่วยงานนี้ (ทุกคนในระบบเห็นได้)…",agNoteEmpty:"ยังไม่มีโน้ต — เริ่มเพิ่มได้เลย",agNoteAdded:"บันทึกโน้ตแล้ว",scoringTitle:"เกณฑ์ให้คะแนน Benefit (%)",scoringHint:"แต่ละข่าวจะถูกให้คะแนนจากคีย์เวิร์ดที่ตรงกับเกณฑ์ (คิดน้ำหนักรวมเป็น %) — เพิ่ม/แก้คีย์เวิร์ดและน้ำหนักได้ตามต้องการ คะแนนจะโชว์บนการ์ดข่าวทันที",addCrit:"+ เพิ่มเกณฑ์",critLabel:"ชื่อเกณฑ์",critKw:"คีย์เวิร์ด (คั่นด้วย ,)",benefitScoreTip:"คะแนนประโยชน์ต่อทีม (จากเกณฑ์ที่ admin ตั้ง)",bfAll:"ประโยชน์: ทั้งหมด",tabPeople:"ผู้ใช้งาน",tabTeams:"ทีม",tabAI:"AI & การให้คะแนน",teamsHint:"สร้างทีม แล้วไปกำหนดสมาชิกที่แท็บ \"ผู้ใช้งาน\" — สมาชิกจะเห็นเฉพาะรายการที่บันทึกของทีมตัวเอง",teamEmpty:"ยังไม่มีสมาชิก",membersShort:"คน",usersUnit:"คน",stActive:"ใช้งาน",stBlocked:"ถูกบล็อก",stAdmin:"แอดมิน",aiThreshTitle:"ระดับป้ายคะแนน Benefit",aiThreshDesc:"กำหนดว่าคะแนนเท่าไรถึงจะเป็นสีเขียว (สูง) หรือสีส้ม (กลาง) และจะซ่อนข่าวที่คะแนนต่ำกว่าเกณฑ์หรือไม่",aiHi:"เกณฑ์ \"สูง\" (สีเขียว)",aiMid:"เกณฑ์ \"กลาง\" (สีส้ม)",aiMinShow:"ซ่อนข่าวที่คะแนนต่ำกว่า",aiMinShowSub:"ตั้ง 0% เพื่อแสดงทุกข่าว",saveSettings:"บันทึกการตั้งค่า",settingsSaved:"✓ บันทึกแล้ว",scenTitle:"ทดสอบการให้คะแนน (Scenario)",scenDesc:"วางหัวข้อ/เนื้อหาข่าวเพื่อดูว่าระบบจะให้คะแนนเท่าไร และเข้าเกณฑ์ข้อไหน — ใช้ปรับคีย์เวิร์ดให้แม่นยำขึ้น",scenRun:"ทดสอบคะแนน",scenSample:"ใส่ตัวอย่าง",scenEmpty:"พิมพ์หัวข้อหรือเนื้อหาก่อนทดสอบ",scenNoCrit:"ยังไม่มีเกณฑ์ให้คะแนน — เพิ่มเกณฑ์ด้านบนก่อน",bandHi:"ประโยชน์สูง",bandMid:"ประโยชน์ปานกลาง",bandLo:"ประโยชน์น้อย",scenShown:"✓ ข่าวนี้จะแสดงในฟีด",scenHidden:"✕ ข่าวนี้จะถูกซ่อน (ต่ำกว่า {n}%)",scenGot:"ได้ {g} จาก {t} คะแนนถ่วงน้ำหนัก",changePhoto:"เปลี่ยนรูปโปรไฟล์",removePhoto:"ลบรูปโปรไฟล์",photoSaved:"อัปเดตรูปโปรไฟล์แล้ว",photoRemoved:"ลบรูปโปรไฟล์แล้ว",photoBadType:"ไฟล์ต้องเป็นรูปภาพ",photoTooBig:"รูปใหญ่เกินไป (เกิน 8MB)",photoFail:"อัปโหลดรูปไม่สำเร็จ ลองใหม่อีกครั้ง",noResults:"ไม่พบข่าวที่ตรงกับตัวกรอง",noResultsSub:"ลองปรับหรือล้างตัวกรอง (เปอร์เซ็นต์ Benefit, ช่วงวันที่ หรือประเภท) เพื่อดูข่าวเพิ่มเติม",clearFilters:"ล้างตัวกรองทั้งหมด",filtersCleared:"ล้างตัวกรองแล้ว",presentExit:"✕ ออกจากโหมดนำเสนอ",presentTitle:"โหมดนำเสนอ (กด P เพื่อออก)",
 aiTag:"สรุปโดย AI",bkbTag:"โอกาสของ BITKUB (Corporate Affairs & Sustainability)",
 dPub:"วันที่เผยแพร่ข่าว",dEvent:"วันจัดกิจกรรม",dTime:"เวลา",dLoc:"สถานที่",dChair:"ประธาน / หน่วยงานหลัก",dAct:"กิจกรรมนี้ทำอะไร",
 engP:"เข้าร่วม",engS:"สนับสนุน",engC:"คอนเนกต์",
@@ -1317,7 +1540,7 @@ stAll:"All time",stUpcoming:"Upcoming",stOngoing:"Ongoing",stPast:"Ended",
 tabMin:"Ministries",tabDept:"Departments",tabSE:"State enterprises",tabPO:"Public bodies",
 searchAllFor:"Show all results for",backToMin:"Back to ministry",underMin:"under",
 srcApis:"Agency open-data APIs / feeds (real, connectable)",liveOk:"Pulled {n} live items from the connector server",
-searchResults:"Search results",sgMinistries:"Ministries / Agencies",sgItems:"News & activities",viewMinistry:"Open ministry page →",savedMark:"Saved items",calAll:"All",calSaved:"Saved",calFav:"Starred ministries",calBenefit:"Benefit",calAgenda:"This month's events",calEmpty:"No events match the current filter this month — try another filter above",calLegendHint:"Click a colour to show only that ministry (click again to clear)",calNoFav:"No starred ministries yet — star one in the ministry menu first",calNoSaved:"No saved events yet",extMedia:"External media source",liveOffNote:"Offline mode — showing {n} sample items. Live news from the internet (31 feeds: government + Google News + Thairath/Matichon/Khaosod etc.) is not connected",liveOnNote:"LIVE — connected, {n} live items from the internet are in your feed",liveHowBtn:"How to enable live news →",extGnews:"Via Google News",extFrom:"From",heroCount:"total items",dateAll:"Any date",date7:"Last 7 days",date30:"Last 30 days",date90:"Last 3 months",dateYear:"This year",sortLatest:"Latest",sortImpact:"Top impact",sortDeadline:"By deadline",shareBtn:"Share",shareCopied:"Link copied",chooseUser:"Who are you?",chooseUserSub:"Pick your profile so saved news & events are tracked per person",savedShort:"saved",teamTrack:"View team:",userSwitched:"Switched to {u}",commentsTitle:"Notes & comments",cmtLocal:"(saved on this device)",commentPh:"Write a note… type @ to tag a teammate",commentSend:"Send",commentEmpty:"No notes yet — be the first",commentPosted:"Note added",mentionedYou:"mentioned you",notifTitle:"Notifications",noNotif:"No notifications yet",markAllRead:"Mark all read",presentExit:"✕ Exit presentation",presentTitle:"Presentation mode (press P to exit)",
+searchResults:"Search results",sgMinistries:"Ministries / Agencies",sgItems:"News & activities",viewMinistry:"Open ministry page →",savedMark:"Saved items",calAll:"All",calSaved:"Saved",calFav:"Starred ministries",calBenefit:"Benefit",calAgenda:"This month's events",calEmpty:"No events match the current filter this month — try another filter above",calLegendHint:"Click a colour to show only that ministry (click again to clear)",calNoFav:"No starred ministries yet — star one in the ministry menu first",calNoSaved:"No saved events yet",extMedia:"External media source",liveOffNote:"Offline mode — showing {n} sample items. Live news from the internet (31 feeds: government + Google News + Thairath/Matichon/Khaosod etc.) is not connected",liveOnNote:"LIVE — connected, {n} live items from the internet are in your feed",liveHowBtn:"How to enable live news →",extGnews:"Via Google News",extFrom:"From",heroCount:"total items",dateAll:"Any date",date7:"Last 7 days",date30:"Last 30 days",date90:"Last 3 months",dateYear:"This year",sortLatest:"Latest",sortImpact:"Top impact",sortDeadline:"By deadline",shareBtn:"Share",shareCopied:"Link copied",chooseUser:"Who are you?",chooseUserSub:"Pick your profile so saved news & events are tracked per person",savedShort:"saved",teamTrack:"View team:",userSwitched:"Switched to {u}",commentsTitle:"Notes & comments",cmtLocal:"(saved on this device)",commentPh:"Write a note… type @ to tag a teammate",commentSend:"Send",commentEmpty:"No notes yet — be the first",commentPosted:"Note added",mentionedYou:"mentioned you",notifTitle:"Notifications",noNotif:"No notifications yet",markAllRead:"Mark all read",loginTitle:"Sign in",loginPick:"Choose your profile",loginBtn:"Sign in",loginHint:"Default password: 00000000 (change it in the user menu)",loginNoUser:"User not found",loginBlocked:"This account is blocked",loginWrong:"Wrong username or password",loginSub:"Enter your username and password",welcome:"Welcome {u}",changePw:"Change password",logout:"Log out",saveBtn:"Save",pwTooShort:"New password must be at least 4 chars",pwMismatch:"New passwords do not match",pwWrongOld:"Current password is wrong",pwChanged:"Password changed",readonly:"View-only mode",viewingOf:"Viewing {u}'s saved items (read-only)",adminPanel:"Admin panel",adminTitle:"User management",addUser:"Add user",resetPw:"Reset pw",block:"Block",unblock:"Unblock",delete:"Delete",you:"you",noPerm:"No permission",nameRule:"Name: A-Z 0-9 _ only (2-20 chars)",nameExists:"Name already exists",userAdded:"User added",pwReset:"Reset {u}'s password to 00000000",lastAdmin:"Must keep at least 1 admin",cantSelf:"Can't delete your own account",confirmDel:"Delete user {u}? This cannot be undone",userDeleted:"User deleted",teamPh:"Team",teamName:"Team {t}",noTeam:"— No team —",teamsTitle:"Teams",usersTitle:"Users",addTeam:"Add team",noTeams:"No teams yet",agNotesTitle:"Team notes on this agency",agNotePh:"Add info/notes about this agency (visible to everyone)…",agNoteEmpty:"No notes yet — add the first",agNoteAdded:"Note saved",scoringTitle:"Benefit scoring criteria (%)",scoringHint:"Each item is scored by keywords matching your criteria (weighted, shown as %). Add/edit keywords and weights anytime — scores update on cards instantly.",addCrit:"+ Add criterion",critLabel:"Criterion name",critKw:"Keywords (comma separated)",benefitScoreTip:"Benefit score for your team (from admin criteria)",bfAll:"Benefit: all",tabPeople:"People",tabTeams:"Teams",tabAI:"AI & Scoring",teamsHint:"Create a team, then assign members in the \"People\" tab — members see only their own team's saved items.",teamEmpty:"No members yet",membersShort:"members",usersUnit:"users",stActive:"Active",stBlocked:"Blocked",stAdmin:"Admin",aiThreshTitle:"Benefit badge thresholds",aiThreshDesc:"Set how high a score must be to show green (high) or orange (mid), and whether to hide items below a cut-off.",aiHi:"\"High\" threshold (green)",aiMid:"\"Mid\" threshold (orange)",aiMinShow:"Hide items scoring below",aiMinShowSub:"Set 0% to show everything",saveSettings:"Save settings",settingsSaved:"✓ Saved",scenTitle:"Score tester (Scenario)",scenDesc:"Paste a headline/body to see the score it would get and which criteria it hits — use it to tune your keywords.",scenRun:"Test score",scenSample:"Load sample",scenEmpty:"Type a headline or body first",scenNoCrit:"No scoring criteria yet — add some above first",bandHi:"High benefit",bandMid:"Medium benefit",bandLo:"Low benefit",scenShown:"✓ This item would show in the feed",scenHidden:"✕ This item would be hidden (below {n}%)",scenGot:"Scored {g} of {t} weighted points",changePhoto:"Change photo",removePhoto:"Remove photo",photoSaved:"Profile photo updated",photoRemoved:"Profile photo removed",photoBadType:"File must be an image",photoTooBig:"Image too large (over 8MB)",photoFail:"Upload failed, please try again",noResults:"No items match your filters",noResultsSub:"Try adjusting or clearing the filters (Benefit %, date range, or type) to see more items.",clearFilters:"Clear all filters",filtersCleared:"Filters cleared",presentExit:"✕ Exit presentation",presentTitle:"Presentation mode (press P to exit)",
 aiTag:"AI SUMMARY",bkbTag:"BITKUB OPPORTUNITY (Corporate Affairs & Sustainability)",
 dPub:"Published",dEvent:"Event date",dTime:"Time",dLoc:"Venue",dChair:"Chair / Lead agency",dAct:"What this activity does",
 engP:"Participate",engS:"Support",engC:"Connect",
@@ -1364,38 +1587,355 @@ const S={
   calFilter:store.get("calFilter","all"),
   dateFilter:store.get("dateFilter","all"),
   sortBy:store.get("sortBy","latest"),
+  bfFilter:store.get("bfFilter","all"),
   user:store.get("user",null),
   viewUser:null,
   calMinSel:[]
 };
 if(S.view==="foryou")S.view="feed";
-function persist(){["lang","theme","view","minFilter","typeFilter","statusFilter","agFilter","custom","lastRefresh","calFilter","dateFilter","sortBy","user"].forEach(k=>store.set(k,S[k]));if(S.user){store.set("saved__"+S.user,S.saved||[]);store.set("favs__"+S.user,S.favs||[])}}
+function persist(){["lang","theme","view","minFilter","typeFilter","statusFilter","agFilter","custom","lastRefresh","calFilter","dateFilter","sortBy","bfFilter"].forEach(k=>store.set(k,S[k]))}
 window.addEventListener("beforeunload",persist);
 const T=k=>(I18N[S.lang][k]!==undefined?I18N[S.lang][k]:I18N.th[k]||k);
 const allItems=()=>ITEMS.concat(S.live||[],S.custom);
-const USERS=["Nate","Oat","Nine","Boui"];
-const USER_COLORS={Nate:"#2563eb",Oat:"#0e9f6e",Nine:"#d97706",Boui:"#8b5cf6"};
-function userColor(u){return USER_COLORS[u]||"#64748b"}
-function savedCountOf(u){try{return (store.get("saved__"+u,[])||[]).length}catch(e){return 0}}
+var USERS=["Nate","Oat","Nine","Boui"];
+const USER_COLORS={Nate:"#2563eb",Oat:"#0e9f6e",Nine:"#d97706",Boui:"#8b5cf6",Admin:"#334155"};
+const COLOR_PALETTE=["#2563eb","#0e9f6e","#d97706","#8b5cf6","#db2777","#0891b2","#65a30d","#dc2626","#7c3aed","#0d9488"];
+function userColor(u){if(USER_COLORS[u])return USER_COLORS[u];var h=0,s=String(u);for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return COLOR_PALETTE[h%COLOR_PALETTE.length]}
+function userPhoto(u){var m=(typeof USER_META!=="undefined"&&USER_META[u])||null;return (m&&m.photo)||null}
+function avatarHTML(u,size){
+  var cls="ua"+(size?" "+size:""), ph=userPhoto(u);
+  if(ph)return '<span class="'+cls+'" style="background-image:url('+JSON.stringify(ph)+');background-size:cover;background-position:center"></span>';
+  return '<span class="'+cls+'" style="background:'+userColor(u)+'">'+esc(String(u||"?").charAt(0))+'</span>';
+}
+var USER_META={};
+function refreshRoster(u){USER_META=u||{};var k=Object.keys(USER_META);if(k.length)USERS=k}
+function myTeam(){return (USER_META[S.user]&&USER_META[S.user].team)||""}
+function teamMates(){var t=myTeam();return USERS.filter(function(u){return ((USER_META[u]&&USER_META[u].team)||"")===t})}
+var TEAMS=[];
+function refreshTeams(a){TEAMS=(a||[]).filter(Boolean)}
+async function getTeams(){if(CLOUD){var s=await fdb.ref("teams").once("value");return s.val()||[]}return store.get("teams_list",[])||[]}
+async function saveTeams(arr){arr=(arr||[]).filter(Boolean);if(CLOUD){await fdb.ref("teams").set(arr)}else{store.set("teams_list",arr)}refreshTeams(arr)}
+async function seedTeams(){var t=await getTeams();if(!t.length){var u=await getAllUsers(),set={};Object.keys(u).forEach(function(k){var tm=(u[k].team||"").trim();if(tm)set[tm]=1});var arr=Object.keys(set);if(arr.length){await saveTeams(arr)}else refreshTeams([])}else refreshTeams(t)}
+function subscribeTeams(){if(CLOUD){fdb.ref("teams").on("value",function(snap){refreshTeams(snap.val()||[]);var ao=document.getElementById("admin-overlay");if(ao&&ao.classList.contains("open"))renderAdmin();render()})}}
+function teamOptions(sel){return '<option value="">'+T("noTeam")+'</option>'+TEAMS.map(function(t){return '<option value="'+esc(t)+'"'+(sel===t?" selected":"")+'>'+esc(t)+'</option>'}).join("")}
+function renderTeams(){
+  var sel=document.getElementById("adm-new-team"); if(sel)sel.innerHTML=teamOptions("");
+  renderTeamsList();
+}
+async function renderTeamsList(){
+  var box=document.getElementById("admin-teams-list"); if(!box)return;
+  var u=await getAllUsers();
+  var count=function(t){return Object.keys(u).filter(function(k){return (u[k].team||"")===t}).length};
+  box.innerHTML=TEAMS.length?TEAMS.map(function(t,i){
+    var mem=Object.keys(u).filter(function(k){return (u[k].team||"")===t}).sort();
+    return '<div class="adm-row">'+
+      '<span class="team-tag" style="padding-right:12px">'+esc(t)+'</span>'+
+      '<span class="adm-name" style="flex:1;font-weight:500;font-size:12px;color:var(--txt3)">'+(mem.length?mem.map(esc).join(", "):T("teamEmpty"))+'</span>'+
+      '<span class="adm-saved">'+count(t)+' '+T("membersShort")+'</span>'+
+      '<button class="adm-btn danger" onclick="adminRemoveTeam('+i+')">'+T("delete")+'</button>'+
+    '</div>';
+  }).join(""):'<div class="adm-empty" style="padding:8px 2px">'+T("noTeams")+'</div>';
+  var tn=document.getElementById("admtab-teams-n"); if(tn)tn.textContent=TEAMS.length;
+}
+function adminTab(name){
+  ["people","teams","ai"].forEach(function(p){
+    var tab=document.getElementById("admtab-"+p), pane=document.getElementById("admpane-"+p);
+    if(tab)tab.classList.toggle("on",p===name);
+    if(pane)pane.classList.toggle("on",p===name);
+  });
+  if(name==="ai")loadAIFields();
+}
+function renderAdmin(){ renderTeams(); renderAdminUsers(); renderCriteria(); loadAIFields(); }
+async function adminAddTeam(){
+  if(!adminGuard())return;
+  var i=document.getElementById("adm-team-new"),name=(i.value||"").trim();
+  if(!name)return;
+  if(TEAMS.some(function(t){return t.toLowerCase()===name.toLowerCase()})){i.value="";return}
+  var arr=TEAMS.slice();arr.push(name);await saveTeams(arr);i.value="";renderAdmin();
+}
+async function adminRemoveTeam(idx){
+  if(!adminGuard())return;
+  var name=TEAMS[idx]; if(name==null)return;
+  var arr=TEAMS.filter(function(t){return t!==name});await saveTeams(arr);
+  var u=await getAllUsers();for(var k in u){if((u[k].team||"")===name){await writeUser(k,{team:""})}}
+  if(!CLOUD)refreshRoster(await getAllUsers());
+  renderAdmin();render();
+}
+function subscribeUsers(){
+  if(!CLOUD)return;
+  fdb.ref("users").on("value",function(snap){
+    var u=snap.val()||{}; refreshRoster(u);
+    if(S.user&&(!u[S.user]||u[S.user].blocked)){logout();return}
+    if(S.user&&u[S.user])S.role=u[S.user].role;
+    updateUserChip();
+    var ao=document.getElementById("admin-overlay"); if(ao&&ao.classList.contains("open"))renderAdmin();
+    if(S.view==="feed"||S.view==="saved")render(); renderDD();
+  });
+}
+var USERDATA={};
+function savedCountOf(u){var d=USERDATA[u];return (d&&d.saved||[]).length}
+function subscribeUserData(){
+  if(CLOUD){
+    if(window._udRef){try{window._udRef.off()}catch(e){}}
+    window._udRef=fdb.ref("userdata");
+    window._udRef.on("value",function(snap){
+      USERDATA=snap.val()||{};
+      var d=USERDATA[S.user]||{}; S.saved=d.saved||[]; S.favs=d.favs||[];
+      if(S.view==="feed"||S.view==="saved")render();
+      if(S.view==="cal")renderCal();
+      renderDD();
+    });
+  }else{
+    USERDATA={}; USERS.forEach(function(u){USERDATA[u]={saved:store.get("saved__"+u,[])||[],favs:store.get("favs__"+u,[])||[]}});
+    var d=USERDATA[S.user]||{}; S.saved=d.saved||[]; S.favs=d.favs||[];
+  }
+}
+function saveUserData(){
+  if(!S.user)return;
+  if(CLOUD){fdb.ref("userdata/"+S.user).set({saved:S.saved||[],favs:S.favs||[]})}
+  else{store.set("saved__"+S.user,S.saved||[]);store.set("favs__"+S.user,S.favs||[]);USERDATA[S.user]={saved:S.saved||[],favs:S.favs||[]}}
+}
 function loadUser(u){
-  S.user=u;
-  S.saved=store.get("saved__"+u,[])||[];
-  S.favs=store.get("favs__"+u,[])||[];
-  S.viewUser=u;
+  S.user=u; S.viewUser=u;
   store.set("user",u);
   updateUserChip();
   subscribeNotifs();
+  subscribeUserData();
+}
+/* ===== Auth: login / password / roles (soft gate, hashes on Firebase) ===== */
+const DEFAULT_PW="00000000";
+var _loginName=null;
+async function sha256(s){
+  try{var b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(String(s)));return Array.from(new Uint8Array(b)).map(function(x){return x.toString(16).padStart(2,"0")}).join("")}
+  catch(e){var h=5381;s=String(s);for(var i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))>>>0;return "h"+h.toString(16)}
+}
+async function getAllUsers(){
+  if(CLOUD){var snap=await fdb.ref("users").once("value");return snap.val()||{}}
+  return store.get("users_auth",{})||{};
+}
+async function writeUser(name,obj){
+  if(CLOUD){await fdb.ref("users/"+name).update(obj)}
+  else{var u=store.get("users_auth",{})||{};u[name]=Object.assign({},u[name]||{},obj);store.set("users_auth",u)}
+}
+async function ensureSeeded(){
+  var u=await getAllUsers(),dh=await sha256(DEFAULT_PW);
+  var seeds=["Nate","Oat","Nine","Boui"];
+  for(var i=0;i<seeds.length;i++){var n=seeds[i];if(!u[n]){await writeUser(n,{pw:dh,role:"member",blocked:false});u[n]={pw:dh,role:"member",blocked:false}}}
+  if(!u["Admin"]){var ah=await sha256("11223344");await writeUser("Admin",{pw:ah,role:"admin",blocked:false});u["Admin"]={pw:ah,role:"admin",blocked:false}}
+  return u;
+}
+async function runMigrations(){
+  try{
+    var done=CLOUD?((await fdb.ref("meta/mig1").once("value")).val()):store.get("mig1",false);
+    if(done)return;
+    var u=await getAllUsers();
+    if(!u["Admin"]){await writeUser("Admin",{pw:await sha256("11223344"),role:"admin",blocked:false})}
+    if(u["Nine"]&&u["Nine"].role==="admin"){await writeUser("Nine",{role:"member"})}
+    if(CLOUD){await fdb.ref("meta/mig1").set(true)}else{store.set("mig1",true)}
+  }catch(e){}
+}
+async function authInit(){
+  try{await ensureSeeded()}catch(e){}
+  try{await runMigrations()}catch(e){}
+  try{refreshRoster(await getAllUsers())}catch(e){}
+  try{await seedTeams()}catch(e){}
+  try{await seedCriteria()}catch(e){}
+  try{await seedAI()}catch(e){}
+  var sess=store.get("authUser",null);
+  if(sess){
+    try{var u=await getAllUsers();var rec=u[sess];if(rec&&!rec.blocked){finishLogin(sess,rec.role);return}}catch(e){}
+    store.set("authUser",null);
+  }
+  showLogin();
+}
+function finishLogin(name,role){
+  S.role=role||"member";
+  loadUser(name); askNotifPerm(); subscribeUsers(); subscribeTeams(); subscribeCriteria(); subscribeAI();
+  document.getElementById("user-overlay").classList.remove("open");
+  renderAll(); if(S.view==="cal")renderCal(); renderDD();
+}
+function showLogin(){
+  var u=document.getElementById("lg-user"),p=document.getElementById("lg-pw"),e=document.getElementById("lg-err");
+  if(u)u.value="";if(p)p.value="";if(e)e.textContent="";
+  document.getElementById("user-overlay").classList.add("open");
+  if(u)setTimeout(function(){u.focus()},80);
+}
+function renderLoginView(){
+  var pick=document.getElementById("login-pick"),pw=document.getElementById("login-pw"); if(!pick)return;
+  if(!_loginName){
+    pick.style.display=""; pw.style.display="none";
+    document.getElementById("user-grid").innerHTML=USERS.map(function(u){return '<button class="user-card" onclick="loginPick(\''+u+'\')"><span class="ua big" style="background:'+userColor(u)+'">'+esc(u.charAt(0))+'</span><span class="ucn">'+esc(u)+'</span></button>'}).join("");
+  }else{
+    pick.style.display="none"; pw.style.display="";
+    var av=document.getElementById("lg-avatar"); av.style.background=userColor(_loginName); av.textContent=_loginName.charAt(0);
+    document.getElementById("lg-name").textContent=_loginName;
+    document.getElementById("lg-err").textContent="";
+    var f=document.getElementById("lg-pw"); f.value=""; setTimeout(function(){f.focus()},60);
+  }
+}
+function loginPick(u){ _loginName=u; renderLoginView(); }
+function loginBack(){ _loginName=null; renderLoginView(); }
+async function submitLogin(){
+  var nameIn=(document.getElementById("lg-user").value||"").trim();
+  var pw=document.getElementById("lg-pw").value, err=document.getElementById("lg-err");
+  if(!nameIn){err.textContent=T("loginWrong");return}
+  var users=await getAllUsers();
+  var name=Object.keys(users).find(function(k){return k.toLowerCase()===nameIn.toLowerCase()});
+  var rec=name?users[name]:null;
+  if(!rec||(await sha256(pw))!==rec.pw){err.textContent=T("loginWrong");return}
+  if(rec.blocked){err.textContent=T("loginBlocked");return}
+  store.set("authUser",name);
+  finishLogin(name,rec.role);
+  if(typeof toast==="function")toast(T("welcome").replace("{u}",name));
+}
+function logout(){
+  store.set("authUser",null);
+  S.user=null;S.role=null;S.saved=[];S.favs=[];
+  if(window._udRef){try{window._udRef.off()}catch(e){}}
+  if(_notifRef){try{_notifRef.off()}catch(e){}}
+  NOTIFS={}; renderBell(); updateUserChip(); closeAcct();
+  showLogin();
+}
+function toggleAcct(e){ if(e)e.stopPropagation(); var m=document.getElementById("acct-menu"); if(m)m.classList.toggle("open"); }
+function closeAcct(){ var m=document.getElementById("acct-menu"); if(m)m.classList.remove("open"); }
+function openChangePw(){ closeAcct(); ["cpw-old","cpw-new","cpw-new2"].forEach(function(id){document.getElementById(id).value=""}); document.getElementById("cpw-err").textContent=""; document.getElementById("cpw-overlay").classList.add("open"); }
+function closeChangePw(){ document.getElementById("cpw-overlay").classList.remove("open"); }
+async function submitChangePw(){
+  var o=document.getElementById("cpw-old").value,n=document.getElementById("cpw-new").value,n2=document.getElementById("cpw-new2").value,err=document.getElementById("cpw-err");
+  if(!n||n.length<4){err.textContent=T("pwTooShort");return}
+  if(n!==n2){err.textContent=T("pwMismatch");return}
+  var users=await getAllUsers(),rec=users[S.user];
+  if(!rec||(await sha256(o))!==rec.pw){err.textContent=T("pwWrongOld");return}
+  await writeUser(S.user,{pw:await sha256(n)});
+  closeChangePw();
+  if(typeof toast==="function")toast(T("pwChanged"));
 }
 function updateUserChip(){
   var c=document.getElementById("user-chip"); if(!c)return;
   if(!S.user){c.style.display="none";return}
   c.style.display="inline-flex";
-  c.innerHTML='<span class="ua" style="background:'+userColor(S.user)+'">'+esc(S.user.charAt(0))+'</span><span class="un">'+esc(S.user)+'</span>'+
+  c.innerHTML=avatarHTML(S.user)+'<span class="un">'+esc(S.user)+'</span>'+
     '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>';
+  var ai=document.getElementById("acct-admin"); if(ai)ai.style.display=(S.role==="admin")?"flex":"none";
+  var h=document.getElementById("acct-head"); if(h)h.innerHTML=avatarHTML(S.user,"big")+'<div class="acct-hn">'+esc(S.user)+'</div><div class="acct-hr">'+(S.role==="admin"?T("stAdmin"):T("stActive"))+'</div>';
+  var rm=document.getElementById("acct-rmphoto"); if(rm)rm.style.display=userPhoto(S.user)?"flex":"none";
+}
+function pickPhoto(){var i=document.getElementById("photo-input");if(i){i.value="";i.click()}}
+function resizeImage(file,max,cb){
+  var img=new Image(), url=URL.createObjectURL(file);
+  img.onload=function(){
+    var w=img.width,h=img.height,scale=Math.min(1,max/Math.max(w,h));
+    var cw=Math.round(w*scale),ch=Math.round(h*scale);
+    var cv=document.createElement("canvas");cv.width=cw;cv.height=ch;
+    cv.getContext("2d").drawImage(img,0,0,cw,ch);
+    URL.revokeObjectURL(url);
+    try{cb(cv.toDataURL("image/jpeg",0.82))}catch(e){cb(null)}
+  };
+  img.onerror=function(){URL.revokeObjectURL(url);cb(null)};
+  img.src=url;
+}
+async function onPhotoPick(ev){
+  var f=ev.target.files&&ev.target.files[0]; if(!f||!S.user)return;
+  if(!/^image\//.test(f.type)){if(typeof toast==="function")toast(T("photoBadType"));return}
+  if(f.size>8*1024*1024){if(typeof toast==="function")toast(T("photoTooBig"));return}
+  resizeImage(f,160,async function(data){
+    if(!data){if(typeof toast==="function")toast(T("photoFail"));return}
+    await writeUser(S.user,{photo:data});
+    if(!CLOUD)refreshRoster(await getAllUsers());
+    updateUserChip(); renderAll(); renderDD();
+    var ao=document.getElementById("admin-overlay");if(ao&&ao.classList.contains("open"))renderAdminUsers();
+    if(typeof toast==="function")toast(T("photoSaved"));
+  });
+}
+async function removePhoto(){
+  if(!S.user)return;
+  if(CLOUD){await fdb.ref("users/"+S.user+"/photo").remove()}
+  else{await writeUser(S.user,{photo:null})}
+  if(!CLOUD)refreshRoster(await getAllUsers());
+  updateUserChip(); renderAll(); renderDD(); closeAcct();
+  var ao=document.getElementById("admin-overlay");if(ao&&ao.classList.contains("open"))renderAdminUsers();
+  if(typeof toast==="function")toast(T("photoRemoved"));
+}
+/* ===== Admin: user management ===== */
+function isAdmin(){return S.role==="admin"}
+function openAdmin(){if(!isAdmin())return;closeAcct();renderAdmin();document.getElementById("admin-overlay").classList.add("open")}
+function closeAdmin(){document.getElementById("admin-overlay").classList.remove("open")}
+async function renderAdminUsers(){
+  var body=document.getElementById("admin-users"); if(!body)return;
+  var u=await getAllUsers(), names=Object.keys(u).sort();
+  body.innerHTML=names.map(function(n){
+    var r=u[n]||{};
+    var status=r.blocked?'<span class="adm-status blk">'+T("stBlocked")+'</span>':(r.role==="admin"?'<span class="adm-status adm">'+T("stAdmin")+'</span>':'<span class="adm-status act">'+T("stActive")+'</span>');
+    return '<div class="adm-row'+(r.blocked?" blk":"")+'">'+
+      avatarHTML(n,"sm")+
+      '<span class="adm-name">'+esc(n)+(n===S.user?' <em>('+T("you")+')</em>':'')+'</span>'+
+      status+
+      '<span class="adm-saved" title="'+T("savedShort")+'">'+savedCountOf(n)+' '+T("savedShort")+'</span>'+
+      '<select class="adm-team" onchange="adminSetTeam(\''+esc(n)+'\',this.value)">'+teamOptions(r.team||"")+'</select>'+
+      '<select class="adm-role" onchange="adminSetRole(\''+esc(n)+'\',this.value)"'+(n===S.user?' disabled':'')+'><option value="member"'+(r.role!=="admin"?" selected":"")+'>member</option><option value="admin"'+(r.role==="admin"?" selected":"")+'>admin</option></select>'+
+      '<button class="adm-btn" onclick="adminResetPw(\''+esc(n)+'\')">'+T("resetPw")+'</button>'+
+      '<button class="adm-btn'+(r.blocked?" on":"")+'" onclick="adminToggleBlock(\''+esc(n)+'\')"'+(n===S.user?" disabled":"")+'>'+(r.blocked?T("unblock"):T("block"))+'</button>'+
+      '<button class="adm-btn danger" onclick="adminDeleteUser(\''+esc(n)+'\')"'+(n===S.user?" disabled":"")+'>'+T("delete")+'</button>'+
+    '</div>';
+  }).join("");
+  var cnt=document.getElementById("adm-users-count"); if(cnt)cnt.textContent=names.length+" "+T("usersUnit");
+  var tn=document.getElementById("admtab-people-n"); if(tn)tn.textContent=names.length;
+}
+function adminGuard(){if(!isAdmin()){if(typeof toast==="function")toast(T("noPerm"));return false}return true}
+async function adminAddUser(){
+  if(!adminGuard())return;
+  var name=(document.getElementById("adm-new-name").value||"").trim();
+  var pw=(document.getElementById("adm-new-pw").value||"").trim();
+  var role=document.getElementById("adm-new-role").value;
+  var team=(document.getElementById("adm-new-team").value||"").trim();
+  var err=document.getElementById("adm-add-err"); err.textContent="";
+  if(!/^[A-Za-z0-9_]{2,20}$/.test(name)){err.textContent=T("nameRule");return}
+  if(pw.length<4){err.textContent=T("pwTooShort");return}
+  var u=await getAllUsers();
+  if(Object.keys(u).some(function(k){return k.toLowerCase()===name.toLowerCase()})){err.textContent=T("nameExists");return}
+  await writeUser(name,{pw:await sha256(pw),role:role,blocked:false,team:team});
+  document.getElementById("adm-new-name").value="";document.getElementById("adm-new-pw").value="";document.getElementById("adm-new-team").value="";
+  refreshRoster(await getAllUsers()); renderAdminUsers(); render(); renderDD();
+  if(typeof toast==="function")toast(T("userAdded"));
+}
+async function adminSetTeam(name,team){
+  if(!adminGuard())return;
+  await writeUser(name,{team:(team||"").trim()});
+  if(!CLOUD)refreshRoster(await getAllUsers());
+  renderAdminUsers(); render();
+}
+async function adminResetPw(name){
+  if(!adminGuard())return;
+  await writeUser(name,{pw:await sha256(DEFAULT_PW)});
+  if(typeof toast==="function")toast(T("pwReset").replace("{u}",name));
+}
+async function adminToggleBlock(name){
+  if(!adminGuard()||name===S.user)return;
+  var u=await getAllUsers(),rec=u[name]||{};
+  await writeUser(name,{blocked:!rec.blocked});
+  renderAdminUsers();
+}
+async function adminSetRole(name,role){
+  if(!adminGuard())return;
+  var u=await getAllUsers();
+  if(role!=="admin"&&u[name]&&u[name].role==="admin"){var admins=Object.keys(u).filter(function(k){return u[k].role==="admin"});if(admins.length<=1){if(typeof toast==="function")toast(T("lastAdmin"));renderAdminUsers();return}}
+  await writeUser(name,{role:role});
+  renderAdminUsers();
+}
+async function adminDeleteUser(name){
+  if(!adminGuard())return;
+  if(name===S.user){if(typeof toast==="function")toast(T("cantSelf"));return}
+  var u=await getAllUsers();
+  if(u[name]&&u[name].role==="admin"){var admins=Object.keys(u).filter(function(k){return u[k].role==="admin"});if(admins.length<=1){if(typeof toast==="function")toast(T("lastAdmin"));return}}
+  if(!confirm(T("confirmDel").replace("{u}",name)))return;
+  if(CLOUD){await fdb.ref("users/"+name).remove();await fdb.ref("userdata/"+name).remove()}
+  else{var au=store.get("users_auth",{})||{};delete au[name];store.set("users_auth",au)}
+  refreshRoster(await getAllUsers()); renderAdminUsers(); render(); renderDD();
+  if(typeof toast==="function")toast(T("userDeleted"));
 }
 function openUserPicker(){
   var g=document.getElementById("user-grid");
-  if(g)g.innerHTML=USERS.map(function(u){return '<button class="user-card"'+(S.user===u?' data-cur="1"':'')+' onclick="pickUser(\''+u+'\')"><span class="ua big" style="background:'+userColor(u)+'">'+esc(u.charAt(0))+'</span><span class="ucn">'+esc(u)+'</span><span class="ucc">'+savedCountOf(u)+' '+T("savedShort")+'</span></button>'}).join("");
+  if(g)g.innerHTML=USERS.map(function(u){return '<button class="user-card"'+(S.user===u?' data-cur="1"':'')+' onclick="pickUser(\''+u+'\')">'+avatarHTML(u,"big")+'<span class="ucn">'+esc(u)+'</span><span class="ucc">'+savedCountOf(u)+' '+T("savedShort")+'</span></button>'}).join("");
   var x=document.getElementById("uo-x"); if(x)x.style.display=S.user?"grid":"none";
   document.getElementById("user-overlay").classList.add("open");
 }
@@ -1406,12 +1946,153 @@ function pickUser(u){
   renderAll(); if(S.view==="cal")renderCal(); renderDD();
   if(typeof toast==="function")toast(T("userSwitched").replace("{u}",u));
 }
+var _agNoteKey=null;
+function agObjSafe(){try{return agObj()}catch(e){return null}}
+function agNoteKey(){
+  if(!S.minFilter)return null;
+  var a=agObjSafe();
+  if(a){var s=String(a.n),h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))>>>0;return "ag_"+h}
+  return "min_"+S.minFilter;
+}
+function agNoteTitle(){var a=agObjSafe();if(a)return a.n;var m=MINISTRIES[S.minFilter];return m?(S.lang==="th"?m.th:m.en):""}
+function autoGrow(el){el.style.height="auto";el.style.height=Math.min(el.scrollHeight,120)+"px"}
+function renderAgencyNotes(){
+  var slot=document.getElementById("agnote-slot"); if(!slot)return;
+  if(!S.minFilter||S.view!=="feed"){slot.innerHTML="";return}
+  var key=agNoteKey();
+  slot.innerHTML='<div class="agnote glass"><div class="agnote-head"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>'+T("agNotesTitle")+' — '+esc(agNoteTitle())+'</div><div class="agnote-list" id="agnote-list"></div><div class="agnote-form"><textarea id="agnote-input" rows="1" placeholder="'+T("agNotePh")+'" oninput="autoGrow(this)"></textarea><button class="btn primary" onclick="postAgNote()">'+T("commentSend")+'</button></div></div>';
+  listenAgNotes(key);
+}
+function listenAgNotes(key){
+  _agNoteKey=key;
+  if(CLOUD){fdb.ref("agencynotes/"+key).on("value",function(snap){if(_agNoteKey!==key)return;var v=snap.val()||{};drawAgNotes(Object.keys(v).map(function(k){return v[k]}))})}
+  else drawAgNotes(store.get("agnote__"+key,[])||[]);
+}
+function drawAgNotes(arr){
+  var list=document.getElementById("agnote-list"); if(!list)return;
+  arr=(arr||[]).slice().sort(function(a,b){return (a.ts||0)-(b.ts||0)});
+  list.innerHTML=arr.length?arr.map(function(c){return '<div class="agnote-item">'+avatarHTML(c.author,"sm")+'<div class="agnote-body"><div class="cmt-meta"><b>'+esc(c.author)+'</b> <span>'+cmtTime(c.ts)+'</span></div><div class="cmt-text">'+esc(c.text)+'</div></div></div>'}).join(""):'<div class="cmt-empty">'+T("agNoteEmpty")+'</div>';
+}
+function postAgNote(){
+  var inp=document.getElementById("agnote-input"); if(!inp||!inp.value.trim()||!S.user)return;
+  var key=agNoteKey(),c={author:S.user,text:inp.value.trim(),ts:Date.now()};
+  if(CLOUD){fdb.ref("agencynotes/"+key).push(c)}
+  else{var k="agnote__"+key,arr=store.get(k,[])||[];arr.push(c);store.set(k,arr);drawAgNotes(arr)}
+  inp.value="";autoGrow(inp);
+  if(typeof toast==="function")toast(T("agNoteAdded"));
+}
+var DEFAULT_CRITERIA=[
+ {label:"เปิดรับสมัคร / ทุน / เงินสนับสนุน",kw:["เปิดรับสมัคร","สมัคร","ทุน","เงินสนับสนุน","grant","funding","งบประมาณ"],weight:30},
+ {label:"สิทธิประโยชน์ / ส่งเสริม / ลดหย่อน",kw:["สิทธิประโยชน์","ส่งเสริม","ยกเว้นภาษี","ลดหย่อน","สนับสนุน","incentive"],weight:25},
+ {label:"ตรงภารกิจทีม (ดิจิทัล/คาร์บอน/ESG)",kw:["ดิจิทัล","บล็อกเชน","คาร์บอน","ESG","PDPA","คริปโท","สินทรัพย์ดิจิทัล","net zero","AI"],weight:25},
+ {label:"มีกิจกรรม / สัมมนา / เดดไลน์",kw:["สัมมนา","อบรม","เวิร์กช็อป","ประชุม","จัดขึ้น","เปิดรับ"],weight:10},
+ {label:"ความร่วมมือ / MOU",kw:["MOU","ความร่วมมือ","ร่วมมือ","partnership","บันทึกข้อตกลง"],weight:10}
+];
+var CRITERIA=[];
+function refreshCriteria(a){CRITERIA=Array.isArray(a)?a:[]}
+async function getCriteria(){if(CLOUD){var s=await fdb.ref("config/criteria").once("value");return s.val()}return store.get("criteria",null)}
+async function saveCriteria(arr){CRITERIA=arr||[];if(CLOUD){await fdb.ref("config/criteria").set(CRITERIA)}else{store.set("criteria",CRITERIA)}}
+async function seedCriteria(){var c=await getCriteria();if(!c||!c.length){await saveCriteria(DEFAULT_CRITERIA.slice())}else refreshCriteria(c)}
+function subscribeCriteria(){if(CLOUD){fdb.ref("config/criteria").on("value",function(snap){refreshCriteria(snap.val()||[]);var ao=document.getElementById("admin-overlay");if(ao&&ao.classList.contains("open"))renderCriteria();if(S.view==="feed"||S.view==="saved")render()})}}
+function benefitBreakdown(it){
+  if(!CRITERIA||!CRITERIA.length)return null;
+  var hay=((it.title||"")+" "+(it.sum||"")+" "+(it.bkb||"")+" "+(it.act||"")).toLowerCase();
+  var got=0,total=0,rows=[];
+  CRITERIA.forEach(function(c){
+    var w=+c.weight||0;total+=w;
+    var matched=(c.kw||[]).filter(function(k){return k&&hay.indexOf(String(k).toLowerCase())>=0});
+    if(matched.length)got+=w;
+    rows.push({label:c.label||"",weight:w,hit:matched.length>0,matched:matched});
+  });
+  if(total<=0)return null;
+  return {score:Math.min(100,Math.round(got/total*100)),rows:rows,got:got,total:total};
+}
+function benefitScore(it){var b=benefitBreakdown(it);return b?b.score:null}
+var AICFG={hi:60,mid:30,min:0};
+function refreshAI(v){v=v||{};AICFG={hi:v.hi!=null?+v.hi:60,mid:v.mid!=null?+v.mid:30,min:v.min!=null?+v.min:0}}
+async function getAICfg(){if(CLOUD){var s=await fdb.ref("config/ai").once("value");return s.val()}return store.get("aicfg",null)}
+async function saveAICfg(o){AICFG=o;if(CLOUD){await fdb.ref("config/ai").set(o)}else store.set("aicfg",o)}
+async function seedAI(){var c=await getAICfg();if(c)refreshAI(c);else await saveAICfg({hi:60,mid:30,min:0})}
+function subscribeAI(){if(CLOUD){fdb.ref("config/ai").on("value",function(snap){refreshAI(snap.val()||{});var ao=document.getElementById("admin-overlay");if(ao&&ao.classList.contains("open"))loadAIFields();if(S.view==="feed"||S.view==="saved")render()})}}
+function loadAIFields(){
+  var set=function(id,val){var el=document.getElementById(id);if(el)el.value=val;var v=document.getElementById(id+"-v");if(v)v.textContent=val+"%"};
+  set("ai-hi",AICFG.hi);set("ai-mid",AICFG.mid);set("ai-min",AICFG.min);
+}
+function aiRangeSync(){
+  var hi=+(document.getElementById("ai-hi")||{}).value||0, mid=+(document.getElementById("ai-mid")||{}).value||0, mn=+(document.getElementById("ai-min")||{}).value||0;
+  var hv=document.getElementById("ai-hi-v"); if(hv)hv.textContent=hi+"%";
+  var mv=document.getElementById("ai-mid-v"); if(mv)mv.textContent=mid+"%";
+  var nv=document.getElementById("ai-min-v"); if(nv)nv.textContent=mn+"%";
+}
+async function adminSaveAI(){
+  if(!adminGuard())return;
+  var hi=Math.max(0,Math.min(100,+(document.getElementById("ai-hi")||{}).value||0));
+  var mid=Math.max(0,Math.min(100,+(document.getElementById("ai-mid")||{}).value||0));
+  var mn=Math.max(0,Math.min(100,+(document.getElementById("ai-min")||{}).value||0));
+  if(mid>hi){mid=hi;}
+  await saveAICfg({hi:hi,mid:mid,min:mn});
+  loadAIFields();render();
+  var m=document.getElementById("ai-saved-msg"); if(m){m.classList.add("on");setTimeout(function(){m.classList.remove("on")},1800)}
+}
+function benefitChipHTML(it){
+  var s=benefitScore(it); if(s==null)return"";
+  var cls=s>=AICFG.hi?"bf-hi":(s>=AICFG.mid?"bf-mid":"bf-lo");
+  return '<span class="badge bf '+cls+'" title="'+T("benefitScoreTip")+'">★ '+s+'%</span>';
+}
+function runScenario(){
+  var t=(document.getElementById("sc-title")||{}).value||"", su=(document.getElementById("sc-sum")||{}).value||"";
+  var res=document.getElementById("sc-result"); if(!res)return;
+  if(!t.trim()&&!su.trim()){res.className="sc-result on";res.innerHTML='<div class="cmt-empty">'+T("scenEmpty")+'</div>';return}
+  var b=benefitBreakdown({title:t,sum:su});
+  if(!b){res.className="sc-result on";res.innerHTML='<div class="cmt-empty">'+T("scenNoCrit")+'</div>';return}
+  var s=b.score, color=s>=AICFG.hi?"var(--benefit)":(s>=AICFG.mid?"var(--warn)":"var(--txt3)");
+  var band=s>=AICFG.hi?T("bandHi"):(s>=AICFG.mid?T("bandMid"):T("bandLo"));
+  var shown=s>=AICFG.min?T("scenShown"):T("scenHidden").replace("{n}",AICFG.min);
+  var rowsHTML=b.rows.map(function(r){
+    return '<div class="sc-crit '+(r.hit?"hit":"miss")+'"><span class="sc-ic">'+(r.hit?"✓":"·")+'</span><span class="sc-lb">'+esc(r.label||"(?)")+'</span>'+(r.hit&&r.matched.length?'<span class="sc-mk">'+esc(r.matched.slice(0,3).join(", "))+'</span>':'')+'<span class="sc-wt">+'+r.weight+'</span></div>';
+  }).join("");
+  res.className="sc-result on";
+  res.innerHTML='<div class="sc-score"><div class="sc-ring" style="background:'+color+'">'+s+'%</div>'+
+    '<div class="sc-verdict"><b>'+band+'</b> — '+T("scenGot").replace("{g}",b.got).replace("{t}",b.total)+'<br>'+shown+'</div></div>'+
+    '<div class="sc-crits">'+rowsHTML+'</div>';
+}
+function scenExamples(){
+  var t=document.getElementById("sc-title"), su=document.getElementById("sc-sum");
+  if(t){t.value="ก.ล.ต. เปิดรับสมัครขอทุนสนับสนุนโครงการสินทรัพย์ดิจิทัลและ ESG";autoGrow(t)}
+  if(su){su.value="กระทรวงการคลังจัดสัมมนาและลงนาม MOU ความร่วมมือด้านคาร์บอนเครดิต พร้อมสิทธิประโยชน์ทางภาษี";autoGrow(su)}
+  runScenario();
+}
+function renderCriteria(){
+  var box=document.getElementById("admin-criteria"); if(!box)return;
+  box.innerHTML=CRITERIA.map(function(c,i){
+    return '<div class="crit-row">'+
+      '<input class="crit-label" value="'+esc(c.label||"")+'" placeholder="'+T("critLabel")+'" onchange="adminUpdateCriterion('+i+',\'label\',this.value)">'+
+      '<input class="crit-kw" value="'+esc((c.kw||[]).join(", "))+'" placeholder="'+T("critKw")+'" onchange="adminUpdateCriterion('+i+',\'kw\',this.value)">'+
+      '<input class="crit-w" type="number" min="0" value="'+(+c.weight||0)+'" onchange="adminUpdateCriterion('+i+',\'weight\',this.value)">'+
+      '<button class="adm-btn danger" onclick="adminRemoveCriterion('+i+')">'+T("delete")+'</button>'+
+    '</div>';
+  }).join("");
+}
+async function adminAddCriterion(){if(!adminGuard())return;var arr=CRITERIA.slice();arr.push({label:"",kw:[],weight:10});await saveCriteria(arr);renderCriteria();render()}
+async function adminRemoveCriterion(i){if(!adminGuard())return;var arr=CRITERIA.slice();arr.splice(i,1);await saveCriteria(arr);renderCriteria();render()}
+async function adminUpdateCriterion(i,field,val){
+  if(!adminGuard())return;var arr=CRITERIA.slice();if(!arr[i])return;
+  if(field==="kw")arr[i].kw=String(val).split(",").map(function(x){return x.trim()}).filter(Boolean);
+  else if(field==="weight")arr[i].weight=Math.max(0,parseInt(val,10)||0);
+  else arr[i].label=val;
+  await saveCriteria(arr);if(!CLOUD)renderCriteria();render();
+}
 function teamBarHTML(){
   if(S.view!=="saved")return"";
-  return '<div class="team-bar"><span class="tb-label">'+T("teamTrack")+'</span>'+USERS.map(function(u){
-    return '<button class="team-chip'+(S.user===u?" cur":"")+'" onclick="pickUser(\''+u+'\')"><span class="ua sm" style="background:'+userColor(u)+'">'+esc(u.charAt(0))+'</span>'+esc(u)+'<span class="tc-count">'+savedCountOf(u)+'</span></button>';
+  var vu=S.viewUser||S.user, mates=teamMates(), t=myTeam();
+  var label=t?('<span class="tb-team">'+esc(t)+'</span>'):T("teamTrack");
+  var bar='<div class="team-bar"><span class="tb-label">'+label+'</span>'+mates.map(function(u){
+    return '<button class="team-chip'+(vu===u?" cur":"")+'" onclick="viewUserSaved(\''+u+'\')">'+avatarHTML(u,"sm")+''+esc(u)+'<span class="tc-count">'+savedCountOf(u)+'</span></button>';
   }).join("")+'</div>';
+  if(vu!==S.user)bar+='<div class="viewonly-note">'+T("viewingOf").replace("{u}",esc(vu))+'</div>';
+  return bar;
 }
+function viewUserSaved(u){ if(teamMates().indexOf(u)<0)return; S.viewUser=u; render(); }
 function goHome(){
   S.minFilter=null;S.agFilter=null;S.typeFilter="all";S.statusFilter="all";S.qApplied="";S.dateFilter="all";S.sortBy="latest";
   const se=document.getElementById("search");if(se)se.value="";
@@ -1566,6 +2247,8 @@ document.addEventListener("click",e=>{
   document.querySelectorAll(".dd.open").forEach(function(dd){if(!dd.contains(e.target)){dd._pin=false;ddSetOpen(dd,false)}});
   var np=document.getElementById("notif-panel"),nw=document.querySelector(".notif-wrap");
   if(np&&np.classList.contains("open")&&nw&&!nw.contains(e.target))np.classList.remove("open");
+  var am=document.getElementById("acct-menu"),aw=document.querySelector(".acct-wrap");
+  if(am&&am.classList.contains("open")&&aw&&!aw.contains(e.target))am.classList.remove("open");
 });
 function latestPub(id){let m="";allItems().forEach(it=>{if(it.min===id&&it.pub&&it.pub>m)m=it.pub});return m}
 function minOrder(){
@@ -1649,7 +2332,7 @@ function toggleFav(e,id){
   const i=S.favs.indexOf(id);
   if(i>=0){S.favs.splice(i,1);toast(T("unfavToast"))}
   else{S.favs.push(id);toast(T("favToast"))}
-  persist();renderDD();
+  saveUserData();renderDD();
 }
 
 /* ---------- type & status filter dropdowns ---------- */
@@ -1676,12 +2359,16 @@ function renderSegs(){
   var slab={latest:T("sortLatest"),impact:T("sortImpact"),deadline:T("sortDeadline")};
   var sEl=document.getElementById("sort-label"); if(sEl)sEl.textContent=slab[S.sortBy]||T("sortLatest");
   var sm=document.getElementById("sort-menu"); if(sm)sm.innerHTML=["latest","impact","deadline"].map(function(x){return '<div class="fd-item '+(S.sortBy===x?"sel":"")+'" onclick="setSort(\''+x+'\')">'+slab[x]+"</div>"}).join("");
+  var bflab={all:T("bfAll"),"25":"★ ≥25%","50":"★ ≥50%","75":"★ ≥75%"};
+  var bEl=document.getElementById("bf-label"); if(bEl)bEl.textContent=bflab[S.bfFilter]||T("bfAll");
+  var bm=document.getElementById("bf-menu"); if(bm)bm.innerHTML=["all","25","50","75"].map(function(x){return '<div class="fd-item '+(S.bfFilter===x?"sel":"")+'" onclick="setBf(\''+x+'\')">'+bflab[x]+"</div>"}).join("");
 }
 function closeFdd(id){const el=document.getElementById(id);if(el){el._pin=false;el._suppress=true;ddSetOpen(el,false);setTimeout(function(){el._suppress=false},450)}}
 function setType(t){S.typeFilter=t;persist();closeFdd("type-dd");render()}
 function setStatus(s){S.statusFilter=s;persist();closeFdd("status-dd");render()}
 function setDate(d){S.dateFilter=d;persist();closeFdd("date-dd");render()}
 function setSort(x){S.sortBy=x;persist();closeFdd("sort-dd");render()}
+function setBf(v){S.bfFilter=v;persist();closeFdd("bf-dd");render()}
 function impactScore(it){var s=0;if(it.bkb)s+=4;if(it.type==="benefit")s+=2;var st=itemStatus(it);if(st==="upcoming")s+=2;else if(st==="ongoing")s+=1;if(it.img)s+=1;if(it.srcType==="official"||!it.srcType)s+=1;var d=it.pub?daysUntil2(todayISO(),it.pub):-999;if(d<=0&&d>=-7)s+=2;else if(d>=-30)s+=1;return s}
 function inDateRange(it){if(S.dateFilter==="all")return true;if(!it.pub)return false;var d=daysUntil2(it.pub,todayISO());if(S.dateFilter==="d7")return d>=0&&d<=7;if(S.dateFilter==="d30")return d>=0&&d<=30;if(S.dateFilter==="d90")return d>=0&&d<=90;if(S.dateFilter==="year")return it.pub>=todayISO().slice(0,4)+"-01-01";return true}
 function itemStatus(it){
@@ -1696,7 +2383,7 @@ function itemStatus(it){
 /* ---------- feed ---------- */
 function filteredItems(){
   let list=allItems();
-  if(S.view==="saved")list=list.filter(it=>S.saved.includes(it.id));
+  if(S.view==="saved"){var _sv=(S.viewUser&&S.viewUser!==S.user)?((USERDATA[S.viewUser]&&USERDATA[S.viewUser].saved)||[]):S.saved;list=list.filter(it=>_sv.includes(it.id));}
   else{
     if(S.minFilter)list=list.filter(it=>it.min===S.minFilter);
     if(S.agFilter)list=list.filter(it=>agMatch(it,S.agFilter));
@@ -1709,6 +2396,8 @@ function filteredItems(){
     });
   }
   if(S.view!=="saved"&&S.dateFilter!=="all")list=list.filter(inDateRange);
+  if(S.view!=="saved"&&S.bfFilter&&S.bfFilter!=="all"){var _bt=+S.bfFilter;list=list.filter(function(it){var s=benefitScore(it);return s!=null&&s>=_bt})}
+  if(S.view!=="saved"&&AICFG&&AICFG.min>0){list=list.filter(function(it){var s=benefitScore(it);return s==null||s>=AICFG.min})}
   const sorters={
     latest:(a,b)=>(b.pub||"").localeCompare(a.pub||""),
     impact:(a,b)=>impactScore(b)-impactScore(a)||(b.pub||"").localeCompare(a.pub||""),
@@ -1732,7 +2421,7 @@ function cardHTML(it){
     (it.img?'<img class="card-img" src="'+esc(it.img)+'" alt="" loading="lazy" onerror="this.remove()">':"")+
     '<div class="card-top"><span class="min-link" onclick="event.stopPropagation();sugMin(\''+it.min+'\')" title="'+esc(m?(S.lang==="th"?m.th:m.en):"")+'">'+logoHTML(it.min)+
       '<span class="card-min">'+esc(m?(S.lang==="th"?m.th:m.en):"")+"</span></span></div>"+
-    '<div class="card-tags">'+extTagHTML(it)+(isNewItem(it)?'<span class="badge new">'+(S.lang==="en"?"NEW":"ใหม่")+'</span>':"")+'<span class="badge '+it.type+'">'+T(it.type)+"</span></div>"+
+    '<div class="card-tags">'+benefitChipHTML(it)+extTagHTML(it)+(isNewItem(it)?'<span class="badge new">'+(S.lang==="en"?"NEW":"ใหม่")+'</span>':"")+'<span class="badge '+it.type+'">'+T(it.type)+"</span></div>"+
     "<h3>"+esc(it.title)+"</h3>"+
     "<p>"+esc(it.sum)+"</p>"+
     engTagsHTML(it)+
@@ -1840,7 +2529,7 @@ const RAIL_LABELS={
 };
 function RL(k){return (RAIL_LABELS[S.lang==="en"?"en":"th"]||RAIL_LABELS.th)[k]}
 function isNewItem(it){if(!it||!it.pub)return false;const d=daysUntil2(todayISO(),it.pub);return d<=0&&d>=-7}
-function useRailsMode(){return S.view==="feed"&&!S.minFilter&&!S.agFilter&&!((S.qApplied||"").trim())&&S.typeFilter==="all"&&S.statusFilter==="all"&&S.dateFilter==="all"&&(S.sortBy||"latest")==="latest"}
+function useRailsMode(){return S.view==="feed"&&!S.minFilter&&!S.agFilter&&!((S.qApplied||"").trim())&&S.typeFilter==="all"&&S.statusFilter==="all"&&S.dateFilter==="all"&&(S.sortBy||"latest")==="latest"&&(!S.bfFilter||S.bfFilter==="all")}
 function railHTML(emoji,title,items,seeAllFn){
   if(!items.length)return"";
   const arrows='<div class="rail-arrows">'+
@@ -1873,8 +2562,10 @@ function renderRows(){
 function render(){
   renderDD();renderSegs();updateRefreshLabel();
   document.getElementById("min-hero").innerHTML=heroHTML();
+  renderAgencyNotes();
   document.getElementById("agency-slot").innerHTML=agencyHTML();
   var _ts=document.getElementById("team-slot"); if(_ts)_ts.innerHTML=teamBarHTML();
+  document.body.classList.toggle("viewother",S.view==="saved"&&!!S.viewUser&&S.viewUser!==S.user);
   const list=filteredItems();
   const q=S.view==="saved"?"":(S.qApplied||"");
   document.getElementById("feed-title").textContent=
@@ -1892,15 +2583,36 @@ function render(){
     fg.innerHTML=renderRows();
   }else{
     fg.className="grid";
-    fg.innerHTML=list.length?list.map(cardHTML).join(""):
-      '<div class="empty glass" style="grid-column:1/-1">'+(S.view==="saved"?T("emptySaved"):T("emptySearch"))+"</div>";
+    fg.innerHTML=list.length?list.map(cardHTML).join(""):feedEmptyHTML();
   }
 }
+function feedActiveFilters(){
+  return (S.bfFilter&&S.bfFilter!=="all")||(S.dateFilter&&S.dateFilter!=="all")||(S.typeFilter&&S.typeFilter!=="all")||(S.statusFilter&&S.statusFilter!=="all")||!!S.minFilter||!!S.agFilter||!!(S.qApplied||"").trim();
+}
+function feedEmptyHTML(){
+  if(S.view==="saved")return '<div class="empty glass" style="grid-column:1/-1">'+T("emptySaved")+"</div>";
+  if(feedActiveFilters()){
+    return '<div class="empty glass empty-nores" style="grid-column:1/-1">'+
+      '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3M8 11h6"/></svg>'+
+      '<div class="empty-t">'+T("noResults")+'</div><div class="empty-s">'+T("noResultsSub")+'</div>'+
+      '<button class="btn primary" onclick="clearFilters()">'+T("clearFilters")+'</button></div>';
+  }
+  return '<div class="empty glass" style="grid-column:1/-1">'+T("emptySearch")+"</div>";
+}
+function clearFilters(){
+  S.bfFilter="all";S.dateFilter="all";S.typeFilter="all";S.statusFilter="all";S.sortBy="latest";
+  S.minFilter="";S.agFilter="";S.qApplied="";
+  var sb=document.getElementById("search"); if(sb)sb.value="";
+  var sx=document.getElementById("search-x"); if(sx)sx.style.display="none";
+  persist();render();
+  if(typeof toast==="function")toast(T("filtersCleared"));
+}
 function toggleSave(id){
+  if(S.view==="saved"&&S.viewUser&&S.viewUser!==S.user){toast(T("readonly"));return}
   const i=S.saved.indexOf(id);
   if(i>=0){S.saved.splice(i,1);toast(T("unsavedToast"))}
   else{S.saved.push(id);toast(T("savedToast"))}
-  persist();
+  saveUserData();
   if(S.view==="feed"||S.view==="saved")render();
 }
 
@@ -2019,7 +2731,7 @@ function renderComments(itemId,itemTitle){
   wrap.innerHTML='<div class="cmt-head">'+T("commentsTitle")+(CLOUD?'':' <span class="cmt-local">'+T("cmtLocal")+'</span>')+'</div>'+
     '<div class="cmt-list" id="cmt-list"></div>'+
     '<div class="cmt-form">'+
-      '<span class="ua sm" style="background:'+userColor(S.user||"")+'">'+esc((S.user||"?").charAt(0))+'</span>'+
+      ''+avatarHTML(S.user||"","sm")+''+
       '<div class="cmt-input-wrap"><textarea id="comment-input" rows="1" placeholder="'+T("commentPh")+'" oninput="onCommentInput(event,'+itemId+')"></textarea><div class="mention-pop" id="mention-pop"></div></div>'+
       '<button class="btn primary cmt-send" onclick="sendComment('+itemId+')">'+T("commentSend")+'</button>'+
     '</div>'+
@@ -2032,7 +2744,7 @@ function drawComments(arr){
   if(!arr.length){list.innerHTML='<div class="cmt-empty">'+T("commentEmpty")+'</div>';return}
   list.innerHTML=arr.map(function(c){
     var body=esc(c.text).replace(/@([A-Za-z]+)/g,function(mm,n){var u=USERS.find(function(x){return x.toLowerCase()===n.toLowerCase()});return u?'<span class="mention">@'+u+'</span>':mm});
-    return '<div class="cmt-item"><span class="ua sm" style="background:'+userColor(c.author)+'">'+esc((c.author||"?").charAt(0))+'</span><div class="cmt-body"><div class="cmt-meta"><b>'+esc(c.author)+'</b> <span>'+cmtTime(c.ts)+'</span></div><div class="cmt-text">'+body+'</div></div></div>';
+    return '<div class="cmt-item">'+avatarHTML(c.author,"sm")+'<div class="cmt-body"><div class="cmt-meta"><b>'+esc(c.author)+'</b> <span>'+cmtTime(c.ts)+'</span></div><div class="cmt-text">'+body+'</div></div></div>';
   }).join("");
 }
 function listenComments(itemId){
@@ -2052,7 +2764,7 @@ function onCommentInput(e,itemId){
   var caret=inp.selectionStart,upto=inp.value.slice(0,caret),m=upto.match(/@([A-Za-z]*)$/);
   var box=document.getElementById("mention-pop"); if(!box)return;
   if(m){var q=m[1].toLowerCase(),mm=USERS.filter(function(u){return u.toLowerCase().indexOf(q)===0&&u!==S.user});
-    if(mm.length){box.innerHTML=mm.map(function(u){return '<div class="mp-item" onmousedown="completeMention(event,\''+u+'\')"><span class="ua sm" style="background:'+userColor(u)+'">'+u.charAt(0)+'</span>'+u+'</div>'}).join("");box.style.display="block";return}}
+    if(mm.length){box.innerHTML=mm.map(function(u){return '<div class="mp-item" onmousedown="completeMention(event,\''+u+'\')">'+avatarHTML(u,"sm")+''+u+'</div>'}).join("");box.style.display="block";return}}
   box.style.display="none";
 }
 function completeMention(e,u){
@@ -2087,7 +2799,7 @@ function toggleNotifPanel(){var p=document.getElementById("notif-panel");if(!p)r
 function renderNotifPanel(){
   var p=document.getElementById("notif-panel"); if(!p)return;
   var ids=Object.keys(NOTIFS||{}).sort(function(a,b){return (NOTIFS[b].ts||0)-(NOTIFS[a].ts||0)});
-  var body=ids.length?ids.map(function(id){var x=NOTIFS[id];return '<div class="nt-item'+(x.read?"":" unread")+'" onclick="openNotif(\''+id+'\','+x.itemId+')"><div class="nt-top"><span class="ua sm" style="background:'+userColor(x.from)+'">'+esc((x.from||"?").charAt(0))+'</span><b>'+esc(x.from)+'</b> '+T("mentionedYou")+'</div><div class="nt-title">'+esc(x.itemTitle||"")+'</div><div class="nt-text">&ldquo;'+esc(x.text||"")+'&rdquo;</div></div>'}).join(""):'<div class="cmt-empty">'+T("noNotif")+'</div>';
+  var body=ids.length?ids.map(function(id){var x=NOTIFS[id];return '<div class="nt-item'+(x.read?"":" unread")+'" onclick="openNotif(\''+id+'\','+x.itemId+')"><div class="nt-top">'+avatarHTML(x.from,"sm")+'<b>'+esc(x.from)+'</b> '+T("mentionedYou")+'</div><div class="nt-title">'+esc(x.itemTitle||"")+'</div><div class="nt-text">&ldquo;'+esc(x.text||"")+'&rdquo;</div></div>'}).join(""):'<div class="cmt-empty">'+T("noNotif")+'</div>';
   p.innerHTML='<div class="np-head">'+T("notifTitle")+(ids.length?' <button class="np-clear" onclick="clearNotifs(event)">'+T("markAllRead")+'</button>':'')+'</div><div class="np-list">'+body+'</div>';
 }
 function openNotif(id,itemId){markNotifRead(id);var np=document.getElementById("notif-panel");if(np)np.classList.remove("open");if(findItem(+itemId))openModal(+itemId)}
@@ -2113,7 +2825,7 @@ function openModal(id){
   const m=MINISTRIES[it.min],saved=S.saved.includes(it.id);
   document.getElementById("modal").innerHTML=
     '<div class="modal-top">'+logoHTML(it.min)+
-      '<div class="modal-min"><b>'+esc(m?(S.lang==="th"?m.th:m.en):"")+'</b><span class="badge '+it.type+'">'+T(it.type)+"</span>"+extTagHTML(it)+"</div>"+
+      '<div class="modal-min"><b>'+esc(m?(S.lang==="th"?m.th:m.en):"")+'</b>'+benefitChipHTML(it)+'<span class="badge '+it.type+'">'+T(it.type)+"</span>"+extTagHTML(it)+"</div>"+
       '<button class="close-btn" onclick="closeModal()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>'+
     "<h2>"+esc(it.title)+"</h2>"+
     (it.img?'<img class="modal-img" src="'+esc(it.img)+'" alt="" loading="lazy" onerror="this.remove()">':"")+
@@ -2207,7 +2919,7 @@ function downloadICS(){
   toast(T("icsDone"));
 }
 document.addEventListener("keydown",e=>{
-  if(e.key==="Escape"){closeModal();return}
+  if(e.key==="Escape"){var _ao=document.getElementById("admin-overlay");if(_ao&&_ao.classList.contains("open")){closeAdmin();return}var _cp=document.getElementById("cpw-overlay");if(_cp&&_cp.classList.contains("open")){closeChangePw();return}var _np=document.getElementById("notif-panel");if(_np&&_np.classList.contains("open")){_np.classList.remove("open");return}closeAcct();closeModal();return}
   if(e.key==="/"&&!/INPUT|TEXTAREA|SELECT/.test((document.activeElement||{}).tagName||"")){
     e.preventDefault();
     const s=document.getElementById("search");
@@ -2447,7 +3159,7 @@ function renderSources(){
 /* ---------- boot ---------- */
 function renderAll(){render();renderSources();if(S.view==="cal")renderCal()}
 initCloud();
-if(S.user){loadUser(S.user)}else{S.saved=[];S.favs=[]}
+S.saved=[];S.favs=[];
 applyTheme();
 document.getElementById("lang-th").classList.toggle("active",S.lang==="th");
 document.getElementById("lang-en").classList.toggle("active",S.lang==="en");
@@ -2462,8 +3174,8 @@ fetchLive().then(ok=>{
 });
 (function(){var m=(location.hash||"").match(/item=(\d+)/);if(m&&findItem(+m[1]))openModal(+m[1]);})();
 window.addEventListener("hashchange",function(){var m=(location.hash||"").match(/item=(\d+)/);if(m&&findItem(+m[1]))openModal(+m[1]);});
-updateUserChip();
-if(!S.user)openUserPicker();
+document.getElementById("user-overlay").classList.add("open");
+authInit();
 
 /* ---------- ปุ่มลัด Ctrl+Shift+B: ซ่อน/แสดง โลโก้ Bitkub + เครดิตทีม CAS ---------- */
 (function(){
