@@ -441,22 +441,41 @@ footer{text-align:center;font-size:12px;color:var(--txt3);padding:30px 14px 10px
   header{gap:10px}
   .user-chip .un{max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 }
-@media (max-width:720px){
+@media (max-width:1040px){
   nav.main{display:none}
-  .mobile-nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:150;display:flex;gap:4px;padding:6px;border-radius:20px}
+  .mobile-nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:150;display:flex;gap:4px;padding:6px;border-radius:20px;max-width:calc(100vw - 20px);overflow-x:auto;scrollbar-width:none}
+  .mobile-nav::-webkit-scrollbar{display:none}
   .mobile-nav button{
     border:none;background:transparent;color:var(--txt2);font-family:inherit;font-size:12px;font-weight:600;
-    padding:9px 15px;border-radius:14px;cursor:pointer;
+    padding:9px 14px;border-radius:14px;cursor:pointer;white-space:nowrap;flex:none;
   }
   .mobile-nav button.active{background:var(--accent-soft);color:var(--accent)}
-  .detail-grid{grid-template-columns:1fr}
   .cal-week{min-height:64px}
   .brand small{display:none}
   .wrap{padding-bottom:110px}
-  .dd-menu{min-width:290px}
-  .dd-tabs button{font-size:10px;padding:6px 2px}
 }
-@media (min-width:721px){.mobile-nav{display:none}}
+@media (max-width:760px){ .detail-grid{grid-template-columns:1fr} .dd-menu{min-width:290px} .dd-tabs button{font-size:10px;padding:6px 2px} }
+@media (min-width:1041px){.mobile-nav{display:none}}
+@media (max-width:560px){
+  header{gap:7px;padding:8px 10px;width:calc(100% - 16px);margin-top:8px;top:8px}
+  .brand{gap:8px;min-width:0}
+  .brand-logo{height:26px}
+  html[data-theme="dark"] .brand-logo{height:28px;padding:3px 6px}
+  .brand h1{font-size:14px;max-width:92px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .brand-sep{display:none}
+  .hbtn{width:33px;height:33px}
+  .lang-toggle button{padding:7px 8px;font-size:11px}
+  .hspace{min-width:2px}
+  .wrap{padding:16px 10px 110px}
+}
+@media (max-width:430px){
+  .brand h1{display:none}
+  .brand-logo{height:23px}
+  html[data-theme="dark"] .brand-logo{height:25px;padding:2px 5px}
+  header{gap:4px;padding:7px 7px}
+  .hbtn{width:31px;height:31px}
+  .lang-toggle button{padding:6px 6px;font-size:10.5px}
+}
 body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #footer-credit{display:none!important}
 /* ===== Netflix-style feed rails ===== */
 .rails{display:flex;flex-direction:column;gap:26px;margin-top:8px}
@@ -599,7 +618,17 @@ body.viewother .bookmark-btn{display:none!important}
 .adm-add{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .adm-add .cpw-in{flex:1;min-width:110px;margin-bottom:0}
 .adm-add .btn{flex:none;padding:10px 14px}
-.adm-list{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.adm-add-hint{font-size:11.5px;color:var(--txt3);margin:7px 2px 0}
+.adm-usertools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.adm-search{flex:1;min-width:180px;display:flex;align-items:center;gap:8px;border:1px solid var(--glass-border);background:var(--glass);border-radius:12px;padding:8px 12px;color:var(--txt3)}
+.adm-search input{flex:1;border:none;background:transparent;outline:none;color:var(--txt);font-family:inherit;font-size:13.5px;min-width:0}
+.adm-search-x{display:none;place-items:center;width:20px;height:20px;border:none;background:var(--glass-strong);color:var(--txt2);border-radius:50%;cursor:pointer;font-size:15px;line-height:1;flex:none}
+.adm-grp-toggle{flex:none;border:1px solid var(--glass-border);background:var(--glass);color:var(--txt2);font-family:inherit;font-weight:700;font-size:12.5px;padding:9px 14px;border-radius:12px;cursor:pointer;transition:.2s}
+.adm-grp-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.adm-grp-head{display:flex;align-items:center;gap:8px;margin:14px 2px 4px;padding-top:4px}
+.adm-grp-name{font-size:13px;font-weight:800;color:var(--accent)}
+.adm-grp-n{font-size:11px;font-weight:700;color:var(--txt3);background:var(--glass-strong);border:1px solid var(--glass-border);padding:1px 8px;border-radius:20px}
+.adm-list{margin-top:12px;display:flex;flex-direction:column;gap:8px}
 .adm-row{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--glass-border);border-radius:12px;background:var(--glass);flex-wrap:wrap}
 .adm-row.blk{opacity:.55}
 .adm-name{font-weight:700;font-size:13.5px;flex:1;min-width:80px}
@@ -895,6 +924,43 @@ body.viewother .bookmark-btn{display:none!important}
 .th-chip{background:#1b2545;color:#e8eeff;border:1px solid #2f3d63;border-radius:8px;padding:3px 9px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit}
 .th-chip:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 .th-next{margin-top:6px;color:#96a3c9;font-family:inherit}
+/* ===== Manage Tasks hub ===== */
+.tasks-app{max-width:1000px;margin:0 auto}
+.tasks-head{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px}
+.tasks-head h2{font-size:22px;font-weight:800;margin:0 0 4px}
+.tasks-sub{font-size:13px;color:var(--txt2);line-height:1.6;margin:0;max-width:560px}
+.tasks-flt{margin-left:auto;display:flex;gap:4px;background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;padding:4px;flex-wrap:wrap}
+.tflt{border:none;background:transparent;color:var(--txt2);font-family:inherit;font-weight:700;font-size:12.5px;padding:7px 14px;border-radius:9px;cursor:pointer;transition:.2s}
+.tflt.on{background:var(--accent);color:#fff}
+.tasks-stats{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.tstat{flex:1;min-width:100px;background:var(--glass);border:1px solid var(--glass-border);border-radius:14px;padding:13px 16px;text-align:center}
+.tstat b{display:block;font-size:26px;font-weight:800;color:var(--txt);line-height:1.1}
+.tstat span{font-size:12px;color:var(--txt3);font-weight:600}
+.tasks-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.tasks-col{background:var(--glass);border:1px solid var(--glass-border);border-radius:18px;padding:14px 14px 16px;min-width:0}
+.tasks-col-head{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--txt);margin-bottom:10px;padding:0 2px}
+.tasks-col-head b{font-weight:800}
+.tasks-n{margin-left:auto;font-size:12px;font-weight:800;color:var(--txt3);background:var(--glass-strong);border:1px solid var(--glass-border);padding:1px 9px;border-radius:20px}
+.tasks-list{display:flex;flex-direction:column;gap:10px}
+.tr{border:1px solid var(--glass-border);border-left:4px solid var(--accent);border-radius:12px;padding:11px 13px;background:var(--menu-bg)}
+.tr.done{opacity:.66;border-left-color:var(--benefit)}
+.tr-top{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.tr-who{font-size:11.5px;color:var(--txt3);font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tr-top .tk-chip{margin-left:auto}
+.tr-text{font-size:14px;font-weight:600;color:var(--txt);line-height:1.45}
+.tr .tk-src{margin-top:6px}
+.tr-foot{display:flex;align-items:center;gap:8px;margin-top:9px;flex-wrap:wrap}
+.tr-time{font-size:11px;color:var(--txt3)}
+.tr-acts{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.tr-link{border:1px solid var(--glass-border);background:var(--glass);color:var(--txt2);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.tr-link:hover{border-color:var(--accent);color:var(--accent)}
+.nav-task-badge{background:#ef4444;color:#fff}
+@media(max-width:720px){
+  .tasks-cols{grid-template-columns:1fr}
+  .tasks-flt{margin-left:0;width:100%}
+  .tflt{flex:1}
+  .tasks-head h2{font-size:19px}
+}
 .dm-daysep{display:flex;align-items:center;justify-content:center;margin:12px 0 6px}
 .dm-daysep span{background:rgba(15,23,42,.12);color:var(--txt2);font-size:11px;font-weight:700;padding:3px 13px;border-radius:20px}
 html[data-theme="dark"] .dm-daysep span{background:rgba(255,255,255,.12)}
@@ -905,7 +971,9 @@ html[data-theme="dark"] .dm-daysep span{background:rgba(255,255,255,.12)}
 .dm-typing-dots i:nth-child(3){animation-delay:.4s}
 @keyframes typingBlink{0%,60%,100%{opacity:.25}30%{opacity:1}}
 .dm-thread-head .u-title{font-size:11px}
-.dm-typing{align-items:flex-end;padding:2px 4px 6px}
+.dm-typing{align-items:flex-end;gap:7px;padding:2px 4px 8px}
+.dm-typing-ava{display:inline-flex;flex:none}
+.dm-typing-name{font-size:11px;color:var(--txt3);font-weight:600;align-self:center}
 .dm-typing-bubble{display:inline-flex;gap:4px;align-items:center;background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;padding:9px 13px}
 .dm-typing-bubble i{width:7px;height:7px;border-radius:50%;background:var(--txt3);display:inline-block;animation:msgrBounce 1.3s infinite}
 .dm-typing-bubble i:nth-child(2){animation-delay:.18s}
@@ -950,6 +1018,9 @@ html[data-theme="dark"] .dm-daysep span{background:rgba(255,255,255,.12)}
     <button id="nav-feed" class="active" onclick="goHome()" data-i18n="navFeed">ฟีดข่าว</button>
     <button id="nav-cal" onclick="setView('cal')" data-i18n="navCal">ปฏิทิน</button>
     <button id="nav-saved" onclick="setView('saved')" data-i18n="navSaved">ที่บันทึก</button>
+    <button id="nav-tasks" onclick="setView('tasks')" style="display:none">
+      <span data-i18n="navTasks">งาน</span> <span class="tb-badge nav-task-badge" id="nav-tasks-n" style="display:none">0</span>
+    </button>
     <button id="nav-ai" onclick="setView('ai')" data-i18n="navAI">แหล่งข้อมูล &amp; AI</button>
   </nav>
   <div class="hspace"></div>
@@ -1077,6 +1148,30 @@ html[data-theme="dark"] .dm-daysep span{background:rgba(255,255,255,.12)}
     </div>
   </section>
 
+  <!-- MANAGE TASKS VIEW -->
+  <section id="view-tasks" style="display:none">
+    <div class="tasks-app">
+      <div class="tasks-head">
+        <div>
+          <h2 data-i18n="tasksTitle">จัดการงาน</h2>
+          <p class="tasks-sub" data-i18n="tasksSub"></p>
+        </div>
+        <div class="tasks-flt" id="tasks-flt"></div>
+      </div>
+      <div class="tasks-stats" id="tasks-stats"></div>
+      <div class="tasks-cols">
+        <div class="tasks-col">
+          <div class="tasks-col-head"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><b data-i18n="tasksReceived">งานที่ได้รับ</b><span class="tasks-n" id="tasks-rn"></span></div>
+          <div class="tasks-list" id="tasks-received"></div>
+        </div>
+        <div class="tasks-col">
+          <div class="tasks-col-head"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg><b data-i18n="tasksAssigned">งานที่ฉันสั่งไป</b><span class="tasks-n" id="tasks-an"></span></div>
+          <div class="tasks-list" id="tasks-assigned"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- AI / SOURCES VIEW -->
   <section id="view-ai" style="display:none">
     <div class="ai-panel glass">
@@ -1112,6 +1207,7 @@ html[data-theme="dark"] .dm-daysep span{background:rgba(255,255,255,.12)}
   <button id="mnav-feed" class="active" onclick="goHome()"><span data-i18n="navFeed">ฟีดข่าว</span></button>
   <button id="mnav-cal" onclick="setView('cal')"><span data-i18n="navCal">ปฏิทิน</span></button>
   <button id="mnav-saved" onclick="setView('saved')"><span data-i18n="navSaved">ที่บันทึก</span></button>
+  <button id="mnav-tasks" onclick="setView('tasks')" style="display:none;position:relative"><span data-i18n="navTasks">งาน</span> <span class="tb-badge nav-task-badge" id="mnav-tasks-n" style="display:none">0</span></button>
   <button id="mnav-ai" onclick="setView('ai')"><span data-i18n="navAI">AI</span></button>
 </div>
 
@@ -1188,13 +1284,21 @@ html[data-theme="dark"] .dm-daysep span{background:rgba(255,255,255,.12)}
     <div class="adm-pane" id="admpane-people">
       <div class="adm-add">
         <input id="adm-new-name" class="cpw-in" placeholder="ชื่อผู้ใช้ใหม่" autocomplete="off">
-        <input id="adm-new-pw" class="cpw-in" placeholder="รหัสผ่าน" autocomplete="off">
         <input id="adm-new-title" class="cpw-in" placeholder="ตำแหน่งงาน (เช่น HR Manager)" autocomplete="off" data-i18n-ph="titlePh">
         <select id="adm-new-team" class="adm-role" style="max-width:150px"></select>
         <select id="adm-new-role" class="adm-role"><option value="member">member</option><option value="admin">admin</option></select>
         <button class="btn primary" onclick="adminAddUser()" data-i18n="addUser">เพิ่มผู้ใช้</button>
       </div>
+      <div class="adm-add-hint" data-i18n="addUserPwHint">รหัสผ่านเริ่มต้นคือ 00000000 (ผู้ใช้เปลี่ยนได้เองภายหลัง)</div>
       <div class="lg-err" id="adm-add-err"></div>
+      <div class="adm-usertools">
+        <div class="adm-search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="adm-user-q" placeholder="ค้นหาชื่อหรือทีม…" data-i18n-ph="userSearchPh" autocomplete="off" oninput="renderAdminUsers()">
+          <button class="adm-search-x" id="adm-user-qx" onclick="document.getElementById('adm-user-q').value='';renderAdminUsers()" title="ล้าง">×</button>
+        </div>
+        <button class="adm-grp-toggle" id="adm-grp-toggle" onclick="toggleUserGroup()"></button>
+      </div>
       <div class="adm-sec-title" style="display:flex;align-items:center"><span data-i18n="usersTitle">ผู้ใช้งาน</span><span class="adm-count" id="adm-users-count"></span></div>
       <div class="adm-list" id="admin-users"></div>
     </div>
@@ -1862,7 +1966,7 @@ stAll:"ทุกช่วงเวลา",stUpcoming:"กำลังจะถ�
 tabMin:"กระทรวง",tabDept:"กรม/หน่วยงาน",tabSE:"รัฐวิสาหกิจ",tabPO:"องค์การมหาชน",
 searchAllFor:"แสดงผลการค้นหาทั้งหมด",backToMin:"กลับหน้ากระทรวง",underMin:"สังกัด",
 srcApis:"API / ช่องทางข้อมูลเปิดของหน่วยงาน (เชื่อมต่อได้จริง)",liveOk:"ดึงข่าวสดสำเร็จ {n} รายการ จากเซิร์ฟเวอร์ตัวเชื่อมต่อ",
-searchResults:"ผลการค้นหา",sgMinistries:"กระทรวง / หน่วยงาน",sgItems:"ข่าวและกิจกรรม",viewMinistry:"ดูหน้ากระทรวง →",savedMark:"รายการที่บันทึกไว้",calAll:"ทั้งหมด",calSaved:"ที่บันทึกไว้",calFav:"กระทรวงที่ปักดาว",calBenefit:"Benefit",calAgenda:"รายการกิจกรรมเดือนนี้",calEmpty:"ไม่มีกิจกรรมตามตัวกรองในเดือนนี้ — ลองเปลี่ยนตัวกรองด้านบน",calLegendHint:"คลิกที่สีเพื่อกรองเฉพาะกระทรวงนั้น (คลิกซ้ำเพื่อยกเลิก)",calNoFav:"ยังไม่ได้ปักดาวกระทรวง — กดรูปดาวในเมนูกระทรวงก่อน",calNoSaved:"ยังไม่มีกิจกรรมที่บันทึกไว้",extMedia:"ข้อมูลจากแหล่งอื่น (สื่อภายนอก)",liveOffNote:"โหมดออฟไลน์ — กำลังแสดงข้อมูลตัวอย่าง {n} ชิ้น ข่าวสดจากอินเทอร์เน็ต (31 feed: หน่วยงานรัฐ + Google News + ไทยรัฐ/มติชน/ข่าวสด ฯลฯ) ยังไม่เชื่อมต่อ",liveOnNote:"LIVE — เชื่อมต่อแล้ว มีข่าวสดจากอินเทอร์เน็ต {n} รายการรวมอยู่ในฟีด",liveHowBtn:"วิธีเปิดข่าวสด →",extGnews:"รวบรวมโดย Google News",extFrom:"จาก",heroCount:"รายการทั้งหมด",dateAll:"ทุกวันที่",date7:"7 วันล่าสุด",date30:"30 วันล่าสุด",date90:"3 เดือนล่าสุด",dateYear:"ปีนี้",sortLatest:"ล่าสุด",sortImpact:"Impact สูงสุด",sortDeadline:"ใกล้เดดไลน์",shareBtn:"แชร์",shareCopied:"คัดลอกลิงก์แล้ว",shareNewsCopied:"คัดลอกลิงก์ข่าวแล้ว",dmToday:"วันนี้",dmTyping:"กำลังพิมพ์…",dmDeleted:"ลบข้อความแล้ว",chooseUser:"เลือกผู้ใช้งาน",chooseUserSub:"เลือกว่าคุณเป็นใคร เพื่อบันทึกข่าว/กิจกรรมแยกเป็นรายคน",savedShort:"บันทึก",teamTrack:"ดูของทีม:",userSwitched:"สลับเป็น {u}",commentsTitle:"โน้ต & คอมเมนต์",cmtLocal:"(เก็บในเครื่องนี้)",commentPh:"เขียนโน้ต…",commentSend:"ส่ง",commentEmpty:"ยังไม่มีโน้ต — เริ่มเขียนได้เลย",commentPosted:"เพิ่มโน้ตแล้ว",mentionedYou:"แท็กคุณในข่าว",notifTitle:"การแจ้งเตือน",noNotif:"ยังไม่มีการแจ้งเตือน",markAllRead:"อ่านทั้งหมด",loginTitle:"เข้าสู่ระบบ",loginPick:"เลือกผู้ใช้งานของคุณ",loginBtn:"เข้าสู่ระบบ",loginHint:"รหัสเริ่มต้น: 00000000 (เปลี่ยนได้ในเมนูผู้ใช้)",loginNoUser:"ไม่พบผู้ใช้นี้",loginBlocked:"บัญชีนี้ถูกระงับ",loginWrong:"ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",loginSub:"กรอกชื่อผู้ใช้และรหัสผ่าน",welcome:"ยินดีต้อนรับ {u}",changePw:"เปลี่ยนรหัสผ่าน",logout:"ออกจากระบบ",saveBtn:"บันทึก",pwTooShort:"รหัสใหม่ต้องอย่างน้อย 4 ตัว",pwMismatch:"รหัสใหม่ไม่ตรงกัน",pwWrongOld:"รหัสผ่านเดิมไม่ถูกต้อง",pwChanged:"เปลี่ยนรหัสผ่านแล้ว",readonly:"กำลังดูแบบอ่านอย่างเดียว",viewingOf:"กำลังดูรายการที่ {u} บันทึกไว้ (อ่านอย่างเดียว)",adminPanel:"จัดการระบบ (Admin)",adminTitle:"จัดการผู้ใช้งาน",addUser:"เพิ่มผู้ใช้",resetPw:"รีเซ็ตรหัส",block:"บล็อก",unblock:"ปลดบล็อก",delete:"ลบ",you:"คุณ",noPerm:"ไม่มีสิทธิ์",nameRule:"ชื่อใช้ได้เฉพาะ A-Z 0-9 _ (2-20 ตัว)",nameExists:"มีชื่อนี้อยู่แล้ว",userAdded:"เพิ่มผู้ใช้แล้ว",pwReset:"รีเซ็ตรหัสของ {u} เป็น 00000000",lastAdmin:"ต้องมี admin อย่างน้อย 1 คน",cantSelf:"ลบบัญชีตัวเองไม่ได้",confirmDel:"ลบผู้ใช้ {u}? ย้อนกลับไม่ได้",userDeleted:"ลบผู้ใช้แล้ว",teamPh:"ทีม",teamName:"ทีม {t}",noTeam:"— ไม่มีทีม —",teamsTitle:"จัดการทีม",usersTitle:"ผู้ใช้งาน",addTeam:"เพิ่มทีม",noTeams:"ยังไม่มีทีม",agNotesTitle:"โน้ตของทีมเกี่ยวกับหน่วยงานนี้",agNotePh:"เพิ่มโน้ตเกี่ยวกับหน่วยงานนี้ (เห็นเฉพาะทีม) — พิมพ์ /everyone เพื่อประกาศให้ทุกคนเห็น",agNoteEmpty:"ยังไม่มีโน้ต — เริ่มเพิ่มได้เลย",agNoteAdded:"บันทึกโน้ตแล้ว",agBroadcast:"ประกาศให้ทุกคน",agAll:"ทุกทีม",agAnnounced:"ประกาศให้ทุกคนแล้ว",agNoteDeleted:"ลบโน้ตแล้ว",dmTitle:"ข้อความ",dmYou:"คุณ",dmNoTeam:"ยังไม่มีเพื่อนร่วมทีม — ให้แอดมินจัดทีมก่อน",dmStart:"เริ่มบทสนทนาได้เลย",dmPh:"พิมพ์ข้อความ…",dmNotMate:"ส่งได้เฉพาะคนในทีมเดียวกัน",cmdTitle:"คำสั่งด่วน",cmdEg:"เช่น /benefit 90, /dm Oat",mentionHint:"แท็กเพื่อนร่วมทีม เช่น {ex}",mentionNone:"ยังไม่มีเพื่อนร่วมทีมให้แท็ก",online:"ออนไลน์",dmExpand:"ขยายเต็มจอ",bkAction:"บิทคับ (CAS) ทำอะไรได้บ้าง",bkActionTeam:"ทีม {t} ทำอะไรได้บ้าง",bkTeamLead:"ตรงกับภารกิจทีม {t}",bkApply:"สมัคร/ยื่นข้อเสนอเข้าร่วมโครงการหรือขอทุน",bkMou:"เสนอความร่วมมือ / เตรียมลงนาม MOU",bkEvent:"ส่งตัวแทนเข้าร่วมหรือออกบูธในงาน",bkReg:"ประเมินผลกระทบด้านกำกับดูแล และเตรียม compliance",bkEsg:"ต่อยอดโครงการ ESG / คาร์บอนเครดิตของบริษัท",bkDigital:"เชื่อมโยงกับธุรกิจสินทรัพย์ดิจิทัลของบิทคับ",bkMonitor:"ติดตามและประเมินโอกาสการมีส่วนร่วม",cmdUnknown:"ไม่รู้จักคำสั่งนี้",cmdNeedMin:"เปิดหน้ากระทรวงก่อนจึงจะประกาศได้",cmdNeedText:"พิมพ์ข้อความที่จะประกาศ",cmdNoMin:"ไม่พบกระทรวงนี้",cHome:"ไปหน้าฟีดทั้งหมด",cSaved:"ไปหน้าที่บันทึกไว้",cCal:"เปิดปฏิทิน",cBenefit:"กรองตามคะแนน Benefit ขั้นต่ำ",cMessages:"เปิดกล่องข้อความ",cDm:"ส่งข้อความหาเพื่อนร่วมทีม",cEveryone:"ประกาศถึงทุกคน (ต้องอยู่ในหน้ากระทรวง)",cMin:"กรองตามกระทรวง",cClear:"ล้างตัวกรองทั้งหมด",cTheme:"สลับธีมสว่าง/มืด",cAdmin:"เปิดแผงแอดมิน",cSources:"เปิดแหล่งข่าว (Connectors)",cHelp:"ดูคำสั่งทั้งหมด",cLogout:"ออกจากระบบ",cConsole:"เปิดคอนโซลนักพัฒนา (แอดมิน)",conWelcome:"ThaiGov Connect — คอนโซลนักพัฒนา (แอดมิน)",conHint:"พิมพ์ help เพื่อดูคำสั่งทั้งหมด • Enter รัน • ↑/↓ ประวัติ • Esc ปิด",cTask:"มอบหมายงานให้เพื่อนร่วมทีม",taskAssignTitle:"งานที่มอบหมาย",taskAccept:"รับงาน",taskDoneBtn:"เสร็จแล้ว",tsPending:"รอรับงาน",tsAccepted:"กำลังทำ",tsDone:"เสร็จแล้ว",taskForYou:"มอบให้คุณ",taskFor:"มอบให้ {u}",taskByLabel:"จาก {u}",taskNeedWho:"ระบุผู้รับงานด้วย เช่น /task @ชื่อ รายละเอียดงาน",taskNoWho:"ไม่พบผู้รับงาน \"{u}\" (ต้องเป็นคนในทีม, @everyone หรือชื่อทีมเช่น @CAS)",taskNeedText:"พิมพ์รายละเอียดงานต่อท้ายด้วย",taskSentTo:"มอบงานให้ {u} แล้ว",taskSentN:"มอบงานให้ {n} คนแล้ว",taskAcceptedToast:"รับงานแล้ว",taskDoneToast:"ทำงานเสร็จแล้ว",ntTaskAssign:"มอบหมายงานให้คุณ",ntTaskAccept:"รับงานของคุณแล้ว",ntTaskDone:"ทำงานที่มอบหมายเสร็จแล้ว",ntGrp:"ส่งข้อความในกลุ่ม",grpTeamTag:"กลุ่มทีม",grpAll:"ทุกคนในทีม",taskSrc:"อ้างอิงข่าว:",taskOpenSrc:"เปิดข่าวที่อ้างอิง",taskSrcGone:"ไม่พบข่าวนี้แล้ว",taskHintStruct:"โครงสร้าง:",taskHintNext:"พิมพ์ต่อ:",taskHintPickWho:"เลือกผู้รับงาน (กดเพื่อใส่):",taskHintDetail:"…แล้วพิมพ์รายละเอียดงาน เช่น ติดต่อประสานงาน",taskHintDMNoWho:"ในแชทส่วนตัวไม่ต้องใส่ชื่อ — พิมพ์รายละเอียดงานได้เลย",edit:"แก้ไข",edited:"แก้ไขแล้ว",cancel:"ยกเลิก",ntTeamNote:"โพสต์โน้ตทีมที่",ntAnnounce:"ประกาศถึงทุกคนที่",ntDM:"ส่งข้อความถึงคุณ",ntTask:"เพิ่มงานให้ทีมที่",taskTitle:"งานของทีม (Tasks)",taskEmpty:"ยังไม่มีงาน — พิมพ์ /task หรือกดเพิ่มงาน",taskPh:"เพิ่มงาน เช่น ติดต่อกระทรวง / ประสานงาน…",taskAdd:"เพิ่มงาน",taskAdded:"เพิ่มงานแล้ว",taskToggle:"ทำเสร็จ/ยังไม่เสร็จ",taskDoneBy:"เสร็จโดย {u}",scoringTitle:"เกณฑ์ให้คะแนน Benefit (%)",scoringHint:"แต่ละข่าวจะถูกให้คะแนนจากคีย์เวิร์ดที่ตรงกับเกณฑ์ (คิดน้ำหนักรวมเป็น %) — เพิ่ม/แก้คีย์เวิร์ดและน้ำหนักได้ตามต้องการ คะแนนจะโชว์บนการ์ดข่าวทันที",addCrit:"+ เพิ่มเกณฑ์",critLabel:"ชื่อเกณฑ์",critKw:"คีย์เวิร์ด (คั่นด้วย ,)",benefitScoreTip:"คะแนนประโยชน์ต่อทีม (จากเกณฑ์ที่ admin ตั้ง)",sigFocus:"ตรงโฟกัสทีม (คริปโท/ESG/การเงิน/ดิจิทัล)",sigOpp:"เป็นโอกาส/มีเดดไลน์ (สมัคร/ทุน/ประกวด)",sigTeam:"ตรงกับทีม {t}",teamHi:"ไฮไลต์สำหรับทีม {t}",teamViewAs:"ดูในมุมทีม:",titlePh:"ตำแหน่งงาน (เช่น HR Manager)",teamNamePh:"ชื่อทีมใหม่ (เช่น People / HR)",seedTeams:"+ ทีม Bitkub ตัวอย่าง (9 ทีม)",seedTeamsDone:"เพิ่มทีม Bitkub แล้ว (+{n} ทีมใหม่)",teamDescPh:"ทีมนี้ทำอะไร / มีหน้าที่อะไร (ให้ AI เข้าใจ)",teamKwPh:"คีย์เวิร์ดของทีม คั่นด้วย , (เช่น แรงงาน, สวัสดิการ)",sigOfficial:"มาจากแหล่งข่าวทางการ",sigRecent:"ข่าวสดใหม่ (ภายใน 30 วัน)",sigNeg:"หมวดที่ไม่เกี่ยวข้อง (หักคะแนน)",aiConf:"ความมั่นใจ",kpTitle:"ประเด็นสำคัญ",kpWho:"ใคร/หน่วยงาน",kpWhen:"เมื่อไร",kpWhere:"ที่ไหน",kpWhy:"ทำไมสำคัญกับเรา",kpAction:"สิ่งที่ต้องทำ",kpDetail:"รายละเอียด",aiNegLabel:"คำที่ทำให้ \"ไม่เกี่ยวข้อง\" (หักคะแนน)",aiNegSub:"คั่นด้วย , — ข่าวที่มีคำเหล่านี้จะถูกหักคะแนน",aiEngineTitle:"เครื่องมือให้คะแนนใช้สัญญาณเหล่านี้ (รวมถ่วงน้ำหนัก):",bfAll:"ประโยชน์: ทั้งหมด",bfCustom:"กำหนดเอง (%)",bfApply:"ใช้",tabPeople:"ผู้ใช้งาน",tabTeams:"ทีม",tabAI:"AI & การให้คะแนน",tabOverview:"ภาพรวม",tabSources:"แหล่งข่าว",ovUsers:"ผู้ใช้งาน",ovTeams:"ทีม",ovAdmins:"แอดมิน",ovBlocked:"ถูกบล็อก",ovSaved:"รายการบันทึกรวม",ovItems:"ข่าวในระบบ",ovSources:"แหล่งข่าว",ovLive:"สถานะข่าวสด",ovOnline:"ออนไลน์",ovOffline:"ออฟไลน์",ovByTeam:"สรุปรายทีม",srcConnTitle:"ตัวเชื่อมต่อแหล่งข่าว (API / RSS)",srcTestAll:"ทดสอบทั้งหมด",srcServer:"เซิร์ฟเวอร์ตัวเชื่อม (Live)",srcOnline:"เชื่อมต่อแล้ว",srcOffline:"ไม่ได้เชื่อมต่อ",srcUnit:"แหล่ง",srcSt_ok:"เชื่อมต่อได้",srcSt_down:"เข้าถึงไม่ได้",srcSt_unknown:"ยังไม่ทดสอบ",srcSt_testing:"กำลังทดสอบ…",srcFullName:"ชื่อเต็ม",srcType:"ประเภท",srcStatus:"สถานะ",srcTest:"ทดสอบการเชื่อมต่อ",srcOpen:"เปิดเว็บไซต์",srcTesting:"กำลังทดสอบแหล่งข่าว…",srcAuth:"การเข้าถึง",srcNote:"รายละเอียด",srcRedNote:"หมายเหตุ: ในเบราว์เซอร์ RSS ส่วนใหญ่ถูกบล็อกด้วย CORS จึงขึ้นแดง ต้องดึงผ่านเซิร์ฟเวอร์ตัวเชื่อม (thaigov-live-server.js) — ส่วน API สาธารณะเช่น data.go.th เรียกตรงได้",authPublic:"เปิดสาธารณะ (เรียกตรงได้)",authKey:"ต้องมี API key",authServer:"ต้องผ่านเซิร์ฟเวอร์ตัวเชื่อม",srcMovedNote:"ตัวเชื่อมต่อแหล่งข่าว (API/RSS) ย้ายไปอยู่ในแผงแอดมินแล้ว เพื่อความปลอดภัย เฉพาะแอดมินเท่านั้นที่ดู/ทดสอบได้",srcOpenAdmin:"เปิดใน Admin → แหล่งข่าว",teamsHint:"สร้างทีม แล้วไปกำหนดสมาชิกที่แท็บ \"ผู้ใช้งาน\" — สมาชิกจะเห็นเฉพาะรายการที่บันทึกของทีมตัวเอง",teamEmpty:"ยังไม่มีสมาชิก",membersShort:"คน",usersUnit:"คน",stActive:"ใช้งาน",stBlocked:"ถูกบล็อก",stAdmin:"แอดมิน",aiThreshTitle:"ระดับป้ายคะแนน Benefit",aiThreshDesc:"กำหนดว่าคะแนนเท่าไรถึงจะเป็นสีเขียว (สูง) หรือสีส้ม (กลาง) และจะซ่อนข่าวที่คะแนนต่ำกว่าเกณฑ์หรือไม่",aiHi:"เกณฑ์ \"สูง\" (สีเขียว)",aiMid:"เกณฑ์ \"กลาง\" (สีส้ม)",aiMinShow:"ซ่อนข่าวที่คะแนนต่ำกว่า",aiMinShowSub:"ตั้ง 0% เพื่อแสดงทุกข่าว",saveSettings:"บันทึกการตั้งค่า",settingsSaved:"✓ บันทึกแล้ว",scenTitle:"ทดสอบการให้คะแนน (Scenario)",scenDesc:"วางหัวข้อ/เนื้อหาข่าวเพื่อดูว่าระบบจะให้คะแนนเท่าไร และเข้าเกณฑ์ข้อไหน — ใช้ปรับคีย์เวิร์ดให้แม่นยำขึ้น",scenRun:"ทดสอบคะแนน",scenSample:"ใส่ตัวอย่าง",scenEmpty:"พิมพ์หัวข้อหรือเนื้อหาก่อนทดสอบ",scenNoCrit:"ยังไม่มีเกณฑ์ให้คะแนน — เพิ่มเกณฑ์ด้านบนก่อน",bandHi:"ประโยชน์สูง",bandMid:"ประโยชน์ปานกลาง",bandLo:"ประโยชน์น้อย",scenShown:"✓ ข่าวนี้จะแสดงในฟีด",scenHidden:"✕ ข่าวนี้จะถูกซ่อน (ต่ำกว่า {n}%)",scenGot:"ได้ {g} จาก {t} คะแนนถ่วงน้ำหนัก",changePhoto:"เปลี่ยนรูปโปรไฟล์",removePhoto:"ลบรูปโปรไฟล์",photoSaved:"อัปเดตรูปโปรไฟล์แล้ว",photoRemoved:"ลบรูปโปรไฟล์แล้ว",photoBadType:"ไฟล์ต้องเป็นรูปภาพ",photoTooBig:"รูปใหญ่เกินไป (เกิน 8MB)",photoFail:"อัปโหลดรูปไม่สำเร็จ ลองใหม่อีกครั้ง",noResults:"ไม่พบข่าวที่ตรงกับตัวกรอง",noResultsSub:"ลองปรับหรือล้างตัวกรอง (เปอร์เซ็นต์ Benefit, ช่วงวันที่ หรือประเภท) เพื่อดูข่าวเพิ่มเติม",clearFilters:"ล้างตัวกรองทั้งหมด",filtersCleared:"ล้างตัวกรองแล้ว",presentExit:"✕ ออกจากโหมดนำเสนอ",presentTitle:"โหมดนำเสนอ (กด P เพื่อออก)",
+searchResults:"ผลการค้นหา",sgMinistries:"กระทรวง / หน่วยงาน",sgItems:"ข่าวและกิจกรรม",viewMinistry:"ดูหน้ากระทรวง →",savedMark:"รายการที่บันทึกไว้",calAll:"ทั้งหมด",calSaved:"ที่บันทึกไว้",calFav:"กระทรวงที่ปักดาว",calBenefit:"Benefit",calAgenda:"รายการกิจกรรมเดือนนี้",calEmpty:"ไม่มีกิจกรรมตามตัวกรองในเดือนนี้ — ลองเปลี่ยนตัวกรองด้านบน",calLegendHint:"คลิกที่สีเพื่อกรองเฉพาะกระทรวงนั้น (คลิกซ้ำเพื่อยกเลิก)",calNoFav:"ยังไม่ได้ปักดาวกระทรวง — กดรูปดาวในเมนูกระทรวงก่อน",calNoSaved:"ยังไม่มีกิจกรรมที่บันทึกไว้",extMedia:"ข้อมูลจากแหล่งอื่น (สื่อภายนอก)",liveOffNote:"โหมดออฟไลน์ — กำลังแสดงข้อมูลตัวอย่าง {n} ชิ้น ข่าวสดจากอินเทอร์เน็ต (31 feed: หน่วยงานรัฐ + Google News + ไทยรัฐ/มติชน/ข่าวสด ฯลฯ) ยังไม่เชื่อมต่อ",liveOnNote:"LIVE — เชื่อมต่อแล้ว มีข่าวสดจากอินเทอร์เน็ต {n} รายการรวมอยู่ในฟีด",liveHowBtn:"วิธีเปิดข่าวสด →",extGnews:"รวบรวมโดย Google News",extFrom:"จาก",heroCount:"รายการทั้งหมด",dateAll:"ทุกวันที่",date7:"7 วันล่าสุด",date30:"30 วันล่าสุด",date90:"3 เดือนล่าสุด",dateYear:"ปีนี้",sortLatest:"ล่าสุด",sortImpact:"Impact สูงสุด",sortDeadline:"ใกล้เดดไลน์",shareBtn:"แชร์",shareCopied:"คัดลอกลิงก์แล้ว",shareNewsCopied:"คัดลอกลิงก์ข่าวแล้ว",dmToday:"วันนี้",dmTyping:"กำลังพิมพ์…",dmDeleted:"ลบข้อความแล้ว",chooseUser:"เลือกผู้ใช้งาน",chooseUserSub:"เลือกว่าคุณเป็นใคร เพื่อบันทึกข่าว/กิจกรรมแยกเป็นรายคน",savedShort:"บันทึก",teamTrack:"ดูของทีม:",userSwitched:"สลับเป็น {u}",commentsTitle:"โน้ต & คอมเมนต์",cmtLocal:"(เก็บในเครื่องนี้)",commentPh:"เขียนโน้ต…",commentSend:"ส่ง",commentEmpty:"ยังไม่มีโน้ต — เริ่มเขียนได้เลย",commentPosted:"เพิ่มโน้ตแล้ว",mentionedYou:"แท็กคุณในข่าว",notifTitle:"การแจ้งเตือน",noNotif:"ยังไม่มีการแจ้งเตือน",markAllRead:"อ่านทั้งหมด",loginTitle:"เข้าสู่ระบบ",loginPick:"เลือกผู้ใช้งานของคุณ",loginBtn:"เข้าสู่ระบบ",loginHint:"รหัสเริ่มต้น: 00000000 (เปลี่ยนได้ในเมนูผู้ใช้)",loginNoUser:"ไม่พบผู้ใช้นี้",loginBlocked:"บัญชีนี้ถูกระงับ",loginWrong:"ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",loginSub:"กรอกชื่อผู้ใช้และรหัสผ่าน",welcome:"ยินดีต้อนรับ {u}",changePw:"เปลี่ยนรหัสผ่าน",logout:"ออกจากระบบ",saveBtn:"บันทึก",pwTooShort:"รหัสใหม่ต้องอย่างน้อย 4 ตัว",pwMismatch:"รหัสใหม่ไม่ตรงกัน",pwWrongOld:"รหัสผ่านเดิมไม่ถูกต้อง",pwChanged:"เปลี่ยนรหัสผ่านแล้ว",readonly:"กำลังดูแบบอ่านอย่างเดียว",viewingOf:"กำลังดูรายการที่ {u} บันทึกไว้ (อ่านอย่างเดียว)",adminPanel:"จัดการระบบ (Admin)",adminTitle:"จัดการผู้ใช้งาน",addUser:"เพิ่มผู้ใช้",addUserPwHint:"รหัสผ่านเริ่มต้นคือ 00000000 (ผู้ใช้เปลี่ยนได้เองภายหลัง)",userSearchPh:"ค้นหาชื่อหรือทีม…",grpByTeamOn:"จัดกลุ่มตามทีม ✓",grpByTeamOff:"จัดกลุ่มตามทีม",resetPw:"รีเซ็ตรหัส",block:"บล็อก",unblock:"ปลดบล็อก",delete:"ลบ",you:"คุณ",noPerm:"ไม่มีสิทธิ์",nameRule:"ชื่อใช้ได้เฉพาะ A-Z 0-9 _ (2-20 ตัว)",nameExists:"มีชื่อนี้อยู่แล้ว",userAdded:"เพิ่มผู้ใช้แล้ว",pwReset:"รีเซ็ตรหัสของ {u} เป็น 00000000",lastAdmin:"ต้องมี admin อย่างน้อย 1 คน",cantSelf:"ลบบัญชีตัวเองไม่ได้",confirmDel:"ลบผู้ใช้ {u}? ย้อนกลับไม่ได้",userDeleted:"ลบผู้ใช้แล้ว",teamPh:"ทีม",teamName:"ทีม {t}",noTeam:"— ไม่มีทีม —",teamsTitle:"จัดการทีม",usersTitle:"ผู้ใช้งาน",addTeam:"เพิ่มทีม",noTeams:"ยังไม่มีทีม",agNotesTitle:"โน้ตของทีมเกี่ยวกับหน่วยงานนี้",agNotePh:"เพิ่มโน้ตเกี่ยวกับหน่วยงานนี้ (เห็นเฉพาะทีม) — พิมพ์ /everyone เพื่อประกาศให้ทุกคนเห็น",agNoteEmpty:"ยังไม่มีโน้ต — เริ่มเพิ่มได้เลย",agNoteAdded:"บันทึกโน้ตแล้ว",agBroadcast:"ประกาศให้ทุกคน",agAll:"ทุกทีม",agAnnounced:"ประกาศให้ทุกคนแล้ว",agNoteDeleted:"ลบโน้ตแล้ว",dmTitle:"ข้อความ",dmYou:"คุณ",dmNoTeam:"ยังไม่มีเพื่อนร่วมทีม — ให้แอดมินจัดทีมก่อน",dmStart:"เริ่มบทสนทนาได้เลย",dmPh:"พิมพ์ข้อความ…",dmNotMate:"ส่งได้เฉพาะคนในทีมเดียวกัน",cmdTitle:"คำสั่งด่วน",cmdEg:"เช่น /benefit 90, /dm Oat",mentionHint:"แท็กเพื่อนร่วมทีม เช่น {ex}",mentionNone:"ยังไม่มีเพื่อนร่วมทีมให้แท็ก",online:"ออนไลน์",dmExpand:"ขยายเต็มจอ",bkAction:"บิทคับ (CAS) ทำอะไรได้บ้าง",bkActionTeam:"ทีม {t} ทำอะไรได้บ้าง",bkTeamLead:"ตรงกับภารกิจทีม {t}",bkApply:"สมัคร/ยื่นข้อเสนอเข้าร่วมโครงการหรือขอทุน",bkMou:"เสนอความร่วมมือ / เตรียมลงนาม MOU",bkEvent:"ส่งตัวแทนเข้าร่วมหรือออกบูธในงาน",bkReg:"ประเมินผลกระทบด้านกำกับดูแล และเตรียม compliance",bkEsg:"ต่อยอดโครงการ ESG / คาร์บอนเครดิตของบริษัท",bkDigital:"เชื่อมโยงกับธุรกิจสินทรัพย์ดิจิทัลของบิทคับ",bkMonitor:"ติดตามและประเมินโอกาสการมีส่วนร่วม",cmdUnknown:"ไม่รู้จักคำสั่งนี้",cmdNeedMin:"เปิดหน้ากระทรวงก่อนจึงจะประกาศได้",cmdNeedText:"พิมพ์ข้อความที่จะประกาศ",cmdNoMin:"ไม่พบกระทรวงนี้",cHome:"ไปหน้าฟีดทั้งหมด",cSaved:"ไปหน้าที่บันทึกไว้",cCal:"เปิดปฏิทิน",cBenefit:"กรองตามคะแนน Benefit ขั้นต่ำ",cMessages:"เปิดกล่องข้อความ",cDm:"ส่งข้อความหาเพื่อนร่วมทีม",cEveryone:"ประกาศถึงทุกคน (ต้องอยู่ในหน้ากระทรวง)",cMin:"กรองตามกระทรวง",cClear:"ล้างตัวกรองทั้งหมด",cTheme:"สลับธีมสว่าง/มืด",cAdmin:"เปิดแผงแอดมิน",cSources:"เปิดแหล่งข่าว (Connectors)",cHelp:"ดูคำสั่งทั้งหมด",cLogout:"ออกจากระบบ",cConsole:"เปิดคอนโซลนักพัฒนา (แอดมิน)",conWelcome:"ThaiGov Connect — คอนโซลนักพัฒนา (แอดมิน)",conHint:"พิมพ์ help เพื่อดูคำสั่งทั้งหมด • Enter รัน • ↑/↓ ประวัติ • Esc ปิด",cTask:"มอบหมายงานให้เพื่อนร่วมทีม",taskAssignTitle:"งานที่มอบหมาย",taskAccept:"รับงาน",taskDoneBtn:"เสร็จแล้ว",tsPending:"รอรับงาน",tsAccepted:"กำลังทำ",tsDone:"เสร็จแล้ว",taskForYou:"มอบให้คุณ",taskFor:"มอบให้ {u}",taskByLabel:"จาก {u}",taskNeedWho:"ระบุผู้รับงานด้วย เช่น /task @ชื่อ รายละเอียดงาน",taskNoWho:"ไม่พบผู้รับงาน \"{u}\" (ต้องเป็นคนในทีม, @everyone หรือชื่อทีมเช่น @CAS)",taskNeedText:"พิมพ์รายละเอียดงานต่อท้ายด้วย",taskSentTo:"มอบงานให้ {u} แล้ว",taskSentN:"มอบงานให้ {n} คนแล้ว",taskAcceptedToast:"รับงานแล้ว",taskDoneToast:"ทำงานเสร็จแล้ว",ntTaskAssign:"มอบหมายงานให้คุณ",ntTaskAccept:"รับงานของคุณแล้ว",ntTaskDone:"ทำงานที่มอบหมายเสร็จแล้ว",ntGrp:"ส่งข้อความในกลุ่ม",grpTeamTag:"กลุ่มทีม",grpAll:"ทุกคนในทีม",taskSrc:"อ้างอิงข่าว:",taskOpenSrc:"เปิดข่าวที่อ้างอิง",taskSrcGone:"ไม่พบข่าวนี้แล้ว",navTasks:"งาน",tasksTitle:"จัดการงาน",tasksSub:"รวมงานที่คุณได้รับและงานที่คุณมอบหมายให้คนอื่น พร้อมสถานะการตอบรับ",tasksReceived:"งานที่ได้รับ",tasksAssigned:"งานที่ฉันสั่งไป",tasksNoneR:"ยังไม่มีงานที่ได้รับมอบหมาย",tasksNoneA:"คุณยังไม่ได้มอบหมายงานให้ใคร",tasksFltAll:"ทั้งหมด",tasksFltActive:"ที่ต้องทำ",tasksFltDone:"เสร็จแล้ว",taskOpenChat:"เปิดแชท",tasksToDo:"ต้องทำ",tasksWaiting:"รอตอบรับ",tasksDoneN:"เสร็จแล้ว",cTasks:"เปิดหน้าจัดการงาน (งานที่ได้รับ/สั่งไป)",tasksInGroup:"ในกลุ่ม",taskHintStruct:"โครงสร้าง:",taskHintNext:"พิมพ์ต่อ:",taskHintPickWho:"เลือกผู้รับงาน (กดเพื่อใส่):",taskHintDetail:"…แล้วพิมพ์รายละเอียดงาน เช่น ติดต่อประสานงาน",taskHintDMNoWho:"ในแชทส่วนตัวไม่ต้องใส่ชื่อ — พิมพ์รายละเอียดงานได้เลย",edit:"แก้ไข",edited:"แก้ไขแล้ว",cancel:"ยกเลิก",ntTeamNote:"โพสต์โน้ตทีมที่",ntAnnounce:"ประกาศถึงทุกคนที่",ntDM:"ส่งข้อความถึงคุณ",ntTask:"เพิ่มงานให้ทีมที่",taskTitle:"งานของทีม (Tasks)",taskEmpty:"ยังไม่มีงาน — พิมพ์ /task หรือกดเพิ่มงาน",taskPh:"เพิ่มงาน เช่น ติดต่อกระทรวง / ประสานงาน…",taskAdd:"เพิ่มงาน",taskAdded:"เพิ่มงานแล้ว",taskToggle:"ทำเสร็จ/ยังไม่เสร็จ",taskDoneBy:"เสร็จโดย {u}",scoringTitle:"เกณฑ์ให้คะแนน Benefit (%)",scoringHint:"แต่ละข่าวจะถูกให้คะแนนจากคีย์เวิร์ดที่ตรงกับเกณฑ์ (คิดน้ำหนักรวมเป็น %) — เพิ่ม/แก้คีย์เวิร์ดและน้ำหนักได้ตามต้องการ คะแนนจะโชว์บนการ์ดข่าวทันที",addCrit:"+ เพิ่มเกณฑ์",critLabel:"ชื่อเกณฑ์",critKw:"คีย์เวิร์ด (คั่นด้วย ,)",benefitScoreTip:"คะแนนประโยชน์ต่อทีม (จากเกณฑ์ที่ admin ตั้ง)",sigFocus:"ตรงโฟกัสทีม (คริปโท/ESG/การเงิน/ดิจิทัล)",sigOpp:"เป็นโอกาส/มีเดดไลน์ (สมัคร/ทุน/ประกวด)",sigTeam:"ตรงกับทีม {t}",teamHi:"ไฮไลต์สำหรับทีม {t}",teamViewAs:"ดูในมุมทีม:",titlePh:"ตำแหน่งงาน (เช่น HR Manager)",teamNamePh:"ชื่อทีมใหม่ (เช่น People / HR)",seedTeams:"+ ทีม Bitkub ตัวอย่าง (9 ทีม)",seedTeamsDone:"เพิ่มทีม Bitkub แล้ว (+{n} ทีมใหม่)",teamDescPh:"ทีมนี้ทำอะไร / มีหน้าที่อะไร (ให้ AI เข้าใจ)",teamKwPh:"คีย์เวิร์ดของทีม คั่นด้วย , (เช่น แรงงาน, สวัสดิการ)",sigOfficial:"มาจากแหล่งข่าวทางการ",sigRecent:"ข่าวสดใหม่ (ภายใน 30 วัน)",sigNeg:"หมวดที่ไม่เกี่ยวข้อง (หักคะแนน)",aiConf:"ความมั่นใจ",kpTitle:"ประเด็นสำคัญ",kpWho:"ใคร/หน่วยงาน",kpWhen:"เมื่อไร",kpWhere:"ที่ไหน",kpWhy:"ทำไมสำคัญกับเรา",kpAction:"สิ่งที่ต้องทำ",kpDetail:"รายละเอียด",aiNegLabel:"คำที่ทำให้ \"ไม่เกี่ยวข้อง\" (หักคะแนน)",aiNegSub:"คั่นด้วย , — ข่าวที่มีคำเหล่านี้จะถูกหักคะแนน",aiEngineTitle:"เครื่องมือให้คะแนนใช้สัญญาณเหล่านี้ (รวมถ่วงน้ำหนัก):",bfAll:"ประโยชน์: ทั้งหมด",bfCustom:"กำหนดเอง (%)",bfApply:"ใช้",tabPeople:"ผู้ใช้งาน",tabTeams:"ทีม",tabAI:"AI & การให้คะแนน",tabOverview:"ภาพรวม",tabSources:"แหล่งข่าว",ovUsers:"ผู้ใช้งาน",ovTeams:"ทีม",ovAdmins:"แอดมิน",ovBlocked:"ถูกบล็อก",ovSaved:"รายการบันทึกรวม",ovItems:"ข่าวในระบบ",ovSources:"แหล่งข่าว",ovLive:"สถานะข่าวสด",ovOnline:"ออนไลน์",ovOffline:"ออฟไลน์",ovByTeam:"สรุปรายทีม",srcConnTitle:"ตัวเชื่อมต่อแหล่งข่าว (API / RSS)",srcTestAll:"ทดสอบทั้งหมด",srcServer:"เซิร์ฟเวอร์ตัวเชื่อม (Live)",srcOnline:"เชื่อมต่อแล้ว",srcOffline:"ไม่ได้เชื่อมต่อ",srcUnit:"แหล่ง",srcSt_ok:"เชื่อมต่อได้",srcSt_down:"เข้าถึงไม่ได้",srcSt_unknown:"ยังไม่ทดสอบ",srcSt_testing:"กำลังทดสอบ…",srcFullName:"ชื่อเต็ม",srcType:"ประเภท",srcStatus:"สถานะ",srcTest:"ทดสอบการเชื่อมต่อ",srcOpen:"เปิดเว็บไซต์",srcTesting:"กำลังทดสอบแหล่งข่าว…",srcAuth:"การเข้าถึง",srcNote:"รายละเอียด",srcRedNote:"หมายเหตุ: ในเบราว์เซอร์ RSS ส่วนใหญ่ถูกบล็อกด้วย CORS จึงขึ้นแดง ต้องดึงผ่านเซิร์ฟเวอร์ตัวเชื่อม (thaigov-live-server.js) — ส่วน API สาธารณะเช่น data.go.th เรียกตรงได้",authPublic:"เปิดสาธารณะ (เรียกตรงได้)",authKey:"ต้องมี API key",authServer:"ต้องผ่านเซิร์ฟเวอร์ตัวเชื่อม",srcMovedNote:"ตัวเชื่อมต่อแหล่งข่าว (API/RSS) ย้ายไปอยู่ในแผงแอดมินแล้ว เพื่อความปลอดภัย เฉพาะแอดมินเท่านั้นที่ดู/ทดสอบได้",srcOpenAdmin:"เปิดใน Admin → แหล่งข่าว",teamsHint:"สร้างทีม แล้วไปกำหนดสมาชิกที่แท็บ \"ผู้ใช้งาน\" — สมาชิกจะเห็นเฉพาะรายการที่บันทึกของทีมตัวเอง",teamEmpty:"ยังไม่มีสมาชิก",membersShort:"คน",usersUnit:"คน",stActive:"ใช้งาน",stBlocked:"ถูกบล็อก",stAdmin:"แอดมิน",aiThreshTitle:"ระดับป้ายคะแนน Benefit",aiThreshDesc:"กำหนดว่าคะแนนเท่าไรถึงจะเป็นสีเขียว (สูง) หรือสีส้ม (กลาง) และจะซ่อนข่าวที่คะแนนต่ำกว่าเกณฑ์หรือไม่",aiHi:"เกณฑ์ \"สูง\" (สีเขียว)",aiMid:"เกณฑ์ \"กลาง\" (สีส้ม)",aiMinShow:"ซ่อนข่าวที่คะแนนต่ำกว่า",aiMinShowSub:"ตั้ง 0% เพื่อแสดงทุกข่าว",saveSettings:"บันทึกการตั้งค่า",settingsSaved:"✓ บันทึกแล้ว",scenTitle:"ทดสอบการให้คะแนน (Scenario)",scenDesc:"วางหัวข้อ/เนื้อหาข่าวเพื่อดูว่าระบบจะให้คะแนนเท่าไร และเข้าเกณฑ์ข้อไหน — ใช้ปรับคีย์เวิร์ดให้แม่นยำขึ้น",scenRun:"ทดสอบคะแนน",scenSample:"ใส่ตัวอย่าง",scenEmpty:"พิมพ์หัวข้อหรือเนื้อหาก่อนทดสอบ",scenNoCrit:"ยังไม่มีเกณฑ์ให้คะแนน — เพิ่มเกณฑ์ด้านบนก่อน",bandHi:"ประโยชน์สูง",bandMid:"ประโยชน์ปานกลาง",bandLo:"ประโยชน์น้อย",scenShown:"✓ ข่าวนี้จะแสดงในฟีด",scenHidden:"✕ ข่าวนี้จะถูกซ่อน (ต่ำกว่า {n}%)",scenGot:"ได้ {g} จาก {t} คะแนนถ่วงน้ำหนัก",changePhoto:"เปลี่ยนรูปโปรไฟล์",removePhoto:"ลบรูปโปรไฟล์",photoSaved:"อัปเดตรูปโปรไฟล์แล้ว",photoRemoved:"ลบรูปโปรไฟล์แล้ว",photoBadType:"ไฟล์ต้องเป็นรูปภาพ",photoTooBig:"รูปใหญ่เกินไป (เกิน 8MB)",photoFail:"อัปโหลดรูปไม่สำเร็จ ลองใหม่อีกครั้ง",noResults:"ไม่พบข่าวที่ตรงกับตัวกรอง",noResultsSub:"ลองปรับหรือล้างตัวกรอง (เปอร์เซ็นต์ Benefit, ช่วงวันที่ หรือประเภท) เพื่อดูข่าวเพิ่มเติม",clearFilters:"ล้างตัวกรองทั้งหมด",filtersCleared:"ล้างตัวกรองแล้ว",presentExit:"✕ ออกจากโหมดนำเสนอ",presentTitle:"โหมดนำเสนอ (กด P เพื่อออก)",
 aiTag:"สรุปโดย AI",bkbTag:"โอกาสของ BITKUB (Corporate Affairs & Sustainability)",
 dPub:"วันที่เผยแพร่ข่าว",dEvent:"วันจัดกิจกรรม",dTime:"เวลา",dLoc:"สถานที่",dChair:"ประธาน / หน่วยงานหลัก",dAct:"กิจกรรมนี้ทำอะไร",
 engP:"เข้าร่วม",engS:"สนับสนุน",engC:"คอนเนกต์",
@@ -1894,7 +1998,7 @@ stAll:"All time",stUpcoming:"Upcoming",stOngoing:"Ongoing",stPast:"Ended",
 tabMin:"Ministries",tabDept:"Departments",tabSE:"State enterprises",tabPO:"Public bodies",
 searchAllFor:"Show all results for",backToMin:"Back to ministry",underMin:"under",
 srcApis:"Agency open-data APIs / feeds (real, connectable)",liveOk:"Pulled {n} live items from the connector server",
-searchResults:"Search results",sgMinistries:"Ministries / Agencies",sgItems:"News & activities",viewMinistry:"Open ministry page →",savedMark:"Saved items",calAll:"All",calSaved:"Saved",calFav:"Starred ministries",calBenefit:"Benefit",calAgenda:"This month's events",calEmpty:"No events match the current filter this month — try another filter above",calLegendHint:"Click a colour to show only that ministry (click again to clear)",calNoFav:"No starred ministries yet — star one in the ministry menu first",calNoSaved:"No saved events yet",extMedia:"External media source",liveOffNote:"Offline mode — showing {n} sample items. Live news from the internet (31 feeds: government + Google News + Thairath/Matichon/Khaosod etc.) is not connected",liveOnNote:"LIVE — connected, {n} live items from the internet are in your feed",liveHowBtn:"How to enable live news →",extGnews:"Via Google News",extFrom:"From",heroCount:"total items",dateAll:"Any date",date7:"Last 7 days",date30:"Last 30 days",date90:"Last 3 months",dateYear:"This year",sortLatest:"Latest",sortImpact:"Top impact",sortDeadline:"By deadline",shareBtn:"Share",shareCopied:"Link copied",shareNewsCopied:"News link copied",dmToday:"Today",dmTyping:"typing…",dmDeleted:"Message deleted",chooseUser:"Who are you?",chooseUserSub:"Pick your profile so saved news & events are tracked per person",savedShort:"saved",teamTrack:"View team:",userSwitched:"Switched to {u}",commentsTitle:"Notes & comments",cmtLocal:"(saved on this device)",commentPh:"Write a note…",commentSend:"Send",commentEmpty:"No notes yet — be the first",commentPosted:"Note added",mentionedYou:"mentioned you",notifTitle:"Notifications",noNotif:"No notifications yet",markAllRead:"Mark all read",loginTitle:"Sign in",loginPick:"Choose your profile",loginBtn:"Sign in",loginHint:"Default password: 00000000 (change it in the user menu)",loginNoUser:"User not found",loginBlocked:"This account is blocked",loginWrong:"Wrong username or password",loginSub:"Enter your username and password",welcome:"Welcome {u}",changePw:"Change password",logout:"Log out",saveBtn:"Save",pwTooShort:"New password must be at least 4 chars",pwMismatch:"New passwords do not match",pwWrongOld:"Current password is wrong",pwChanged:"Password changed",readonly:"View-only mode",viewingOf:"Viewing {u}'s saved items (read-only)",adminPanel:"Admin panel",adminTitle:"User management",addUser:"Add user",resetPw:"Reset pw",block:"Block",unblock:"Unblock",delete:"Delete",you:"you",noPerm:"No permission",nameRule:"Name: A-Z 0-9 _ only (2-20 chars)",nameExists:"Name already exists",userAdded:"User added",pwReset:"Reset {u}'s password to 00000000",lastAdmin:"Must keep at least 1 admin",cantSelf:"Can't delete your own account",confirmDel:"Delete user {u}? This cannot be undone",userDeleted:"User deleted",teamPh:"Team",teamName:"Team {t}",noTeam:"— No team —",teamsTitle:"Teams",usersTitle:"Users",addTeam:"Add team",noTeams:"No teams yet",agNotesTitle:"Team notes on this agency",agNotePh:"Add a note about this agency (team-only) — type /everyone to announce to all",agNoteEmpty:"No notes yet — add the first",agNoteAdded:"Note saved",agBroadcast:"Announce to all",agAll:"All teams",agAnnounced:"Announced to everyone",agNoteDeleted:"Note deleted",dmTitle:"Messages",dmYou:"You",dmNoTeam:"No teammates yet — ask an admin to set up teams",dmStart:"Start the conversation",dmPh:"Type a message…",dmNotMate:"You can only message your teammates",cmdTitle:"Quick commands",cmdEg:"e.g. /benefit 90, /dm Oat",mentionHint:"Tag a teammate, e.g. {ex}",mentionNone:"No teammates to tag yet",online:"online",dmExpand:"Expand",bkAction:"What Bitkub (CAS) can do",bkActionTeam:"What team {t} can do",bkTeamLead:"Fits team {t}\u2019s mission",bkApply:"Apply / submit a proposal for the program or grant",bkMou:"Propose a partnership / prepare an MOU",bkEvent:"Send a representative or host a booth at the event",bkReg:"Assess regulatory impact and prepare compliance",bkEsg:"Extend the ESG / carbon-credit initiatives",bkDigital:"Connect it to the digital-asset business",bkMonitor:"Monitor and assess engagement opportunities",cmdUnknown:"Unknown command",cmdNeedMin:"Open a ministry page first to announce",cmdNeedText:"Type the announcement text",cmdNoMin:"Ministry not found",cHome:"Go to the all-ministry feed",cSaved:"Open your saved items",cCal:"Open the calendar",cBenefit:"Filter by minimum Benefit score",cMessages:"Open messages",cDm:"Message a teammate",cEveryone:"Announce to everyone (on a ministry page)",cMin:"Filter by ministry",cClear:"Clear all filters",cTheme:"Toggle light/dark theme",cAdmin:"Open the admin panel",cSources:"Open source connectors",cHelp:"Show all commands",cLogout:"Log out",cConsole:"Open the developer console (admin)",conWelcome:"ThaiGov Connect — Developer Console (admin)",conHint:"Type help for all commands • Enter to run • ↑/↓ history • Esc to close",cTask:"Assign a task to a teammate",taskAssignTitle:"Assigned task",taskAccept:"Accept",taskDoneBtn:"Mark done",tsPending:"Awaiting accept",tsAccepted:"In progress",tsDone:"Done",taskForYou:"for you",taskFor:"for {u}",taskByLabel:"from {u}",taskNeedWho:"Name who: /task @name task detail",taskNoWho:"No assignee \"{u}\" (must be a teammate, @everyone, or a team like @CAS)",taskNeedText:"Add the task detail",taskSentTo:"Assigned to {u}",taskSentN:"Assigned to {n} people",taskAcceptedToast:"Task accepted",taskDoneToast:"Task completed",ntTaskAssign:"assigned you a task",ntTaskAccept:"accepted your task",ntTaskDone:"completed your task",ntGrp:"messaged the group",grpTeamTag:"Team group",grpAll:"everyone on the team",taskSrc:"Re:",taskOpenSrc:"Open the referenced news",taskSrcGone:"That news item is no longer available",taskHintStruct:"Structure:",taskHintNext:"Type next:",taskHintPickWho:"Pick who (tap to insert):",taskHintDetail:"…then the task detail, e.g. contact & coordinate",taskHintDMNoWho:"In a private chat you can skip the name — just type the task detail",edit:"Edit",edited:"edited",cancel:"Cancel",ntTeamNote:"posted a team note on",ntAnnounce:"announced to everyone on",ntDM:"sent you a message",ntTask:"added a team task on",taskTitle:"Team tasks",taskEmpty:"No tasks yet — type /task or add one",taskPh:"Add a task, e.g. contact ministry / coordinate…",taskAdd:"Add task",taskAdded:"Task added",taskToggle:"Toggle done",taskDoneBy:"done by {u}",scoringTitle:"Benefit scoring criteria (%)",scoringHint:"Each item is scored by keywords matching your criteria (weighted, shown as %). Add/edit keywords and weights anytime — scores update on cards instantly.",addCrit:"+ Add criterion",critLabel:"Criterion name",critKw:"Keywords (comma separated)",benefitScoreTip:"Benefit score for your team (from admin criteria)",sigFocus:"Matches team focus (crypto/ESG/finance/digital)",sigOpp:"Opportunity / deadline (apply/grant/contest)",sigTeam:"Matches team {t}",teamHi:"Highlights for team {t}",teamViewAs:"View as team:",titlePh:"Job title (e.g. HR Manager)",teamNamePh:"New team name (e.g. People / HR)",seedTeams:"+ Seed Bitkub teams (9)",seedTeamsDone:"Bitkub teams added (+{n} new)",teamDescPh:"What this team does / its role (for the AI)",teamKwPh:"Team keywords, comma-separated (e.g. labour, welfare)",sigOfficial:"From an official source",sigRecent:"Fresh news (within 30 days)",sigNeg:"Irrelevant category (penalty)",aiConf:"Confidence",kpTitle:"Key points",kpWho:"Who",kpWhen:"When",kpWhere:"Where",kpWhy:"Why it matters",kpAction:"Action",kpDetail:"Detail",aiNegLabel:"Words that mark an item \"irrelevant\" (penalty)",aiNegSub:"Comma-separated — items containing these are penalised",aiEngineTitle:"The scorer combines these weighted signals:",bfAll:"Benefit: all",bfCustom:"Custom (%)",bfApply:"Go",tabPeople:"People",tabTeams:"Teams",tabAI:"AI & Scoring",tabOverview:"Overview",tabSources:"Sources",ovUsers:"Users",ovTeams:"Teams",ovAdmins:"Admins",ovBlocked:"Blocked",ovSaved:"Total saved",ovItems:"News items",ovSources:"Sources",ovLive:"Live status",ovOnline:"Online",ovOffline:"Offline",ovByTeam:"By team",srcConnTitle:"Source connectors (API / RSS)",srcTestAll:"Test all",srcServer:"Connector server (Live)",srcOnline:"Connected",srcOffline:"Not connected",srcUnit:"sources",srcSt_ok:"Reachable",srcSt_down:"Unreachable",srcSt_unknown:"Not tested",srcSt_testing:"Testing…",srcFullName:"Full name",srcType:"Type",srcStatus:"Status",srcTest:"Test connection",srcOpen:"Open website",srcTesting:"Testing sources…",srcAuth:"Access",srcNote:"Details",srcRedNote:"Note: in the browser most RSS is blocked by CORS (shows red) and must be pulled via the connector server (thaigov-live-server.js); public APIs like data.go.th can be called directly.",authPublic:"Public (direct call)",authKey:"Requires API key",authServer:"Via connector server",srcMovedNote:"Source connectors (API/RSS) have moved into the Admin panel — for security, only admins can view/test them.",srcOpenAdmin:"Open in Admin → Sources",teamsHint:"Create a team, then assign members in the \"People\" tab — members see only their own team's saved items.",teamEmpty:"No members yet",membersShort:"members",usersUnit:"users",stActive:"Active",stBlocked:"Blocked",stAdmin:"Admin",aiThreshTitle:"Benefit badge thresholds",aiThreshDesc:"Set how high a score must be to show green (high) or orange (mid), and whether to hide items below a cut-off.",aiHi:"\"High\" threshold (green)",aiMid:"\"Mid\" threshold (orange)",aiMinShow:"Hide items scoring below",aiMinShowSub:"Set 0% to show everything",saveSettings:"Save settings",settingsSaved:"✓ Saved",scenTitle:"Score tester (Scenario)",scenDesc:"Paste a headline/body to see the score it would get and which criteria it hits — use it to tune your keywords.",scenRun:"Test score",scenSample:"Load sample",scenEmpty:"Type a headline or body first",scenNoCrit:"No scoring criteria yet — add some above first",bandHi:"High benefit",bandMid:"Medium benefit",bandLo:"Low benefit",scenShown:"✓ This item would show in the feed",scenHidden:"✕ This item would be hidden (below {n}%)",scenGot:"Scored {g} of {t} weighted points",changePhoto:"Change photo",removePhoto:"Remove photo",photoSaved:"Profile photo updated",photoRemoved:"Profile photo removed",photoBadType:"File must be an image",photoTooBig:"Image too large (over 8MB)",photoFail:"Upload failed, please try again",noResults:"No items match your filters",noResultsSub:"Try adjusting or clearing the filters (Benefit %, date range, or type) to see more items.",clearFilters:"Clear all filters",filtersCleared:"Filters cleared",presentExit:"✕ Exit presentation",presentTitle:"Presentation mode (press P to exit)",
+searchResults:"Search results",sgMinistries:"Ministries / Agencies",sgItems:"News & activities",viewMinistry:"Open ministry page →",savedMark:"Saved items",calAll:"All",calSaved:"Saved",calFav:"Starred ministries",calBenefit:"Benefit",calAgenda:"This month's events",calEmpty:"No events match the current filter this month — try another filter above",calLegendHint:"Click a colour to show only that ministry (click again to clear)",calNoFav:"No starred ministries yet — star one in the ministry menu first",calNoSaved:"No saved events yet",extMedia:"External media source",liveOffNote:"Offline mode — showing {n} sample items. Live news from the internet (31 feeds: government + Google News + Thairath/Matichon/Khaosod etc.) is not connected",liveOnNote:"LIVE — connected, {n} live items from the internet are in your feed",liveHowBtn:"How to enable live news →",extGnews:"Via Google News",extFrom:"From",heroCount:"total items",dateAll:"Any date",date7:"Last 7 days",date30:"Last 30 days",date90:"Last 3 months",dateYear:"This year",sortLatest:"Latest",sortImpact:"Top impact",sortDeadline:"By deadline",shareBtn:"Share",shareCopied:"Link copied",shareNewsCopied:"News link copied",dmToday:"Today",dmTyping:"typing…",dmDeleted:"Message deleted",chooseUser:"Who are you?",chooseUserSub:"Pick your profile so saved news & events are tracked per person",savedShort:"saved",teamTrack:"View team:",userSwitched:"Switched to {u}",commentsTitle:"Notes & comments",cmtLocal:"(saved on this device)",commentPh:"Write a note…",commentSend:"Send",commentEmpty:"No notes yet — be the first",commentPosted:"Note added",mentionedYou:"mentioned you",notifTitle:"Notifications",noNotif:"No notifications yet",markAllRead:"Mark all read",loginTitle:"Sign in",loginPick:"Choose your profile",loginBtn:"Sign in",loginHint:"Default password: 00000000 (change it in the user menu)",loginNoUser:"User not found",loginBlocked:"This account is blocked",loginWrong:"Wrong username or password",loginSub:"Enter your username and password",welcome:"Welcome {u}",changePw:"Change password",logout:"Log out",saveBtn:"Save",pwTooShort:"New password must be at least 4 chars",pwMismatch:"New passwords do not match",pwWrongOld:"Current password is wrong",pwChanged:"Password changed",readonly:"View-only mode",viewingOf:"Viewing {u}'s saved items (read-only)",adminPanel:"Admin panel",adminTitle:"User management",addUser:"Add user",addUserPwHint:"Default password is 00000000 (users can change it later)",userSearchPh:"Search by name or team…",grpByTeamOn:"Group by team ✓",grpByTeamOff:"Group by team",resetPw:"Reset pw",block:"Block",unblock:"Unblock",delete:"Delete",you:"you",noPerm:"No permission",nameRule:"Name: A-Z 0-9 _ only (2-20 chars)",nameExists:"Name already exists",userAdded:"User added",pwReset:"Reset {u}'s password to 00000000",lastAdmin:"Must keep at least 1 admin",cantSelf:"Can't delete your own account",confirmDel:"Delete user {u}? This cannot be undone",userDeleted:"User deleted",teamPh:"Team",teamName:"Team {t}",noTeam:"— No team —",teamsTitle:"Teams",usersTitle:"Users",addTeam:"Add team",noTeams:"No teams yet",agNotesTitle:"Team notes on this agency",agNotePh:"Add a note about this agency (team-only) — type /everyone to announce to all",agNoteEmpty:"No notes yet — add the first",agNoteAdded:"Note saved",agBroadcast:"Announce to all",agAll:"All teams",agAnnounced:"Announced to everyone",agNoteDeleted:"Note deleted",dmTitle:"Messages",dmYou:"You",dmNoTeam:"No teammates yet — ask an admin to set up teams",dmStart:"Start the conversation",dmPh:"Type a message…",dmNotMate:"You can only message your teammates",cmdTitle:"Quick commands",cmdEg:"e.g. /benefit 90, /dm Oat",mentionHint:"Tag a teammate, e.g. {ex}",mentionNone:"No teammates to tag yet",online:"online",dmExpand:"Expand",bkAction:"What Bitkub (CAS) can do",bkActionTeam:"What team {t} can do",bkTeamLead:"Fits team {t}\u2019s mission",bkApply:"Apply / submit a proposal for the program or grant",bkMou:"Propose a partnership / prepare an MOU",bkEvent:"Send a representative or host a booth at the event",bkReg:"Assess regulatory impact and prepare compliance",bkEsg:"Extend the ESG / carbon-credit initiatives",bkDigital:"Connect it to the digital-asset business",bkMonitor:"Monitor and assess engagement opportunities",cmdUnknown:"Unknown command",cmdNeedMin:"Open a ministry page first to announce",cmdNeedText:"Type the announcement text",cmdNoMin:"Ministry not found",cHome:"Go to the all-ministry feed",cSaved:"Open your saved items",cCal:"Open the calendar",cBenefit:"Filter by minimum Benefit score",cMessages:"Open messages",cDm:"Message a teammate",cEveryone:"Announce to everyone (on a ministry page)",cMin:"Filter by ministry",cClear:"Clear all filters",cTheme:"Toggle light/dark theme",cAdmin:"Open the admin panel",cSources:"Open source connectors",cHelp:"Show all commands",cLogout:"Log out",cConsole:"Open the developer console (admin)",conWelcome:"ThaiGov Connect — Developer Console (admin)",conHint:"Type help for all commands • Enter to run • ↑/↓ history • Esc to close",cTask:"Assign a task to a teammate",taskAssignTitle:"Assigned task",taskAccept:"Accept",taskDoneBtn:"Mark done",tsPending:"Awaiting accept",tsAccepted:"In progress",tsDone:"Done",taskForYou:"for you",taskFor:"for {u}",taskByLabel:"from {u}",taskNeedWho:"Name who: /task @name task detail",taskNoWho:"No assignee \"{u}\" (must be a teammate, @everyone, or a team like @CAS)",taskNeedText:"Add the task detail",taskSentTo:"Assigned to {u}",taskSentN:"Assigned to {n} people",taskAcceptedToast:"Task accepted",taskDoneToast:"Task completed",ntTaskAssign:"assigned you a task",ntTaskAccept:"accepted your task",ntTaskDone:"completed your task",ntGrp:"messaged the group",grpTeamTag:"Team group",grpAll:"everyone on the team",taskSrc:"Re:",taskOpenSrc:"Open the referenced news",taskSrcGone:"That news item is no longer available",navTasks:"Tasks",tasksTitle:"Manage tasks",tasksSub:"All tasks assigned to you and tasks you assigned to others, with acceptance status",tasksReceived:"Assigned to me",tasksAssigned:"I assigned",tasksNoneR:"No tasks assigned to you yet",tasksNoneA:"You haven't assigned any tasks yet",tasksFltAll:"All",tasksFltActive:"Active",tasksFltDone:"Done",taskOpenChat:"Open chat",tasksToDo:"to do",tasksWaiting:"awaiting",tasksDoneN:"done",cTasks:"Open the task manager (received / assigned)",tasksInGroup:"in group",taskHintStruct:"Structure:",taskHintNext:"Type next:",taskHintPickWho:"Pick who (tap to insert):",taskHintDetail:"…then the task detail, e.g. contact & coordinate",taskHintDMNoWho:"In a private chat you can skip the name — just type the task detail",edit:"Edit",edited:"edited",cancel:"Cancel",ntTeamNote:"posted a team note on",ntAnnounce:"announced to everyone on",ntDM:"sent you a message",ntTask:"added a team task on",taskTitle:"Team tasks",taskEmpty:"No tasks yet — type /task or add one",taskPh:"Add a task, e.g. contact ministry / coordinate…",taskAdd:"Add task",taskAdded:"Task added",taskToggle:"Toggle done",taskDoneBy:"done by {u}",scoringTitle:"Benefit scoring criteria (%)",scoringHint:"Each item is scored by keywords matching your criteria (weighted, shown as %). Add/edit keywords and weights anytime — scores update on cards instantly.",addCrit:"+ Add criterion",critLabel:"Criterion name",critKw:"Keywords (comma separated)",benefitScoreTip:"Benefit score for your team (from admin criteria)",sigFocus:"Matches team focus (crypto/ESG/finance/digital)",sigOpp:"Opportunity / deadline (apply/grant/contest)",sigTeam:"Matches team {t}",teamHi:"Highlights for team {t}",teamViewAs:"View as team:",titlePh:"Job title (e.g. HR Manager)",teamNamePh:"New team name (e.g. People / HR)",seedTeams:"+ Seed Bitkub teams (9)",seedTeamsDone:"Bitkub teams added (+{n} new)",teamDescPh:"What this team does / its role (for the AI)",teamKwPh:"Team keywords, comma-separated (e.g. labour, welfare)",sigOfficial:"From an official source",sigRecent:"Fresh news (within 30 days)",sigNeg:"Irrelevant category (penalty)",aiConf:"Confidence",kpTitle:"Key points",kpWho:"Who",kpWhen:"When",kpWhere:"Where",kpWhy:"Why it matters",kpAction:"Action",kpDetail:"Detail",aiNegLabel:"Words that mark an item \"irrelevant\" (penalty)",aiNegSub:"Comma-separated — items containing these are penalised",aiEngineTitle:"The scorer combines these weighted signals:",bfAll:"Benefit: all",bfCustom:"Custom (%)",bfApply:"Go",tabPeople:"People",tabTeams:"Teams",tabAI:"AI & Scoring",tabOverview:"Overview",tabSources:"Sources",ovUsers:"Users",ovTeams:"Teams",ovAdmins:"Admins",ovBlocked:"Blocked",ovSaved:"Total saved",ovItems:"News items",ovSources:"Sources",ovLive:"Live status",ovOnline:"Online",ovOffline:"Offline",ovByTeam:"By team",srcConnTitle:"Source connectors (API / RSS)",srcTestAll:"Test all",srcServer:"Connector server (Live)",srcOnline:"Connected",srcOffline:"Not connected",srcUnit:"sources",srcSt_ok:"Reachable",srcSt_down:"Unreachable",srcSt_unknown:"Not tested",srcSt_testing:"Testing…",srcFullName:"Full name",srcType:"Type",srcStatus:"Status",srcTest:"Test connection",srcOpen:"Open website",srcTesting:"Testing sources…",srcAuth:"Access",srcNote:"Details",srcRedNote:"Note: in the browser most RSS is blocked by CORS (shows red) and must be pulled via the connector server (thaigov-live-server.js); public APIs like data.go.th can be called directly.",authPublic:"Public (direct call)",authKey:"Requires API key",authServer:"Via connector server",srcMovedNote:"Source connectors (API/RSS) have moved into the Admin panel — for security, only admins can view/test them.",srcOpenAdmin:"Open in Admin → Sources",teamsHint:"Create a team, then assign members in the \"People\" tab — members see only their own team's saved items.",teamEmpty:"No members yet",membersShort:"members",usersUnit:"users",stActive:"Active",stBlocked:"Blocked",stAdmin:"Admin",aiThreshTitle:"Benefit badge thresholds",aiThreshDesc:"Set how high a score must be to show green (high) or orange (mid), and whether to hide items below a cut-off.",aiHi:"\"High\" threshold (green)",aiMid:"\"Mid\" threshold (orange)",aiMinShow:"Hide items scoring below",aiMinShowSub:"Set 0% to show everything",saveSettings:"Save settings",settingsSaved:"✓ Saved",scenTitle:"Score tester (Scenario)",scenDesc:"Paste a headline/body to see the score it would get and which criteria it hits — use it to tune your keywords.",scenRun:"Test score",scenSample:"Load sample",scenEmpty:"Type a headline or body first",scenNoCrit:"No scoring criteria yet — add some above first",bandHi:"High benefit",bandMid:"Medium benefit",bandLo:"Low benefit",scenShown:"✓ This item would show in the feed",scenHidden:"✕ This item would be hidden (below {n}%)",scenGot:"Scored {g} of {t} weighted points",changePhoto:"Change photo",removePhoto:"Remove photo",photoSaved:"Profile photo updated",photoRemoved:"Profile photo removed",photoBadType:"File must be an image",photoTooBig:"Image too large (over 8MB)",photoFail:"Upload failed, please try again",noResults:"No items match your filters",noResultsSub:"Try adjusting or clearing the filters (Benefit %, date range, or type) to see more items.",clearFilters:"Clear all filters",filtersCleared:"Filters cleared",presentExit:"✕ Exit presentation",presentTitle:"Presentation mode (press P to exit)",
 aiTag:"AI SUMMARY",bkbTag:"BITKUB OPPORTUNITY (Corporate Affairs & Sustainability)",
 dPub:"Published",dEvent:"Event date",dTime:"Time",dLoc:"Venue",dChair:"Chair / Lead agency",dAct:"What this activity does",
 engP:"Participate",engS:"Support",engC:"Connect",
@@ -2471,43 +2575,64 @@ async function conAI(a){
   else {conPrint("usage: ai show|hi <n>|mid <n>|min <n>|neg <w1,w2>","err");return;}
   render&&render(); loadAIFields&&loadAIFields(); conPrint("✓ ai updated","ok");
 }
+var _userGroupBy=true;
+function toggleUserGroup(){_userGroupBy=!_userGroupBy;renderAdminUsers();}
+function _admUserRow(n,r){
+  r=r||{};
+  var status=r.blocked?'<span class="adm-status blk">'+T("stBlocked")+'</span>':(r.role==="admin"?'<span class="adm-status adm">'+T("stAdmin")+'</span>':'<span class="adm-status act">'+T("stActive")+'</span>');
+  return '<div class="adm-row'+(r.blocked?" blk":"")+'">'+
+    avatarHTML(n,"sm",true)+
+    '<span class="adm-name">'+esc(n)+(n===S.user?' <em>('+T("you")+')</em>':'')+'<input class="adm-title-in" value="'+esc(r.title||"")+'" placeholder="'+T("titlePh")+'" onchange="adminSetTitle(\''+esc(n)+'\',this.value)"></span>'+
+    status+
+    '<span class="adm-saved" title="'+T("savedShort")+'">'+savedCountOf(n)+' '+T("savedShort")+'</span>'+
+    '<div class="adm-teamcell">'+teamChipsHTML(n,r)+'</div>'+
+    '<select class="adm-role" onchange="adminSetRole(\''+esc(n)+'\',this.value)"'+(n===S.user?' disabled':'')+'><option value="member"'+(r.role!=="admin"?" selected":"")+'>member</option><option value="admin"'+(r.role==="admin"?" selected":"")+'>admin</option></select>'+
+    '<button class="adm-btn" onclick="adminResetPw(\''+esc(n)+'\')">'+T("resetPw")+'</button>'+
+    '<button class="adm-btn'+(r.blocked?" on":"")+'" onclick="adminToggleBlock(\''+esc(n)+'\')"'+(n===S.user?" disabled":"")+'>'+(r.blocked?T("unblock"):T("block"))+'</button>'+
+    '<button class="adm-btn danger" onclick="adminDeleteUser(\''+esc(n)+'\')"'+(n===S.user?" disabled":"")+'>'+T("delete")+'</button>'+
+  '</div>';
+}
 async function renderAdminUsers(){
   var body=document.getElementById("admin-users"); if(!body)return;
-  var u=await getAllUsers(), names=Object.keys(u).sort();
-  body.innerHTML=names.map(function(n){
-    var r=u[n]||{};
-    var status=r.blocked?'<span class="adm-status blk">'+T("stBlocked")+'</span>':(r.role==="admin"?'<span class="adm-status adm">'+T("stAdmin")+'</span>':'<span class="adm-status act">'+T("stActive")+'</span>');
-    return '<div class="adm-row'+(r.blocked?" blk":"")+'">'+
-      avatarHTML(n,"sm",true)+
-      '<span class="adm-name">'+esc(n)+(n===S.user?' <em>('+T("you")+')</em>':'')+'<input class="adm-title-in" value="'+esc(r.title||"")+'" placeholder="'+T("titlePh")+'" onchange="adminSetTitle(\''+esc(n)+'\',this.value)"></span>'+
-      status+
-      '<span class="adm-saved" title="'+T("savedShort")+'">'+savedCountOf(n)+' '+T("savedShort")+'</span>'+
-      '<div class="adm-teamcell">'+teamChipsHTML(n,r)+'</div>'+
-      '<select class="adm-role" onchange="adminSetRole(\''+esc(n)+'\',this.value)"'+(n===S.user?' disabled':'')+'><option value="member"'+(r.role!=="admin"?" selected":"")+'>member</option><option value="admin"'+(r.role==="admin"?" selected":"")+'>admin</option></select>'+
-      '<button class="adm-btn" onclick="adminResetPw(\''+esc(n)+'\')">'+T("resetPw")+'</button>'+
-      '<button class="adm-btn'+(r.blocked?" on":"")+'" onclick="adminToggleBlock(\''+esc(n)+'\')"'+(n===S.user?" disabled":"")+'>'+(r.blocked?T("unblock"):T("block"))+'</button>'+
-      '<button class="adm-btn danger" onclick="adminDeleteUser(\''+esc(n)+'\')"'+(n===S.user?" disabled":"")+'>'+T("delete")+'</button>'+
-    '</div>';
-  }).join("");
-  var cnt=document.getElementById("adm-users-count"); if(cnt)cnt.textContent=names.length+" "+T("usersUnit");
-  var tn=document.getElementById("admtab-people-n"); if(tn)tn.textContent=names.length;
+  var u=await getAllUsers(), allNames=Object.keys(u);
+  var tmsOf=function(n){return userTeams(u[n]||{})};
+  var q=((document.getElementById("adm-user-q")||{}).value||"").trim().toLowerCase();
+  var match=function(n){ if(!q)return true; var r=u[n]||{}; return n.toLowerCase().indexOf(q)>=0 || tmsOf(n).join(" ").toLowerCase().indexOf(q)>=0 || (r.title||"").toLowerCase().indexOf(q)>=0; };
+  var names=allNames.filter(match);
+  var tg=document.getElementById("adm-grp-toggle"); if(tg)tg.textContent=_userGroupBy?T("grpByTeamOn"):T("grpByTeamOff");
+  var qx=document.getElementById("adm-user-qx"); if(qx)qx.style.display=q?"grid":"none";
+  if(!names.length){ body.innerHTML='<div class="cmt-empty" style="padding:16px">'+T("noResults")+'</div>'; }
+  else if(_userGroupBy){
+    var html="";
+    (TEAMS||[]).forEach(function(t){
+      var mem=names.filter(function(n){return tmsOf(n).indexOf(t)>=0}).sort();
+      if(!mem.length)return;
+      html+='<div class="adm-grp-head"><span class="adm-grp-name"># '+esc(t)+'</span><span class="adm-grp-n">'+mem.length+'</span></div>';
+      html+=mem.map(function(n){return _admUserRow(n,u[n])}).join("");
+    });
+    var none=names.filter(function(n){return tmsOf(n).length===0}).sort();
+    if(none.length){ html+='<div class="adm-grp-head"><span class="adm-grp-name">'+T("noTeam")+'</span><span class="adm-grp-n">'+none.length+'</span></div>'+none.map(function(n){return _admUserRow(n,u[n])}).join(""); }
+    body.innerHTML=html;
+  } else {
+    body.innerHTML=names.sort().map(function(n){return _admUserRow(n,u[n])}).join("");
+  }
+  var cnt=document.getElementById("adm-users-count"); if(cnt)cnt.textContent=(q?names.length+"/"+allNames.length:allNames.length)+" "+T("usersUnit");
+  var tn=document.getElementById("admtab-people-n"); if(tn)tn.textContent=allNames.length;
 }
 function adminGuard(){if(!isAdmin()){if(typeof toast==="function")toast(T("noPerm"));return false}return true}
 async function adminAddUser(){
   if(!adminGuard())return;
   var name=(document.getElementById("adm-new-name").value||"").trim();
-  var pw=(document.getElementById("adm-new-pw").value||"").trim();
   var role=document.getElementById("adm-new-role").value;
   var team=(document.getElementById("adm-new-team").value||"").trim();
   var err=document.getElementById("adm-add-err"); err.textContent="";
   if(!/^[A-Za-z0-9_]{2,20}$/.test(name)){err.textContent=T("nameRule");return}
-  if(pw.length<4){err.textContent=T("pwTooShort");return}
   var u=await getAllUsers();
   if(Object.keys(u).some(function(k){return k.toLowerCase()===name.toLowerCase()})){err.textContent=T("nameExists");return}
   var teams=team?[team]:[];
   var title=(document.getElementById("adm-new-title").value||"").trim();
-  await writeUser(name,{pw:await sha256(pw),role:role,blocked:false,teams:teams,team:team,title:title});
-  document.getElementById("adm-new-name").value="";document.getElementById("adm-new-pw").value="";document.getElementById("adm-new-team").value="";var _tt=document.getElementById("adm-new-title");if(_tt)_tt.value="";
+  await writeUser(name,{pw:await sha256("00000000"),role:role,blocked:false,teams:teams,team:team,title:title});
+  document.getElementById("adm-new-name").value="";document.getElementById("adm-new-team").value="";var _tt=document.getElementById("adm-new-title");if(_tt)_tt.value="";
   refreshRoster(await getAllUsers()); renderAdminUsers(); renderTeamsList(); render(); renderDD();
   if(typeof toast==="function")toast(T("userAdded"));
 }
@@ -2918,13 +3043,15 @@ function setView(v){
   document.getElementById("view-feed").style.display=feedish?"":"none";
   document.getElementById("view-cal").style.display=v==="cal"?"":"none";
   document.getElementById("view-ai").style.display=v==="ai"?"":"none";
-  document.getElementById("feed-toolbar").style.display=v==="saved"?"none":"";
-  ["feed","cal","saved","ai"].forEach(k=>{
+  var vt=document.getElementById("view-tasks"); if(vt)vt.style.display=v==="tasks"?"":"none";
+  document.getElementById("feed-toolbar").style.display=(v==="saved"||v==="tasks")?"none":"";
+  ["feed","cal","saved","tasks","ai"].forEach(k=>{
     const n=document.getElementById("nav-"+k),m=document.getElementById("mnav-"+k);
     if(n)n.classList.toggle("active",k===v);
     if(m)m.classList.toggle("active",k===v);
   });
   if(v==="cal")renderCal();
+  if(v==="tasks")renderTasksHub();
   if(feedish)render();
   window.scrollTo({top:0});
 }
@@ -3471,6 +3598,7 @@ var SLASH_CMDS=[
  {cmd:"/benefit",arg:"90",k:"cBenefit",run:function(a){var n=parseInt(a,10);S.bfFilter=(isNaN(n)||n<=0)?"all":String(Math.min(100,n));persist();if(S.view!=="feed")setView("feed");else render()}},
  {cmd:"/messages",k:"cMessages",run:function(){openDMPanel()}},
  {cmd:"/task",arg:"@who detail",k:"cTask",run:function(){openDMPanel();toast(T("taskNeedWho"))}},
+ {cmd:"/tasks",k:"cTasks",run:function(){setView("tasks")}},
  {cmd:"/dm",arg:"@user",k:"cDm",run:function(a){var q=String(a||"").replace(/^@/,"").toLowerCase();var u=dmContacts().find(function(x){return x.toLowerCase()===q});if(u)openDM(u);else if(a)toast(T("dmNotMate"));else openDMPanel()}},
  {cmd:"/everyone",arg:"text",k:"cEveryone",run:function(a){slashAnnounce(a)}},
  {cmd:"/ministry",arg:"name",k:"cMin",run:function(a){var q=String(a||"").toLowerCase();var id=Object.keys(MINISTRIES).find(function(k){var m=MINISTRIES[k];return k===q||m.abbr.toLowerCase()===q||m.th.indexOf(a)>=0||m.en.toLowerCase().indexOf(q)>=0});if(id){if(S.view!=="feed")setView("feed");pickMin(id)}else toast(T("cmdNoMin"))}},
@@ -3838,6 +3966,8 @@ function dmTotalUnread(){var n=0;Object.keys(DM_UNREAD).forEach(function(u){n+=D
 function renderDMBadge(){
   var btn=document.getElementById("dm-btn"); if(btn)btn.style.display=S.user?"inline-flex":"none";
   var b=document.getElementById("dm-badge"); if(b){var n=dmTotalUnread();b.textContent=n;b.style.display=n?"grid":"none"}
+  if(typeof updateTaskNav==="function")updateTaskNav();
+  if(S.view==="tasks"&&typeof renderTasksHub==="function")renderTasksHub();
 }
 function openDMPanel(){
   if(!S.user)return;
@@ -3888,14 +4018,14 @@ function renderDMPop(){
   }
   var u=_dmOpen, arr=DMS[u]||[], g=isGrp(u);
   p.innerHTML=head+'<div class="dmp-thread"><div class="dmp-back" onclick="stopWatchTyping();_dmOpen=null;renderDMPop()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>'+threadAvatarHTML(u)+'<b>'+esc(threadLabel(u))+'</b>'+(g?'<span class="grp-tag">'+T("grpTeamTag")+'</span>':(isOnline(u)?'<span class="dm-online">'+T("online")+'</span>':''))+'</div>'+
-    '<div class="dmp-msgs" id="dmp-msgs">'+dmMessagesHTML(arr,u)+(g?"":typingHTML())+'</div>'+
+    '<div class="dmp-msgs" id="dmp-msgs">'+dmMessagesHTML(arr,u)+typingHTML(u)+'</div>'+
     '<div class="th-hint" id="dmp-hint" style="display:none"></div>'+
-    '<div class="dmp-form"><textarea id="dmp-input" rows="1" placeholder="'+T("dmPh")+'" oninput="autoGrow(this);'+(g?'':'dmTyping(\''+esc(u)+'\');')+'taskInputHint(this,document.getElementById(\'dmp-hint\'),'+threadCtxJS(u)+')" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();sendDMPop()}"></textarea><button class="btn primary" onclick="sendDMPop()">'+T("commentSend")+'</button></div>';
+    '<div class="dmp-form"><textarea id="dmp-input" rows="1" placeholder="'+T("dmPh")+'" oninput="autoGrow(this);dmTyping(\''+esc(u)+'\');taskInputHint(this,document.getElementById(\'dmp-hint\'),'+threadCtxJS(u)+')" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();sendDMPop()}"></textarea><button class="btn primary" onclick="sendDMPop()">'+T("commentSend")+'</button></div>';
   var ml=document.getElementById("dmp-msgs"); if(ml)ml.scrollTop=ml.scrollHeight;
   if(g)grpMarkSeen(grpTeam(u)); else markDMRead(u);
-  if(!g)renderTypingIndicator(u);
+  renderTypingIndicator(u);
 }
-function dmPopOpenThread(u){_dmOpen=u;renderDMPop();if(isGrp(u)){grpMarkSeen(grpTeam(u));stopWatchTyping();}else{markDMRead(u);watchTyping(u);}}
+function dmPopOpenThread(u){_dmOpen=u;renderDMPop();if(isGrp(u))grpMarkSeen(grpTeam(u));else markDMRead(u);watchTyping(u);}
 function sendDMPop(){
   var inp=document.getElementById("dmp-input"); if(!inp||!inp.value.trim()||!_dmOpen)return;
   var u=_dmOpen, text=inp.value.trim();
@@ -3966,29 +4096,48 @@ function delDM(u,id){
   if(typeof toast==="function")toast(T("dmDeleted"));
 }
 /* ---- typing indicator ---- */
-var TYPING={}, _typingRef=null, _typingOpen=null, _typingClearT=null, _typingTick=null;
+var TYPING={}, GTYPING={}, _typingRef=null, _typingOpen=null, _typingClearT=null, _typingTick=null;
 function isTyping(u){return (Date.now()-(TYPING[u]||0))<4500}
-function renderTypingIndicator(u){var on=isTyping(u);document.querySelectorAll(".dm-typing").forEach(function(el){el.style.display=on?"flex":"none"})}
+function grpTypers(){var now=Date.now(),out=[];Object.keys(GTYPING||{}).forEach(function(n){if(n!==S.user&&(now-(+GTYPING[n]||0))<4500)out.push(n)});return out;}
+function renderTypingIndicator(u){
+  var els=document.querySelectorAll(".dm-typing");
+  if(isGrp(u)){
+    var who=grpTypers(), on=who.length>0;
+    var label=who.length?(who.length===1?who[0]:who.slice(0,2).join(", ")+(who.length>2?" +"+(who.length-2):""))+" "+T("dmTyping"):"";
+    els.forEach(function(el){el.style.display=on?"flex":"none";if(on){var av=el.querySelector(".dm-typing-ava");if(av)av.innerHTML=avatarHTML(who[0],"sm",true);var lb=el.querySelector(".dm-typing-name");if(lb)lb.textContent=label;}});
+  }else{
+    var on2=isTyping(u);els.forEach(function(el){el.style.display=on2?"flex":"none"});
+  }
+}
 function watchTyping(u){
   if(_typingRef){try{_typingRef.off()}catch(e){}_typingRef=null;}
-  _typingOpen=u; TYPING={};
-  if(CLOUD&&u){_typingRef=fdb.ref("typing/"+dmPairKey(S.user,u)+"/"+u);_typingRef.on("value",function(s){TYPING[u]=+s.val()||0;renderTypingIndicator(u)});}
+  _typingOpen=u; TYPING={}; GTYPING={};
+  if(CLOUD&&u){
+    if(isGrp(u)){_typingRef=fdb.ref("gtyping/"+grpTeam(u));_typingRef.on("value",function(s){GTYPING=s.val()||{};renderTypingIndicator(u)});}
+    else{_typingRef=fdb.ref("typing/"+dmPairKey(S.user,u)+"/"+u);_typingRef.on("value",function(s){TYPING[u]=+s.val()||0;renderTypingIndicator(u)});}
+  }
   clearInterval(_typingTick);_typingTick=setInterval(function(){if(_typingOpen)renderTypingIndicator(_typingOpen)},1600);
 }
-function stopWatchTyping(){if(_typingRef){try{_typingRef.off()}catch(e){}_typingRef=null;}clearInterval(_typingTick);_typingTick=null;_typingOpen=null;TYPING={};}
+function stopWatchTyping(){if(_typingRef){try{_typingRef.off()}catch(e){}_typingRef=null;}clearInterval(_typingTick);_typingTick=null;_typingOpen=null;TYPING={};GTYPING={};}
+function _typingPath(u){return isGrp(u)?("gtyping/"+grpTeam(u)+"/"+S.user):("typing/"+dmPairKey(S.user,u)+"/"+S.user);}
 function dmTyping(u){
   if(!CLOUD||!S.user||!u)return;
-  var now=Date.now();
-  if(!dmTyping._last||now-dmTyping._last>900){dmTyping._last=now;try{fdb.ref("typing/"+dmPairKey(S.user,u)+"/"+S.user).set(now)}catch(e){}}
-  clearTimeout(_typingClearT);_typingClearT=setTimeout(function(){try{fdb.ref("typing/"+dmPairKey(S.user,u)+"/"+S.user).set(0)}catch(e){}},2600);
+  var now=Date.now(),path=_typingPath(u);
+  if(!dmTyping._last||now-dmTyping._last>900){dmTyping._last=now;try{fdb.ref(path).set(now)}catch(e){}}
+  clearTimeout(_typingClearT);_typingClearT=setTimeout(function(){try{fdb.ref(path).set(0)}catch(e){}},2600);
 }
-function typingHTML(){return '<div class="dm-typing" style="display:none"><span class="dm-typing-bubble"><i></i><i></i><i></i></span></div>'}
+function _clearMyTyping(u){if(CLOUD&&S.user&&u){try{fdb.ref(_typingPath(u)).set(0)}catch(e){}}}
+function typingHTML(u){
+  if(isGrp(u))return '<div class="dm-typing" style="display:none"><span class="dm-typing-ava"></span><span class="dm-typing-bubble"><i></i><i></i><i></i></span><span class="dm-typing-name"></span></div>';
+  return '<div class="dm-typing" style="display:none">'+(u?avatarHTML(u,"sm",true):'')+'<span class="dm-typing-bubble"><i></i><i></i><i></i></span></div>';
+}
 function openDM(u){
   if(!u)return;
   var ov=document.getElementById("dm-overlay"); if(ov&&!ov.classList.contains("open"))ov.classList.add("open");
   _dmOpen=u; if(!CLOUD)_dmLocalLoad();
   renderDMContacts(); renderDMThread(u);
-  if(isGrp(u)){grpMarkSeen(grpTeam(u));stopWatchTyping();}else{markDMRead(u);watchTyping(u);}
+  if(isGrp(u))grpMarkSeen(grpTeam(u));else markDMRead(u);
+  watchTyping(u);
 }
 function renderDMThread(u){
   var main=document.getElementById("dm-main"); if(!main)return;
@@ -3996,11 +4145,11 @@ function renderDMThread(u){
   var head=g?('<div class="dm-thread-head"><span class="grp-ava">#</span><b>'+esc(grpTeam(u))+'</b><span class="grp-tag">'+T("grpTeamTag")+'</span><span class="u-title">'+T("grpAll")+'</span></div>')
             :('<div class="dm-thread-head">'+avatarHTML(u,"sm",true)+'<b>'+esc(u)+'</b>'+(userTitle(u)?'<span class="u-title">'+esc(userTitle(u))+'</span>':'')+(isOnline(u)?'<span class="dm-online">'+T("online")+'</span>':'')+'</div>');
   main.innerHTML=head+
-    '<div class="dm-msgs" id="dm-msgs">'+dmMessagesHTML(arr,u)+(g?"":typingHTML())+'</div>'+
+    '<div class="dm-msgs" id="dm-msgs">'+dmMessagesHTML(arr,u)+typingHTML(u)+'</div>'+
     '<div class="th-hint" id="dm-hint" style="display:none"></div>'+
-    '<div class="dm-form">'+avatarHTML(S.user||"","sm")+'<textarea id="dm-input" rows="1" placeholder="'+T("dmPh")+'" oninput="autoGrow(this);'+(g?'':'dmTyping(\''+esc(u)+'\');')+'taskInputHint(this,document.getElementById(\'dm-hint\'),'+threadCtxJS(u)+')" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();sendDM(\''+esc(u)+'\')}"></textarea><button class="btn primary" onclick="sendDM(\''+esc(u)+'\')">'+T("commentSend")+'</button></div>';
+    '<div class="dm-form">'+avatarHTML(S.user||"","sm")+'<textarea id="dm-input" rows="1" placeholder="'+T("dmPh")+'" oninput="autoGrow(this);dmTyping(\''+esc(u)+'\');taskInputHint(this,document.getElementById(\'dm-hint\'),'+threadCtxJS(u)+')" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();sendDM(\''+esc(u)+'\')}"></textarea><button class="btn primary" onclick="sendDM(\''+esc(u)+'\')">'+T("commentSend")+'</button></div>';
   var ml=document.getElementById("dm-msgs"); if(ml)ml.scrollTop=ml.scrollHeight;
-  if(!g)renderTypingIndicator(u);
+  renderTypingIndicator(u);
 }
 function _clearTyping(u){if(CLOUD&&S.user&&u){try{fdb.ref("typing/"+dmPairKey(S.user,u)+"/"+S.user).set(0)}catch(e){}}}
 function sendDM(u){
@@ -4099,7 +4248,7 @@ function assignTask(raw,ctx){
   }
   toast(p.assignees.length>1?T("taskSentN").replace("{n}",p.assignees.length):T("taskSentTo").replace("{u}",p.assignees[0]));
   if(!CLOUD){refreshLocalNotifs();}
-  _rerenderDM(); renderDMBadge();
+  _rerenderDM(); renderDMBadge(); maybeRenderTasks();
   return true;
 }
 /* accept / done — u is the thread key (peer for DM, "#team" for group) */
@@ -4110,6 +4259,7 @@ function setTaskStatus(u,id,status){
     var type=status==="accepted"?"taskaccept":status==="done"?"taskdone":"taskassign";
     notifyUser(target,{from:S.user,type:type,team:isG?grpTeam(u):null,text:msg.text||"",ts:Date.now(),read:false});
     toast(status==="done"?T("taskDoneToast"):T("taskAcceptedToast"));
+    if(typeof maybeRenderTasks==="function")maybeRenderTasks();
   };
   if(CLOUD){
     var path=isG?("dmg/"+grpTeam(u)+"/"+id):("dm/"+dmPairKey(S.user,u)+"/"+id);
@@ -4127,6 +4277,68 @@ function openTaskSrc(id){
   closeDMPop(); var ov=document.getElementById("dm-overlay"); if(ov)ov.classList.remove("open");
   stopWatchTyping(); openModal(id);
 }
+/* ===== Manage Tasks hub ===== */
+var _taskFlt="active";
+function collectTasks(){
+  var received=[],assigned=[],seenR={},seenA={};
+  Object.keys(DMS||{}).forEach(function(key){
+    (DMS[key]||[]).forEach(function(m){
+      if(m.kind!=="task"||!m.id)return;
+      var g=isGrp(key), assignee=g?m.assignee:m.to;
+      var e={m:m,thread:key,from:m.from,assignee:assignee,group:g};
+      if(m.from===S.user&&!seenA[m.id]){seenA[m.id]=1;assigned.push(e);}
+      if(assignee===S.user&&m.from!==S.user&&!seenR[m.id]){seenR[m.id]=1;received.push(e);}
+    });
+  });
+  var rank={pending:0,accepted:1,done:2};
+  var srt=function(a,b){return (rank[a.m.tstatus||"pending"]-rank[b.m.tstatus||"pending"])||((b.m.ts||0)-(a.m.ts||0))};
+  received.sort(srt);assigned.sort(srt);
+  return {received:received,assigned:assigned};
+}
+function taskFltPass(m){var st=m.tstatus||"pending";if(_taskFlt==="all")return true;if(_taskFlt==="done")return st==="done";return st!=="done";}
+function setTaskFlt(f){_taskFlt=f;renderTasksHub();}
+function taskRowHTML(e,kind){
+  var m=e.m,st=m.tstatus||"pending";
+  var chip='<span class="tk-chip tk-'+st+'">'+(st==="done"?T("tsDone"):st==="accepted"?T("tsAccepted"):T("tsPending"))+'</span>';
+  var who=(kind==="received")?T("taskByLabel").replace("{u}",esc(e.from)):T("taskFor").replace("{u}",esc(e.assignee||""));
+  var grp=e.group?(' · '+T("tasksInGroup")+' # '+esc(grpTeam(e.thread))):'';
+  var src=(m.srcTitle&&m.srcId!=null&&(typeof findItem!=="function"||findItem(+m.srcId)))?('<button type="button" class="tk-src tk-srclink" onclick="openTaskSrc('+(+m.srcId)+')">'+T("taskSrc")+' '+esc(m.srcTitle)+' <span class="tk-srcgo">→</span></button>'):'';
+  var btns='<button class="tr-link" onclick="openDM(\''+esc(e.thread)+'\')">'+T("taskOpenChat")+'</button>';
+  if(kind==="received"&&st!=="done"){
+    if(st==="pending")btns='<button class="tk-btn accept" onclick="setTaskStatus(\''+esc(e.thread)+'\',\''+esc(m.id)+'\',\'accepted\')">'+T("taskAccept")+'</button>'+btns;
+    btns='<button class="tk-btn done" onclick="setTaskStatus(\''+esc(e.thread)+'\',\''+esc(m.id)+'\',\'done\')">'+T("taskDoneBtn")+'</button>'+btns;
+  }
+  return '<div class="tr'+(st==="done"?" done":"")+'"><div class="tr-main"><div class="tr-top"><span class="tr-who">'+who+grp+'</span>'+chip+'</div><div class="tr-text">'+esc(m.text)+'</div>'+src+'</div><div class="tr-foot"><span class="tr-time">'+cmtTime(m.ts)+'</span><div class="tr-acts">'+btns+'</div></div></div>';
+}
+function renderTasksHub(){
+  var box=document.getElementById("view-tasks"); if(!box)return;
+  var flt=document.getElementById("tasks-flt");
+  if(flt)flt.innerHTML=[["active","tasksFltActive"],["all","tasksFltAll"],["done","tasksFltDone"]].map(function(f){return '<button class="tflt'+(_taskFlt===f[0]?" on":"")+'" onclick="setTaskFlt(\''+f[0]+'\')">'+T(f[1])+'</button>'}).join("");
+  var t=collectTasks();
+  var rActive=t.received.filter(function(e){return (e.m.tstatus||"pending")!=="done"}).length;
+  var aWaiting=t.assigned.filter(function(e){return (e.m.tstatus||"pending")==="pending"}).length;
+  var aDone=t.assigned.filter(function(e){return (e.m.tstatus||"pending")==="done"}).length;
+  var stats=document.getElementById("tasks-stats");
+  if(stats)stats.innerHTML=
+    '<div class="tstat"><b>'+rActive+'</b><span>'+T("tasksToDo")+'</span></div>'+
+    '<div class="tstat"><b>'+aWaiting+'</b><span>'+T("tasksWaiting")+'</span></div>'+
+    '<div class="tstat"><b>'+aDone+'</b><span>'+T("tasksDoneN")+'</span></div>';
+  var rf=t.received.filter(function(e){return taskFltPass(e.m)}),af=t.assigned.filter(function(e){return taskFltPass(e.m)});
+  var rec=document.getElementById("tasks-received");
+  if(rec)rec.innerHTML=rf.length?rf.map(function(e){return taskRowHTML(e,"received")}).join(""):'<div class="cmt-empty" style="padding:14px">'+T("tasksNoneR")+'</div>';
+  var asg=document.getElementById("tasks-assigned");
+  if(asg)asg.innerHTML=af.length?af.map(function(e){return taskRowHTML(e,"assigned")}).join(""):'<div class="cmt-empty" style="padding:14px">'+T("tasksNoneA")+'</div>';
+  var rn=document.getElementById("tasks-rn");if(rn)rn.textContent=t.received.length;
+  var an=document.getElementById("tasks-an");if(an)an.textContent=t.assigned.length;
+}
+function taskNavCount(){var seen={},n=0;Object.keys(DMS||{}).forEach(function(key){(DMS[key]||[]).forEach(function(m){if(m.kind==="task"&&m.id&&!seen[m.id]){var as=isGrp(key)?m.assignee:m.to;if(as===S.user&&m.from!==S.user&&(m.tstatus||"pending")!=="done"){seen[m.id]=1;n++;}}})});return n;}
+function updateTaskNav(){
+  var show=!!S.user;
+  ["nav-tasks","mnav-tasks"].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=show?(id==="nav-tasks"?"inline-flex":""):"none";});
+  var n=taskNavCount();
+  ["nav-tasks-n","mnav-tasks-n"].forEach(function(id){var b=document.getElementById(id);if(b){b.textContent=n;b.style.display=n?"inline-grid":"none";}});
+}
+function maybeRenderTasks(){updateTaskNav();if(S.view==="tasks")renderTasksHub();}
 function taskCardHTML(m,u){
   var isG=isGrp(u);
   var amAssigner=m.from===S.user;
@@ -4149,6 +4361,7 @@ function taskCardHTML(m,u){
 /* group send */
 function sendGroupText(team,text){
   text=(text||"").trim(); if(!text)return;
+  if(typeof _clearMyTyping==="function")_clearMyTyping("#"+team);
   if(/^\/task\b/i.test(text)){assignTask(text,{type:"group",team:team});return;}
   var msg={from:S.user,text:text,ts:Date.now()};
   pushGrpRaw(team,msg,text,"grp");
