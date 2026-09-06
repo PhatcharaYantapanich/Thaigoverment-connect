@@ -57,10 +57,14 @@ html[data-theme="dark"] body::before{
 /* ===== Header ===== */
 header{
   position:sticky; top:12px; z-index:100; margin:12px auto 0; max-width:1120px;
-  display:flex; align-items:center; gap:14px; padding:10px 18px;
+  display:flex; align-items:center; gap:14px; padding:10px 18px; flex-wrap:nowrap;
   border-radius:26px; width:calc(100% - 28px);
+  height:60px; box-sizing:border-box;
 }
-.brand{display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none}
+.brand{display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;flex:none;min-width:0}
+.brand h1{white-space:nowrap}
+.brand small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+nav.main button{white-space:nowrap}
 .brand-logo{height:32px;width:auto;flex:none;display:block}
 html[data-theme="dark"] .brand-logo{background:#fff;border-radius:9px;padding:4px 8px;height:34px;box-sizing:border-box}
 .brand-sep{width:1px;height:30px;background:var(--glass-border);flex:none}
@@ -126,9 +130,11 @@ html[data-theme="dark"] .sug{box-shadow:0 28px 64px rgba(0,0,0,.7),0 4px 14px rg
 /* hover-open dropdowns: stay while pointer inside, fade in/out */
 .dd::after{content:"";position:absolute;top:100%;left:0;height:16px;width:min(420px,86vw);pointer-events:none}
 .dd.open::after{pointer-events:auto}
-.dd .dd-menu{display:block;opacity:0;visibility:hidden;transform:translateY(7px) scale(.985);transition:opacity .18s ease,transform .18s ease,visibility 0s linear .35s}
-.dd.open .dd-menu{opacity:1;visibility:visible;transform:none;transition:opacity .18s ease,transform .18s ease,visibility 0s}
-.dd.closing .dd-menu{opacity:0!important;visibility:hidden!important;transition:none!important}
+/* menu visibility is class-driven on the menu itself, so it still works when the
+   menu is portaled to <body> (needed to escape any transformed/backdrop-filter
+   ancestor that would trap position:fixed in Safari & Chrome) */
+.dd-menu.mopen{display:block;animation:ddPop .16s cubic-bezier(.2,.85,.25,1) both}
+@keyframes ddPop{from{opacity:0;transform:translateY(6px) scale(.985)}to{opacity:1;transform:none}}
 .dd.closing::after{pointer-events:none!important}
 /* category tabs inside ministry dropdown */
 .dd-tabs{display:flex;gap:4px;padding:2px 2px 8px;position:sticky;top:-8px;background:var(--menu-bg);z-index:2;border-bottom:1px solid var(--glass-border);margin-bottom:6px}
@@ -156,7 +162,10 @@ html[data-theme="dark"] .sug{box-shadow:0 28px 64px rgba(0,0,0,.7),0 4px 14px rg
 .refresh-btn.spin svg{animation:spin .7s linear}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-section{animation:fadeUp .32s ease both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+/* sections must NOT animate transform: a lingering transform would make them the
+   containing block for position:fixed dropdown menus (they'd render offset). */
+section{animation:fadeIn .32s ease both}
 .card{animation:fadeUp .34s ease both}
 .card:nth-child(2){animation-delay:.04s}.card:nth-child(3){animation-delay:.08s}
 .card:nth-child(4){animation-delay:.12s}.card:nth-child(5){animation-delay:.16s}
@@ -176,8 +185,11 @@ body,.glass,.card,.dd-btn,.hbtn,nav.main button{transition-property:background,b
 .agency-chip.se{background:var(--benefit-soft);color:var(--benefit);border-color:transparent}
 .agency-chip.po{background:var(--accent-soft);color:var(--accent);border-color:transparent}
 .dd-btn .min-logo,.dd-btn .min-logo-fb{width:22px;height:22px;font-size:8px;flex:none}
-.search{flex:1;min-width:200px;display:flex;align-items:center;gap:9px;padding:0 14px;border-radius:14px;height:42px;position:relative}
-.search input{flex:1;border:none;background:transparent;outline:none;color:var(--txt);font-family:inherit;font-size:14px}
+.search{flex:1;min-width:150px;display:flex;align-items:center;gap:9px;padding:0 14px;border-radius:14px;height:42px;position:relative;overflow:hidden;
+  /* Safari: backdrop-filter would make .search a containing block for the
+     position:fixed suggestions panel — keep the glass look but no filter here */
+  backdrop-filter:none;-webkit-backdrop-filter:none}
+.search input{flex:1;min-width:0;border:none;background:transparent;outline:none;color:var(--txt);font-family:inherit;font-size:14px;text-overflow:ellipsis}
 .search input::placeholder{color:var(--txt3)}
 .search .sx{border:none;background:transparent;color:var(--txt3);cursor:pointer;display:none;padding:2px;line-height:0}
 .search .sx:hover{color:var(--txt)}
@@ -423,6 +435,12 @@ html[data-theme="dark"] .ext-tag{background:rgba(148,163,184,.14)}
 .toast.big .ua.big{width:34px;height:34px;font-size:15px}
 .toast.big .toast-sub{display:block;font-size:11px;font-weight:600;color:var(--txt3);margin-top:2px}
 footer{text-align:center;font-size:12px;color:var(--txt3);padding:30px 14px 10px;line-height:1.8}
+@media (max-width:1040px){
+  .brand small{display:none}
+  nav.main button{padding:8px 11px;font-size:13px}
+  header{gap:10px}
+  .user-chip .un{max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+}
 @media (max-width:720px){
   nav.main{display:none}
   .mobile-nav{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:150;display:flex;gap:4px;padding:6px;border-radius:20px}
@@ -477,6 +495,22 @@ body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #fo
 .ua.big{width:56px;height:56px;font-size:24px}
 .user-overlay{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);padding:20px}
 .user-overlay.open{display:flex}
+.con-modal{position:relative;background:#0b1020;color:#d6e2ff;border:1px solid #24304d;border-radius:16px;width:100%;max-width:760px;height:min(78vh,620px);display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.55);overflow:hidden;font-family:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace}
+.con-head{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#111a30;border-bottom:1px solid #24304d;font-size:12.5px}
+.con-head b{font-weight:700;color:#9db4e6;font-family:inherit}
+.con-head .uo-x{color:#7f8db3}
+.con-dot{width:11px;height:11px;border-radius:50%;background:#ff5f57;flex:none}
+.con-dot.y{background:#febc2e}.con-dot.g{background:#28c840}
+.con-log{flex:1;overflow:auto;padding:14px 16px;font-size:13px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.con-line{margin:0 0 2px;font-family:inherit}
+.con-line.sys{color:#7fa7ff}
+.con-line.ok{color:#4ade80}
+.con-line.err{color:#ff7a90}
+.con-line.cmd{color:#e8eeff}.con-line.cmd::before{content:"› ";color:#556}
+.con-line.out{color:#c4d0ee}
+.con-inwrap{display:flex;align-items:center;gap:8px;padding:10px 14px;border-top:1px solid #24304d;background:#0d1426}
+.con-prompt{color:#4ade80;font-weight:800}
+#con-input{flex:1;background:transparent;border:0;outline:0;color:#e8eeff;font-family:inherit;font-size:13.5px}
 .user-modal{position:relative;background:var(--menu-bg);border-radius:24px;padding:32px 30px;max-width:520px;width:100%;box-shadow:var(--shadow);text-align:center}
 .user-modal h2{font-size:22px;font-weight:800;margin:0 0 6px}
 .uo-sub{color:var(--txt2);font-size:13.5px;margin:0 0 22px}
@@ -492,6 +526,9 @@ body.brand-hidden .brand-logo,body.brand-hidden .brand-sep,body.brand-hidden #fo
 .team-chip{display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 5px;border-radius:30px;border:1px solid var(--glass-border);background:var(--glass);color:var(--txt2);font-family:inherit;font-weight:700;font-size:12.5px;cursor:pointer;transition:.2s}
 .team-chip:hover{border-color:var(--accent);color:var(--txt)}
 .team-chip.cur{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.team-chip .tc-name{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
+.team-chip .tc-teams{font-size:9.5px;font-weight:600;color:var(--txt3)}
+.team-chip.cur .tc-teams{color:var(--accent)}
 .team-chip .tc-count{background:var(--menu-bg);border-radius:20px;padding:1px 7px;font-size:11px}
 @media(max-width:600px){.user-chip .un{display:none}}
 /* ===== notes/comments + notifications ===== */
@@ -814,6 +851,88 @@ body.viewother .bookmark-btn{display:none!important}
 .src-auth.pub{background:rgba(14,159,110,.16);color:var(--benefit)}
 .src-auth.key{background:rgba(217,119,6,.16);color:var(--warn)}
 .src-auth.srv{background:var(--glass);color:var(--txt3)}
+.dm-msgs,.dmp-msgs{display:flex;flex-direction:column}
+.dm-row{display:flex;align-items:flex-end;gap:7px;max-width:82%}
+.dm-row.me{align-self:flex-end;flex-direction:row-reverse;margin-left:auto}
+.dm-row .dm-t{font-size:10px;color:var(--txt3);white-space:nowrap;padding-bottom:3px;flex:none}
+.dm-row .dm-bubble{background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;padding:8px 12px;font-size:13.5px;line-height:1.5;color:var(--txt);word-break:break-word}
+.dm-row.me .dm-bubble{background:var(--accent);color:#fff;border-color:transparent}
+.dm-bcol{display:flex;flex-direction:column;gap:2px;min-width:0}
+.dm-gname{font-size:10.5px;font-weight:800;color:var(--accent);padding-left:3px}
+/* group avatar + tag */
+.grp-ava{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#1e293b,#334155);color:#facc15;display:grid;place-items:center;font-weight:900;font-size:15px;flex:none}
+.grp-tag{font-size:9.5px;font-weight:800;color:var(--gold,#b8860b);background:rgba(184,134,11,.14);padding:1px 7px;border-radius:8px;margin-left:6px;letter-spacing:.02em}
+.dm-contact.grp .avatar{display:none}
+/* task card (in chat) */
+.dm-row.task{max-width:90%}
+.task-card{background:var(--menu-bg);border:1.5px solid var(--accent-soft,rgba(37,99,235,.25));border-left:4px solid var(--accent);border-radius:14px;padding:10px 13px;min-width:210px;box-shadow:0 4px 14px rgba(15,25,45,.10)}
+.dm-row.task.me .task-card{border-left-color:var(--gold,#b8860b)}
+.task-card.done{opacity:.72;border-left-color:var(--benefit)}
+.tk-head{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--txt2);margin-bottom:5px}
+.tk-head b{color:var(--txt);font-size:12.5px}
+.tk-chip{margin-left:auto;font-size:10px;font-weight:800;padding:2px 8px;border-radius:8px}
+.tk-chip.tk-pending{background:rgba(234,179,8,.16);color:#a16207}
+.tk-chip.tk-accepted{background:rgba(37,99,235,.16);color:var(--accent)}
+.tk-chip.tk-done{background:rgba(14,159,110,.16);color:var(--benefit)}
+.tk-by,.tk-who{font-size:11px;color:var(--txt3);margin-bottom:2px}
+.tk-who{font-weight:700;color:var(--txt2)}
+.tk-text{font-size:14px;font-weight:600;color:var(--txt);line-height:1.45;margin:3px 0}
+.tk-src{font-size:11px;color:var(--txt3);margin-top:4px;font-style:italic}
+.tk-srclink{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--glass-border);background:var(--glass);border-radius:8px;padding:5px 10px;cursor:pointer;font-family:inherit;text-align:left;transition:background .15s,border-color .15s;font-style:normal;line-height:1.35}
+.tk-srclink:hover{background:var(--accent-soft,rgba(37,99,235,.12));border-color:var(--accent);color:var(--accent)}
+.tk-srcgo{font-weight:900;color:var(--accent)}
+.tk-btns{display:flex;gap:7px;margin-top:9px}
+.tk-btn{border:0;border-radius:9px;padding:6px 14px;font-size:12.5px;font-weight:800;cursor:pointer}
+.tk-btn.accept{background:var(--accent);color:#fff}
+.tk-btn.done{background:var(--benefit);color:#fff}
+.tk-btn:hover{filter:brightness(1.06)}
+.tk-time{font-size:9.5px;color:var(--txt3);text-align:right;margin-top:6px}
+/* Minecraft-style /task hint */
+.th-hint{background:#0f1830;color:#cdd8f5;border:1px solid #24304d;border-radius:12px;padding:9px 12px;margin:0 0 8px;font-size:12px;line-height:1.6;font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace}
+.th-hint .th-lbl{color:#7fa7ff;font-weight:700;margin-right:5px}
+.th-struct code{background:#1b2545;color:#ffd479;padding:2px 7px;border-radius:6px;font-size:12px}
+.th-pick{margin-top:6px;display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.th-chip{background:#1b2545;color:#e8eeff;border:1px solid #2f3d63;border-radius:8px;padding:3px 9px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit}
+.th-chip:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+.th-next{margin-top:6px;color:#96a3c9;font-family:inherit}
+.dm-daysep{display:flex;align-items:center;justify-content:center;margin:12px 0 6px}
+.dm-daysep span{background:rgba(15,23,42,.12);color:var(--txt2);font-size:11px;font-weight:700;padding:3px 13px;border-radius:20px}
+html[data-theme="dark"] .dm-daysep span{background:rgba(255,255,255,.12)}
+.dm-typing{align-items:center;gap:8px;font-size:12px;color:var(--txt3);padding:4px 4px 6px}
+.dm-typing-dots{display:inline-flex;gap:3px}
+.dm-typing-dots i{width:5px;height:5px;border-radius:50%;background:var(--txt3);display:inline-block;animation:typingBlink 1.2s infinite}
+.dm-typing-dots i:nth-child(2){animation-delay:.2s}
+.dm-typing-dots i:nth-child(3){animation-delay:.4s}
+@keyframes typingBlink{0%,60%,100%{opacity:.25}30%{opacity:1}}
+.dm-thread-head .u-title{font-size:11px}
+.dm-typing{align-items:flex-end;padding:2px 4px 6px}
+.dm-typing-bubble{display:inline-flex;gap:4px;align-items:center;background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;padding:9px 13px}
+.dm-typing-bubble i{width:7px;height:7px;border-radius:50%;background:var(--txt3);display:inline-block;animation:msgrBounce 1.3s infinite}
+.dm-typing-bubble i:nth-child(2){animation-delay:.18s}
+.dm-typing-bubble i:nth-child(3){animation-delay:.36s}
+@keyframes msgrBounce{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-5px);opacity:1}}
+.dm-acts{display:inline-flex;gap:2px;align-self:center;opacity:0;transition:opacity .15s}
+.dm-row:hover .dm-acts{opacity:1}
+.dm-acts button{border:none;background:none;color:var(--txt3);cursor:pointer;padding:3px;border-radius:6px;display:grid;place-items:center}
+.dm-acts button:hover{background:var(--glass);color:var(--txt)}
+.dm-row.editing{align-self:stretch;max-width:100%}
+.dm-edit{flex:1;display:flex;flex-direction:column;gap:6px;width:100%}
+.dm-edit textarea{width:100%;box-sizing:border-box;resize:none;border:1px solid var(--accent);border-radius:12px;background:var(--glass);color:var(--txt);font-family:inherit;font-size:13.5px;padding:8px 11px;outline:none;max-height:100px}
+.dm-edit-btns{display:flex;gap:6px;justify-content:flex-end}
+.task-list{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.task-item{display:flex;align-items:flex-start;gap:9px;padding:8px 10px;border:1px solid var(--glass-border);border-radius:10px;background:var(--glass)}
+.task-item.done{opacity:.6}
+.task-check{flex:none;width:20px;height:20px;border-radius:6px;border:2px solid var(--txt3);background:none;cursor:pointer;display:grid;place-items:center;color:#fff;margin-top:1px}
+.task-item.done .task-check{background:var(--benefit);border-color:transparent}
+.task-body{flex:1;min-width:0}
+.task-text{font-size:13.5px;line-height:1.5;color:var(--txt)}
+.task-item.done .task-text{text-decoration:line-through}
+.task-meta{font-size:11px;color:var(--txt3);margin-top:2px}
+.task-del{flex:none;border:none;background:none;color:var(--txt3);font-size:17px;line-height:1;cursor:pointer;padding:0 4px}
+.task-del:hover{color:#ef4444}
+.task-form{display:flex;gap:8px;margin-bottom:4px}
+.task-form input{flex:1;min-width:0;border:1px solid var(--glass-border);border-radius:10px;background:var(--glass);color:var(--txt);font-family:inherit;font-size:13px;padding:8px 11px;outline:none}
+.task-form input:focus{border-color:var(--accent)}
 </style>
 </head>
 <body>
@@ -834,7 +953,7 @@ body.viewother .bookmark-btn{display:none!important}
     <button id="nav-ai" onclick="setView('ai')" data-i18n="navAI">แหล่งข้อมูล &amp; AI</button>
   </nav>
   <div class="hspace"></div>
-  <div class="dm-wrap2">
+  <div class="dm-wrap2" onmouseenter="dmHoverEnter()" onmouseleave="dmHoverLeave()">
     <button class="hbtn" id="dm-btn" onclick="event.stopPropagation();toggleDMPop()" title="Messages" style="display:none">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
       <span class="notif-badge" id="dm-badge" style="display:none">0</span>
@@ -980,9 +1099,6 @@ body.viewother .bookmark-btn{display:none!important}
           <div class="ai-result" id="ai-img-result"></div>
         </div>
       </div>
-      <h4 style="margin-top:24px;font-size:13.5px;font-weight:700" data-i18n="srcTitle">ตัวเชื่อมต่อแหล่งข่าวอัตโนมัติ (API / RSS)</h4>
-      <p class="sub" style="margin:6px 0 4px" data-i18n="srcSub"></p>
-      <div class="src-list" id="src-list"></div>
     </div>
   </section>
 
@@ -1020,6 +1136,14 @@ body.viewother .bookmark-btn{display:none!important}
   </div>
 </div>
 
+<div class="user-overlay" id="console-overlay" onclick="if(event.target===this)closeConsole()">
+  <div class="con-modal">
+    <div class="con-head"><span class="con-dot"></span><span class="con-dot y"></span><span class="con-dot g"></span><b>ThaiGov Connect — Admin Console</b><button class="uo-x" style="position:static;margin-left:auto" onclick="closeConsole()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="con-log" id="con-log"></div>
+    <div class="con-inwrap"><span class="con-prompt">›</span><input id="con-input" autocomplete="off" spellcheck="false" placeholder="type a command… (/help)" onkeydown="conKey(event)"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <div class="user-overlay" id="user-overlay">
@@ -1050,7 +1174,7 @@ body.viewother .bookmark-btn{display:none!important}
 <div class="user-overlay" id="admin-overlay" onclick="if(event.target===this)closeAdmin()">
   <div class="admin-modal">
     <button class="uo-x" onclick="closeAdmin()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-    <h2 data-i18n="adminPanel">จัดการระบบ (Admin)</h2>
+    <h2 data-i18n="adminPanel">จัดการระบบ (Admin) <button class="btn ghost" style="font-size:12px;padding:5px 12px;vertical-align:middle;margin-left:6px" onclick="openConsole()">&#9654; Console (Dev)</button></h2>
     <div class="adm-tabs">
       <button class="adm-tab on" id="admtab-overview" onclick="adminTab('overview')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg><span data-i18n="tabOverview">ภาพรวม</span></button>
       <button class="adm-tab" id="admtab-people" onclick="adminTab('people')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="tabPeople">ผู้ใช้งาน</span> <span class="tb-badge" id="admtab-people-n"></span></button>
@@ -1080,7 +1204,7 @@ body.viewother .bookmark-btn{display:none!important}
         <input id="adm-team-new" class="cpw-in" placeholder="ชื่อทีมใหม่ (เช่น People / HR)" autocomplete="off" style="margin:0" data-i18n-ph="teamNamePh">
         <input id="adm-team-desc" class="cpw-in" placeholder="ทีมนี้ทำอะไร / มีหน้าที่อะไร (ให้ AI เข้าใจ)" autocomplete="off" style="margin:0" data-i18n-ph="teamDescPh">
         <input id="adm-team-kw" class="cpw-in" placeholder="คีย์เวิร์ดของทีม คั่นด้วย , (เช่น แรงงาน, สวัสดิการ, HR)" autocomplete="off" style="margin:0" data-i18n-ph="teamKwPh">
-        <button class="btn primary" onclick="adminAddTeam()" data-i18n="addTeam" style="align-self:flex-start">เพิ่มทีม</button>
+        <div style="display:flex;gap:8px;align-self:flex-start;flex-wrap:wrap"><button class="btn primary" onclick="adminAddTeam()" data-i18n="addTeam">เพิ่มทีม</button><button class="btn ghost" onclick="adminSeedBitkubTeams()" data-i18n="seedTeams">+ ทีม Bitkub ตัวอย่าง (9 ทีม)</button></div>
       </div>
       <div class="adm-hint" data-i18n="teamsHint" style="margin-top:10px"></div>
       <div class="adm-list" id="admin-teams-list"></div>
@@ -1738,7 +1862,7 @@ stAll:"ทุกช่วงเวลา",stUpcoming:"กำลังจะถ�
 tabMin:"กระทรวง",tabDept:"กรม/หน่วยงาน",tabSE:"รัฐวิสาหกิจ",tabPO:"องค์การมหาชน",
 searchAllFor:"แสดงผลการค้นหาทั้งหมด",backToMin:"กลับหน้ากระทรวง",underMin:"สังกัด",
 srcApis:"API / ช่องทางข้อมูลเปิดของหน่วยงาน (เชื่อมต่อได้จริง)",liveOk:"ดึงข่าวสดสำเร็จ {n} รายการ จากเซิร์ฟเวอร์ตัวเชื่อมต่อ",
-searchResults:"ผลการค้นหา",sgMinistries:"กระทรวง / หน่วยงาน",sgItems:"ข่าวและกิจกรรม",viewMinistry:"ดูหน้ากระทรวง →",savedMark:"รายการที่บันทึกไว้",calAll:"ทั้งหมด",calSaved:"ที่บันทึกไว้",calFav:"กระทรวงที่ปักดาว",calBenefit:"Benefit",calAgenda:"รายการกิจกรรมเดือนนี้",calEmpty:"ไม่มีกิจกรรมตามตัวกรองในเดือนนี้ — ลองเปลี่ยนตัวกรองด้านบน",calLegendHint:"คลิกที่สีเพื่อกรองเฉพาะกระทรวงนั้น (คลิกซ้ำเพื่อยกเลิก)",calNoFav:"ยังไม่ได้ปักดาวกระทรวง — กดรูปดาวในเมนูกระทรวงก่อน",calNoSaved:"ยังไม่มีกิจกรรมที่บันทึกไว้",extMedia:"ข้อมูลจากแหล่งอื่น (สื่อภายนอก)",liveOffNote:"โหมดออฟไลน์ — กำลังแสดงข้อมูลตัวอย่าง {n} ชิ้น ข่าวสดจากอินเทอร์เน็ต (31 feed: หน่วยงานรัฐ + Google News + ไทยรัฐ/มติชน/ข่าวสด ฯลฯ) ยังไม่เชื่อมต่อ",liveOnNote:"LIVE — เชื่อมต่อแล้ว มีข่าวสดจากอินเทอร์เน็ต {n} รายการรวมอยู่ในฟีด",liveHowBtn:"วิธีเปิดข่าวสด →",extGnews:"รวบรวมโดย Google News",extFrom:"จาก",heroCount:"รายการทั้งหมด",dateAll:"ทุกวันที่",date7:"7 วันล่าสุด",date30:"30 วันล่าสุด",date90:"3 เดือนล่าสุด",dateYear:"ปีนี้",sortLatest:"ล่าสุด",sortImpact:"Impact สูงสุด",sortDeadline:"ใกล้เดดไลน์",shareBtn:"แชร์",shareCopied:"คัดลอกลิงก์แล้ว",chooseUser:"เลือกผู้ใช้งาน",chooseUserSub:"เลือกว่าคุณเป็นใคร เพื่อบันทึกข่าว/กิจกรรมแยกเป็นรายคน",savedShort:"บันทึก",teamTrack:"ดูของทีม:",userSwitched:"สลับเป็น {u}",commentsTitle:"โน้ต & คอมเมนต์",cmtLocal:"(เก็บในเครื่องนี้)",commentPh:"เขียนโน้ต…",commentSend:"ส่ง",commentEmpty:"ยังไม่มีโน้ต — เริ่มเขียนได้เลย",commentPosted:"เพิ่มโน้ตแล้ว",mentionedYou:"แท็กคุณในข่าว",notifTitle:"การแจ้งเตือน",noNotif:"ยังไม่มีการแจ้งเตือน",markAllRead:"อ่านทั้งหมด",loginTitle:"เข้าสู่ระบบ",loginPick:"เลือกผู้ใช้งานของคุณ",loginBtn:"เข้าสู่ระบบ",loginHint:"รหัสเริ่มต้น: 00000000 (เปลี่ยนได้ในเมนูผู้ใช้)",loginNoUser:"ไม่พบผู้ใช้นี้",loginBlocked:"บัญชีนี้ถูกระงับ",loginWrong:"ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",loginSub:"กรอกชื่อผู้ใช้และรหัสผ่าน",welcome:"ยินดีต้อนรับ {u}",changePw:"เปลี่ยนรหัสผ่าน",logout:"ออกจากระบบ",saveBtn:"บันทึก",pwTooShort:"รหัสใหม่ต้องอย่างน้อย 4 ตัว",pwMismatch:"รหัสใหม่ไม่ตรงกัน",pwWrongOld:"รหัสผ่านเดิมไม่ถูกต้อง",pwChanged:"เปลี่ยนรหัสผ่านแล้ว",readonly:"กำลังดูแบบอ่านอย่างเดียว",viewingOf:"กำลังดูรายการที่ {u} บันทึกไว้ (อ่านอย่างเดียว)",adminPanel:"จัดการระบบ (Admin)",adminTitle:"จัดการผู้ใช้งาน",addUser:"เพิ่มผู้ใช้",resetPw:"รีเซ็ตรหัส",block:"บล็อก",unblock:"ปลดบล็อก",delete:"ลบ",you:"คุณ",noPerm:"ไม่มีสิทธิ์",nameRule:"ชื่อใช้ได้เฉพาะ A-Z 0-9 _ (2-20 ตัว)",nameExists:"มีชื่อนี้อยู่แล้ว",userAdded:"เพิ่มผู้ใช้แล้ว",pwReset:"รีเซ็ตรหัสของ {u} เป็น 00000000",lastAdmin:"ต้องมี admin อย่างน้อย 1 คน",cantSelf:"ลบบัญชีตัวเองไม่ได้",confirmDel:"ลบผู้ใช้ {u}? ย้อนกลับไม่ได้",userDeleted:"ลบผู้ใช้แล้ว",teamPh:"ทีม",teamName:"ทีม {t}",noTeam:"— ไม่มีทีม —",teamsTitle:"จัดการทีม",usersTitle:"ผู้ใช้งาน",addTeam:"เพิ่มทีม",noTeams:"ยังไม่มีทีม",agNotesTitle:"โน้ตของทีมเกี่ยวกับหน่วยงานนี้",agNotePh:"เพิ่มโน้ตเกี่ยวกับหน่วยงานนี้ (เห็นเฉพาะทีม) — พิมพ์ /everyone เพื่อประกาศให้ทุกคนเห็น",agNoteEmpty:"ยังไม่มีโน้ต — เริ่มเพิ่มได้เลย",agNoteAdded:"บันทึกโน้ตแล้ว",agBroadcast:"ประกาศให้ทุกคน",agAll:"ทุกทีม",agAnnounced:"ประกาศให้ทุกคนแล้ว",agNoteDeleted:"ลบโน้ตแล้ว",dmTitle:"ข้อความ",dmYou:"คุณ",dmNoTeam:"ยังไม่มีเพื่อนร่วมทีม — ให้แอดมินจัดทีมก่อน",dmStart:"เริ่มบทสนทนาได้เลย",dmPh:"พิมพ์ข้อความ…",dmNotMate:"ส่งได้เฉพาะคนในทีมเดียวกัน",cmdTitle:"คำสั่งด่วน",cmdEg:"เช่น /benefit 90, /dm Oat",mentionHint:"แท็กเพื่อนร่วมทีม เช่น {ex}",mentionNone:"ยังไม่มีเพื่อนร่วมทีมให้แท็ก",online:"ออนไลน์",dmExpand:"ขยายเต็มจอ",bkAction:"บิทคับ (CAS) ทำอะไรได้บ้าง",bkApply:"สมัคร/ยื่นข้อเสนอเข้าร่วมโครงการหรือขอทุน",bkMou:"เสนอความร่วมมือ / เตรียมลงนาม MOU",bkEvent:"ส่งตัวแทนเข้าร่วมหรือออกบูธในงาน",bkReg:"ประเมินผลกระทบด้านกำกับดูแล และเตรียม compliance",bkEsg:"ต่อยอดโครงการ ESG / คาร์บอนเครดิตของบริษัท",bkDigital:"เชื่อมโยงกับธุรกิจสินทรัพย์ดิจิทัลของบิทคับ",bkMonitor:"ติดตามและประเมินโอกาสการมีส่วนร่วม",cmdUnknown:"ไม่รู้จักคำสั่งนี้",cmdNeedMin:"เปิดหน้ากระทรวงก่อนจึงจะประกาศได้",cmdNeedText:"พิมพ์ข้อความที่จะประกาศ",cmdNoMin:"ไม่พบกระทรวงนี้",cHome:"ไปหน้าฟีดทั้งหมด",cSaved:"ไปหน้าที่บันทึกไว้",cCal:"เปิดปฏิทิน",cBenefit:"กรองตามคะแนน Benefit ขั้นต่ำ",cMessages:"เปิดกล่องข้อความ",cDm:"ส่งข้อความหาเพื่อนร่วมทีม",cEveryone:"ประกาศถึงทุกคน (ต้องอยู่ในหน้ากระทรวง)",cMin:"กรองตามกระทรวง",cClear:"ล้างตัวกรองทั้งหมด",cTheme:"สลับธีมสว่าง/มืด",cAdmin:"เปิดแผงแอดมิน",cSources:"เปิดแหล่งข่าว (Connectors)",cHelp:"ดูคำสั่งทั้งหมด",cLogout:"ออกจากระบบ",edit:"แก้ไข",edited:"แก้ไขแล้ว",cancel:"ยกเลิก",ntTeamNote:"โพสต์โน้ตทีมที่",ntAnnounce:"ประกาศถึงทุกคนที่",ntDM:"ส่งข้อความถึงคุณ",scoringTitle:"เกณฑ์ให้คะแนน Benefit (%)",scoringHint:"แต่ละข่าวจะถูกให้คะแนนจากคีย์เวิร์ดที่ตรงกับเกณฑ์ (คิดน้ำหนักรวมเป็น %) — เพิ่ม/แก้คีย์เวิร์ดและน้ำหนักได้ตามต้องการ คะแนนจะโชว์บนการ์ดข่าวทันที",addCrit:"+ เพิ่มเกณฑ์",critLabel:"ชื่อเกณฑ์",critKw:"คีย์เวิร์ด (คั่นด้วย ,)",benefitScoreTip:"คะแนนประโยชน์ต่อทีม (จากเกณฑ์ที่ admin ตั้ง)",sigFocus:"ตรงโฟกัสทีม (คริปโท/ESG/การเงิน/ดิจิทัล)",sigOpp:"เป็นโอกาส/มีเดดไลน์ (สมัคร/ทุน/ประกวด)",sigTeam:"ตรงกับทีม {t}",teamHi:"ไฮไลต์สำหรับทีม {t}",teamViewAs:"ดูในมุมทีม:",titlePh:"ตำแหน่งงาน (เช่น HR Manager)",teamNamePh:"ชื่อทีมใหม่ (เช่น People / HR)",teamDescPh:"ทีมนี้ทำอะไร / มีหน้าที่อะไร (ให้ AI เข้าใจ)",teamKwPh:"คีย์เวิร์ดของทีม คั่นด้วย , (เช่น แรงงาน, สวัสดิการ)",sigOfficial:"มาจากแหล่งข่าวทางการ",sigRecent:"ข่าวสดใหม่ (ภายใน 30 วัน)",sigNeg:"หมวดที่ไม่เกี่ยวข้อง (หักคะแนน)",aiConf:"ความมั่นใจ",kpTitle:"ประเด็นสำคัญ",kpWho:"ใคร/หน่วยงาน",kpWhen:"เมื่อไร",kpWhere:"ที่ไหน",kpWhy:"ทำไมสำคัญกับเรา",kpAction:"สิ่งที่ต้องทำ",kpDetail:"รายละเอียด",aiNegLabel:"คำที่ทำให้ \"ไม่เกี่ยวข้อง\" (หักคะแนน)",aiNegSub:"คั่นด้วย , — ข่าวที่มีคำเหล่านี้จะถูกหักคะแนน",aiEngineTitle:"เครื่องมือให้คะแนนใช้สัญญาณเหล่านี้ (รวมถ่วงน้ำหนัก):",bfAll:"ประโยชน์: ทั้งหมด",bfCustom:"กำหนดเอง (%)",bfApply:"ใช้",tabPeople:"ผู้ใช้งาน",tabTeams:"ทีม",tabAI:"AI & การให้คะแนน",tabOverview:"ภาพรวม",tabSources:"แหล่งข่าว",ovUsers:"ผู้ใช้งาน",ovTeams:"ทีม",ovAdmins:"แอดมิน",ovBlocked:"ถูกบล็อก",ovSaved:"รายการบันทึกรวม",ovItems:"ข่าวในระบบ",ovSources:"แหล่งข่าว",ovLive:"สถานะข่าวสด",ovOnline:"ออนไลน์",ovOffline:"ออฟไลน์",ovByTeam:"สรุปรายทีม",srcConnTitle:"ตัวเชื่อมต่อแหล่งข่าว (API / RSS)",srcTestAll:"ทดสอบทั้งหมด",srcServer:"เซิร์ฟเวอร์ตัวเชื่อม (Live)",srcOnline:"เชื่อมต่อแล้ว",srcOffline:"ไม่ได้เชื่อมต่อ",srcUnit:"แหล่ง",srcSt_ok:"เชื่อมต่อได้",srcSt_down:"เข้าถึงไม่ได้",srcSt_unknown:"ยังไม่ทดสอบ",srcSt_testing:"กำลังทดสอบ…",srcFullName:"ชื่อเต็ม",srcType:"ประเภท",srcStatus:"สถานะ",srcTest:"ทดสอบการเชื่อมต่อ",srcOpen:"เปิดเว็บไซต์",srcTesting:"กำลังทดสอบแหล่งข่าว…",srcAuth:"การเข้าถึง",srcNote:"รายละเอียด",srcRedNote:"หมายเหตุ: ในเบราว์เซอร์ RSS ส่วนใหญ่ถูกบล็อกด้วย CORS จึงขึ้นแดง ต้องดึงผ่านเซิร์ฟเวอร์ตัวเชื่อม (thaigov-live-server.js) — ส่วน API สาธารณะเช่น data.go.th เรียกตรงได้",authPublic:"เปิดสาธารณะ (เรียกตรงได้)",authKey:"ต้องมี API key",authServer:"ต้องผ่านเซิร์ฟเวอร์ตัวเชื่อม",srcMovedNote:"ตัวเชื่อมต่อแหล่งข่าว (API/RSS) ย้ายไปอยู่ในแผงแอดมินแล้ว เพื่อความปลอดภัย เฉพาะแอดมินเท่านั้นที่ดู/ทดสอบได้",srcOpenAdmin:"เปิดใน Admin → แหล่งข่าว",teamsHint:"สร้างทีม แล้วไปกำหนดสมาชิกที่แท็บ \"ผู้ใช้งาน\" — สมาชิกจะเห็นเฉพาะรายการที่บันทึกของทีมตัวเอง",teamEmpty:"ยังไม่มีสมาชิก",membersShort:"คน",usersUnit:"คน",stActive:"ใช้งาน",stBlocked:"ถูกบล็อก",stAdmin:"แอดมิน",aiThreshTitle:"ระดับป้ายคะแนน Benefit",aiThreshDesc:"กำหนดว่าคะแนนเท่าไรถึงจะเป็นสีเขียว (สูง) หรือสีส้ม (กลาง) และจะซ่อนข่าวที่คะแนนต่ำกว่าเกณฑ์หรือไม่",aiHi:"เกณฑ์ \"สูง\" (สีเขียว)",aiMid:"เกณฑ์ \"กลาง\" (สีส้ม)",aiMinShow:"ซ่อนข่าวที่คะแนนต่ำกว่า",aiMinShowSub:"ตั้ง 0% เพื่อแสดงทุกข่าว",saveSettings:"บันทึกการตั้งค่า",settingsSaved:"✓ บันทึกแล้ว",scenTitle:"ทดสอบการให้คะแนน (Scenario)",scenDesc:"วางหัวข้อ/เนื้อหาข่าวเพื่อดูว่าระบบจะให้คะแนนเท่าไร และเข้าเกณฑ์ข้อไหน — ใช้ปรับคีย์เวิร์ดให้แม่นยำขึ้น",scenRun:"ทดสอบคะแนน",scenSample:"ใส่ตัวอย่าง",scenEmpty:"พิมพ์หัวข้อหรือเนื้อหาก่อนทดสอบ",scenNoCrit:"ยังไม่มีเกณฑ์ให้คะแนน — เพิ่มเกณฑ์ด้านบนก่อน",bandHi:"ประโยชน์สูง",bandMid:"ประโยชน์ปานกลาง",bandLo:"ประโยชน์น้อย",scenShown:"✓ ข่าวนี้จะแสดงในฟีด",scenHidden:"✕ ข่าวนี้จะถูกซ่อน (ต่ำกว่า {n}%)",scenGot:"ได้ {g} จาก {t} คะแนนถ่วงน้ำหนัก",changePhoto:"เปลี่ยนรูปโปรไฟล์",removePhoto:"ลบรูปโปรไฟล์",photoSaved:"อัปเดตรูปโปรไฟล์แล้ว",photoRemoved:"ลบรูปโปรไฟล์แล้ว",photoBadType:"ไฟล์ต้องเป็นรูปภาพ",photoTooBig:"รูปใหญ่เกินไป (เกิน 8MB)",photoFail:"อัปโหลดรูปไม่สำเร็จ ลองใหม่อีกครั้ง",noResults:"ไม่พบข่าวที่ตรงกับตัวกรอง",noResultsSub:"ลองปรับหรือล้างตัวกรอง (เปอร์เซ็นต์ Benefit, ช่วงวันที่ หรือประเภท) เพื่อดูข่าวเพิ่มเติม",clearFilters:"ล้างตัวกรองทั้งหมด",filtersCleared:"ล้างตัวกรองแล้ว",presentExit:"✕ ออกจากโหมดนำเสนอ",presentTitle:"โหมดนำเสนอ (กด P เพื่อออก)",
+searchResults:"ผลการค้นหา",sgMinistries:"กระทรวง / หน่วยงาน",sgItems:"ข่าวและกิจกรรม",viewMinistry:"ดูหน้ากระทรวง →",savedMark:"รายการที่บันทึกไว้",calAll:"ทั้งหมด",calSaved:"ที่บันทึกไว้",calFav:"กระทรวงที่ปักดาว",calBenefit:"Benefit",calAgenda:"รายการกิจกรรมเดือนนี้",calEmpty:"ไม่มีกิจกรรมตามตัวกรองในเดือนนี้ — ลองเปลี่ยนตัวกรองด้านบน",calLegendHint:"คลิกที่สีเพื่อกรองเฉพาะกระทรวงนั้น (คลิกซ้ำเพื่อยกเลิก)",calNoFav:"ยังไม่ได้ปักดาวกระทรวง — กดรูปดาวในเมนูกระทรวงก่อน",calNoSaved:"ยังไม่มีกิจกรรมที่บันทึกไว้",extMedia:"ข้อมูลจากแหล่งอื่น (สื่อภายนอก)",liveOffNote:"โหมดออฟไลน์ — กำลังแสดงข้อมูลตัวอย่าง {n} ชิ้น ข่าวสดจากอินเทอร์เน็ต (31 feed: หน่วยงานรัฐ + Google News + ไทยรัฐ/มติชน/ข่าวสด ฯลฯ) ยังไม่เชื่อมต่อ",liveOnNote:"LIVE — เชื่อมต่อแล้ว มีข่าวสดจากอินเทอร์เน็ต {n} รายการรวมอยู่ในฟีด",liveHowBtn:"วิธีเปิดข่าวสด →",extGnews:"รวบรวมโดย Google News",extFrom:"จาก",heroCount:"รายการทั้งหมด",dateAll:"ทุกวันที่",date7:"7 วันล่าสุด",date30:"30 วันล่าสุด",date90:"3 เดือนล่าสุด",dateYear:"ปีนี้",sortLatest:"ล่าสุด",sortImpact:"Impact สูงสุด",sortDeadline:"ใกล้เดดไลน์",shareBtn:"แชร์",shareCopied:"คัดลอกลิงก์แล้ว",shareNewsCopied:"คัดลอกลิงก์ข่าวแล้ว",dmToday:"วันนี้",dmTyping:"กำลังพิมพ์…",dmDeleted:"ลบข้อความแล้ว",chooseUser:"เลือกผู้ใช้งาน",chooseUserSub:"เลือกว่าคุณเป็นใคร เพื่อบันทึกข่าว/กิจกรรมแยกเป็นรายคน",savedShort:"บันทึก",teamTrack:"ดูของทีม:",userSwitched:"สลับเป็น {u}",commentsTitle:"โน้ต & คอมเมนต์",cmtLocal:"(เก็บในเครื่องนี้)",commentPh:"เขียนโน้ต…",commentSend:"ส่ง",commentEmpty:"ยังไม่มีโน้ต — เริ่มเขียนได้เลย",commentPosted:"เพิ่มโน้ตแล้ว",mentionedYou:"แท็กคุณในข่าว",notifTitle:"การแจ้งเตือน",noNotif:"ยังไม่มีการแจ้งเตือน",markAllRead:"อ่านทั้งหมด",loginTitle:"เข้าสู่ระบบ",loginPick:"เลือกผู้ใช้งานของคุณ",loginBtn:"เข้าสู่ระบบ",loginHint:"รหัสเริ่มต้น: 00000000 (เปลี่ยนได้ในเมนูผู้ใช้)",loginNoUser:"ไม่พบผู้ใช้นี้",loginBlocked:"บัญชีนี้ถูกระงับ",loginWrong:"ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง",loginSub:"กรอกชื่อผู้ใช้และรหัสผ่าน",welcome:"ยินดีต้อนรับ {u}",changePw:"เปลี่ยนรหัสผ่าน",logout:"ออกจากระบบ",saveBtn:"บันทึก",pwTooShort:"รหัสใหม่ต้องอย่างน้อย 4 ตัว",pwMismatch:"รหัสใหม่ไม่ตรงกัน",pwWrongOld:"รหัสผ่านเดิมไม่ถูกต้อง",pwChanged:"เปลี่ยนรหัสผ่านแล้ว",readonly:"กำลังดูแบบอ่านอย่างเดียว",viewingOf:"กำลังดูรายการที่ {u} บันทึกไว้ (อ่านอย่างเดียว)",adminPanel:"จัดการระบบ (Admin)",adminTitle:"จัดการผู้ใช้งาน",addUser:"เพิ่มผู้ใช้",resetPw:"รีเซ็ตรหัส",block:"บล็อก",unblock:"ปลดบล็อก",delete:"ลบ",you:"คุณ",noPerm:"ไม่มีสิทธิ์",nameRule:"ชื่อใช้ได้เฉพาะ A-Z 0-9 _ (2-20 ตัว)",nameExists:"มีชื่อนี้อยู่แล้ว",userAdded:"เพิ่มผู้ใช้แล้ว",pwReset:"รีเซ็ตรหัสของ {u} เป็น 00000000",lastAdmin:"ต้องมี admin อย่างน้อย 1 คน",cantSelf:"ลบบัญชีตัวเองไม่ได้",confirmDel:"ลบผู้ใช้ {u}? ย้อนกลับไม่ได้",userDeleted:"ลบผู้ใช้แล้ว",teamPh:"ทีม",teamName:"ทีม {t}",noTeam:"— ไม่มีทีม —",teamsTitle:"จัดการทีม",usersTitle:"ผู้ใช้งาน",addTeam:"เพิ่มทีม",noTeams:"ยังไม่มีทีม",agNotesTitle:"โน้ตของทีมเกี่ยวกับหน่วยงานนี้",agNotePh:"เพิ่มโน้ตเกี่ยวกับหน่วยงานนี้ (เห็นเฉพาะทีม) — พิมพ์ /everyone เพื่อประกาศให้ทุกคนเห็น",agNoteEmpty:"ยังไม่มีโน้ต — เริ่มเพิ่มได้เลย",agNoteAdded:"บันทึกโน้ตแล้ว",agBroadcast:"ประกาศให้ทุกคน",agAll:"ทุกทีม",agAnnounced:"ประกาศให้ทุกคนแล้ว",agNoteDeleted:"ลบโน้ตแล้ว",dmTitle:"ข้อความ",dmYou:"คุณ",dmNoTeam:"ยังไม่มีเพื่อนร่วมทีม — ให้แอดมินจัดทีมก่อน",dmStart:"เริ่มบทสนทนาได้เลย",dmPh:"พิมพ์ข้อความ…",dmNotMate:"ส่งได้เฉพาะคนในทีมเดียวกัน",cmdTitle:"คำสั่งด่วน",cmdEg:"เช่น /benefit 90, /dm Oat",mentionHint:"แท็กเพื่อนร่วมทีม เช่น {ex}",mentionNone:"ยังไม่มีเพื่อนร่วมทีมให้แท็ก",online:"ออนไลน์",dmExpand:"ขยายเต็มจอ",bkAction:"บิทคับ (CAS) ทำอะไรได้บ้าง",bkActionTeam:"ทีม {t} ทำอะไรได้บ้าง",bkTeamLead:"ตรงกับภารกิจทีม {t}",bkApply:"สมัคร/ยื่นข้อเสนอเข้าร่วมโครงการหรือขอทุน",bkMou:"เสนอความร่วมมือ / เตรียมลงนาม MOU",bkEvent:"ส่งตัวแทนเข้าร่วมหรือออกบูธในงาน",bkReg:"ประเมินผลกระทบด้านกำกับดูแล และเตรียม compliance",bkEsg:"ต่อยอดโครงการ ESG / คาร์บอนเครดิตของบริษัท",bkDigital:"เชื่อมโยงกับธุรกิจสินทรัพย์ดิจิทัลของบิทคับ",bkMonitor:"ติดตามและประเมินโอกาสการมีส่วนร่วม",cmdUnknown:"ไม่รู้จักคำสั่งนี้",cmdNeedMin:"เปิดหน้ากระทรวงก่อนจึงจะประกาศได้",cmdNeedText:"พิมพ์ข้อความที่จะประกาศ",cmdNoMin:"ไม่พบกระทรวงนี้",cHome:"ไปหน้าฟีดทั้งหมด",cSaved:"ไปหน้าที่บันทึกไว้",cCal:"เปิดปฏิทิน",cBenefit:"กรองตามคะแนน Benefit ขั้นต่ำ",cMessages:"เปิดกล่องข้อความ",cDm:"ส่งข้อความหาเพื่อนร่วมทีม",cEveryone:"ประกาศถึงทุกคน (ต้องอยู่ในหน้ากระทรวง)",cMin:"กรองตามกระทรวง",cClear:"ล้างตัวกรองทั้งหมด",cTheme:"สลับธีมสว่าง/มืด",cAdmin:"เปิดแผงแอดมิน",cSources:"เปิดแหล่งข่าว (Connectors)",cHelp:"ดูคำสั่งทั้งหมด",cLogout:"ออกจากระบบ",cConsole:"เปิดคอนโซลนักพัฒนา (แอดมิน)",conWelcome:"ThaiGov Connect — คอนโซลนักพัฒนา (แอดมิน)",conHint:"พิมพ์ help เพื่อดูคำสั่งทั้งหมด • Enter รัน • ↑/↓ ประวัติ • Esc ปิด",cTask:"มอบหมายงานให้เพื่อนร่วมทีม",taskAssignTitle:"งานที่มอบหมาย",taskAccept:"รับงาน",taskDoneBtn:"เสร็จแล้ว",tsPending:"รอรับงาน",tsAccepted:"กำลังทำ",tsDone:"เสร็จแล้ว",taskForYou:"มอบให้คุณ",taskFor:"มอบให้ {u}",taskByLabel:"จาก {u}",taskNeedWho:"ระบุผู้รับงานด้วย เช่น /task @ชื่อ รายละเอียดงาน",taskNoWho:"ไม่พบผู้รับงาน \"{u}\" (ต้องเป็นคนในทีม, @everyone หรือชื่อทีมเช่น @CAS)",taskNeedText:"พิมพ์รายละเอียดงานต่อท้ายด้วย",taskSentTo:"มอบงานให้ {u} แล้ว",taskSentN:"มอบงานให้ {n} คนแล้ว",taskAcceptedToast:"รับงานแล้ว",taskDoneToast:"ทำงานเสร็จแล้ว",ntTaskAssign:"มอบหมายงานให้คุณ",ntTaskAccept:"รับงานของคุณแล้ว",ntTaskDone:"ทำงานที่มอบหมายเสร็จแล้ว",ntGrp:"ส่งข้อความในกลุ่ม",grpTeamTag:"กลุ่มทีม",grpAll:"ทุกคนในทีม",taskSrc:"อ้างอิงข่าว:",taskOpenSrc:"เปิดข่าวที่อ้างอิง",taskSrcGone:"ไม่พบข่าวนี้แล้ว",taskHintStruct:"โครงสร้าง:",taskHintNext:"พิมพ์ต่อ:",taskHintPickWho:"เลือกผู้รับงาน (กดเพื่อใส่):",taskHintDetail:"…แล้วพิมพ์รายละเอียดงาน เช่น ติดต่อประสานงาน",taskHintDMNoWho:"ในแชทส่วนตัวไม่ต้องใส่ชื่อ — พิมพ์รายละเอียดงานได้เลย",edit:"แก้ไข",edited:"แก้ไขแล้ว",cancel:"ยกเลิก",ntTeamNote:"โพสต์โน้ตทีมที่",ntAnnounce:"ประกาศถึงทุกคนที่",ntDM:"ส่งข้อความถึงคุณ",ntTask:"เพิ่มงานให้ทีมที่",taskTitle:"งานของทีม (Tasks)",taskEmpty:"ยังไม่มีงาน — พิมพ์ /task หรือกดเพิ่มงาน",taskPh:"เพิ่มงาน เช่น ติดต่อกระทรวง / ประสานงาน…",taskAdd:"เพิ่มงาน",taskAdded:"เพิ่มงานแล้ว",taskToggle:"ทำเสร็จ/ยังไม่เสร็จ",taskDoneBy:"เสร็จโดย {u}",scoringTitle:"เกณฑ์ให้คะแนน Benefit (%)",scoringHint:"แต่ละข่าวจะถูกให้คะแนนจากคีย์เวิร์ดที่ตรงกับเกณฑ์ (คิดน้ำหนักรวมเป็น %) — เพิ่ม/แก้คีย์เวิร์ดและน้ำหนักได้ตามต้องการ คะแนนจะโชว์บนการ์ดข่าวทันที",addCrit:"+ เพิ่มเกณฑ์",critLabel:"ชื่อเกณฑ์",critKw:"คีย์เวิร์ด (คั่นด้วย ,)",benefitScoreTip:"คะแนนประโยชน์ต่อทีม (จากเกณฑ์ที่ admin ตั้ง)",sigFocus:"ตรงโฟกัสทีม (คริปโท/ESG/การเงิน/ดิจิทัล)",sigOpp:"เป็นโอกาส/มีเดดไลน์ (สมัคร/ทุน/ประกวด)",sigTeam:"ตรงกับทีม {t}",teamHi:"ไฮไลต์สำหรับทีม {t}",teamViewAs:"ดูในมุมทีม:",titlePh:"ตำแหน่งงาน (เช่น HR Manager)",teamNamePh:"ชื่อทีมใหม่ (เช่น People / HR)",seedTeams:"+ ทีม Bitkub ตัวอย่าง (9 ทีม)",seedTeamsDone:"เพิ่มทีม Bitkub แล้ว (+{n} ทีมใหม่)",teamDescPh:"ทีมนี้ทำอะไร / มีหน้าที่อะไร (ให้ AI เข้าใจ)",teamKwPh:"คีย์เวิร์ดของทีม คั่นด้วย , (เช่น แรงงาน, สวัสดิการ)",sigOfficial:"มาจากแหล่งข่าวทางการ",sigRecent:"ข่าวสดใหม่ (ภายใน 30 วัน)",sigNeg:"หมวดที่ไม่เกี่ยวข้อง (หักคะแนน)",aiConf:"ความมั่นใจ",kpTitle:"ประเด็นสำคัญ",kpWho:"ใคร/หน่วยงาน",kpWhen:"เมื่อไร",kpWhere:"ที่ไหน",kpWhy:"ทำไมสำคัญกับเรา",kpAction:"สิ่งที่ต้องทำ",kpDetail:"รายละเอียด",aiNegLabel:"คำที่ทำให้ \"ไม่เกี่ยวข้อง\" (หักคะแนน)",aiNegSub:"คั่นด้วย , — ข่าวที่มีคำเหล่านี้จะถูกหักคะแนน",aiEngineTitle:"เครื่องมือให้คะแนนใช้สัญญาณเหล่านี้ (รวมถ่วงน้ำหนัก):",bfAll:"ประโยชน์: ทั้งหมด",bfCustom:"กำหนดเอง (%)",bfApply:"ใช้",tabPeople:"ผู้ใช้งาน",tabTeams:"ทีม",tabAI:"AI & การให้คะแนน",tabOverview:"ภาพรวม",tabSources:"แหล่งข่าว",ovUsers:"ผู้ใช้งาน",ovTeams:"ทีม",ovAdmins:"แอดมิน",ovBlocked:"ถูกบล็อก",ovSaved:"รายการบันทึกรวม",ovItems:"ข่าวในระบบ",ovSources:"แหล่งข่าว",ovLive:"สถานะข่าวสด",ovOnline:"ออนไลน์",ovOffline:"ออฟไลน์",ovByTeam:"สรุปรายทีม",srcConnTitle:"ตัวเชื่อมต่อแหล่งข่าว (API / RSS)",srcTestAll:"ทดสอบทั้งหมด",srcServer:"เซิร์ฟเวอร์ตัวเชื่อม (Live)",srcOnline:"เชื่อมต่อแล้ว",srcOffline:"ไม่ได้เชื่อมต่อ",srcUnit:"แหล่ง",srcSt_ok:"เชื่อมต่อได้",srcSt_down:"เข้าถึงไม่ได้",srcSt_unknown:"ยังไม่ทดสอบ",srcSt_testing:"กำลังทดสอบ…",srcFullName:"ชื่อเต็ม",srcType:"ประเภท",srcStatus:"สถานะ",srcTest:"ทดสอบการเชื่อมต่อ",srcOpen:"เปิดเว็บไซต์",srcTesting:"กำลังทดสอบแหล่งข่าว…",srcAuth:"การเข้าถึง",srcNote:"รายละเอียด",srcRedNote:"หมายเหตุ: ในเบราว์เซอร์ RSS ส่วนใหญ่ถูกบล็อกด้วย CORS จึงขึ้นแดง ต้องดึงผ่านเซิร์ฟเวอร์ตัวเชื่อม (thaigov-live-server.js) — ส่วน API สาธารณะเช่น data.go.th เรียกตรงได้",authPublic:"เปิดสาธารณะ (เรียกตรงได้)",authKey:"ต้องมี API key",authServer:"ต้องผ่านเซิร์ฟเวอร์ตัวเชื่อม",srcMovedNote:"ตัวเชื่อมต่อแหล่งข่าว (API/RSS) ย้ายไปอยู่ในแผงแอดมินแล้ว เพื่อความปลอดภัย เฉพาะแอดมินเท่านั้นที่ดู/ทดสอบได้",srcOpenAdmin:"เปิดใน Admin → แหล่งข่าว",teamsHint:"สร้างทีม แล้วไปกำหนดสมาชิกที่แท็บ \"ผู้ใช้งาน\" — สมาชิกจะเห็นเฉพาะรายการที่บันทึกของทีมตัวเอง",teamEmpty:"ยังไม่มีสมาชิก",membersShort:"คน",usersUnit:"คน",stActive:"ใช้งาน",stBlocked:"ถูกบล็อก",stAdmin:"แอดมิน",aiThreshTitle:"ระดับป้ายคะแนน Benefit",aiThreshDesc:"กำหนดว่าคะแนนเท่าไรถึงจะเป็นสีเขียว (สูง) หรือสีส้ม (กลาง) และจะซ่อนข่าวที่คะแนนต่ำกว่าเกณฑ์หรือไม่",aiHi:"เกณฑ์ \"สูง\" (สีเขียว)",aiMid:"เกณฑ์ \"กลาง\" (สีส้ม)",aiMinShow:"ซ่อนข่าวที่คะแนนต่ำกว่า",aiMinShowSub:"ตั้ง 0% เพื่อแสดงทุกข่าว",saveSettings:"บันทึกการตั้งค่า",settingsSaved:"✓ บันทึกแล้ว",scenTitle:"ทดสอบการให้คะแนน (Scenario)",scenDesc:"วางหัวข้อ/เนื้อหาข่าวเพื่อดูว่าระบบจะให้คะแนนเท่าไร และเข้าเกณฑ์ข้อไหน — ใช้ปรับคีย์เวิร์ดให้แม่นยำขึ้น",scenRun:"ทดสอบคะแนน",scenSample:"ใส่ตัวอย่าง",scenEmpty:"พิมพ์หัวข้อหรือเนื้อหาก่อนทดสอบ",scenNoCrit:"ยังไม่มีเกณฑ์ให้คะแนน — เพิ่มเกณฑ์ด้านบนก่อน",bandHi:"ประโยชน์สูง",bandMid:"ประโยชน์ปานกลาง",bandLo:"ประโยชน์น้อย",scenShown:"✓ ข่าวนี้จะแสดงในฟีด",scenHidden:"✕ ข่าวนี้จะถูกซ่อน (ต่ำกว่า {n}%)",scenGot:"ได้ {g} จาก {t} คะแนนถ่วงน้ำหนัก",changePhoto:"เปลี่ยนรูปโปรไฟล์",removePhoto:"ลบรูปโปรไฟล์",photoSaved:"อัปเดตรูปโปรไฟล์แล้ว",photoRemoved:"ลบรูปโปรไฟล์แล้ว",photoBadType:"ไฟล์ต้องเป็นรูปภาพ",photoTooBig:"รูปใหญ่เกินไป (เกิน 8MB)",photoFail:"อัปโหลดรูปไม่สำเร็จ ลองใหม่อีกครั้ง",noResults:"ไม่พบข่าวที่ตรงกับตัวกรอง",noResultsSub:"ลองปรับหรือล้างตัวกรอง (เปอร์เซ็นต์ Benefit, ช่วงวันที่ หรือประเภท) เพื่อดูข่าวเพิ่มเติม",clearFilters:"ล้างตัวกรองทั้งหมด",filtersCleared:"ล้างตัวกรองแล้ว",presentExit:"✕ ออกจากโหมดนำเสนอ",presentTitle:"โหมดนำเสนอ (กด P เพื่อออก)",
 aiTag:"สรุปโดย AI",bkbTag:"โอกาสของ BITKUB (Corporate Affairs & Sustainability)",
 dPub:"วันที่เผยแพร่ข่าว",dEvent:"วันจัดกิจกรรม",dTime:"เวลา",dLoc:"สถานที่",dChair:"ประธาน / หน่วยงานหลัก",dAct:"กิจกรรมนี้ทำอะไร",
 engP:"เข้าร่วม",engS:"สนับสนุน",engC:"คอนเนกต์",
@@ -1770,7 +1894,7 @@ stAll:"All time",stUpcoming:"Upcoming",stOngoing:"Ongoing",stPast:"Ended",
 tabMin:"Ministries",tabDept:"Departments",tabSE:"State enterprises",tabPO:"Public bodies",
 searchAllFor:"Show all results for",backToMin:"Back to ministry",underMin:"under",
 srcApis:"Agency open-data APIs / feeds (real, connectable)",liveOk:"Pulled {n} live items from the connector server",
-searchResults:"Search results",sgMinistries:"Ministries / Agencies",sgItems:"News & activities",viewMinistry:"Open ministry page →",savedMark:"Saved items",calAll:"All",calSaved:"Saved",calFav:"Starred ministries",calBenefit:"Benefit",calAgenda:"This month's events",calEmpty:"No events match the current filter this month — try another filter above",calLegendHint:"Click a colour to show only that ministry (click again to clear)",calNoFav:"No starred ministries yet — star one in the ministry menu first",calNoSaved:"No saved events yet",extMedia:"External media source",liveOffNote:"Offline mode — showing {n} sample items. Live news from the internet (31 feeds: government + Google News + Thairath/Matichon/Khaosod etc.) is not connected",liveOnNote:"LIVE — connected, {n} live items from the internet are in your feed",liveHowBtn:"How to enable live news →",extGnews:"Via Google News",extFrom:"From",heroCount:"total items",dateAll:"Any date",date7:"Last 7 days",date30:"Last 30 days",date90:"Last 3 months",dateYear:"This year",sortLatest:"Latest",sortImpact:"Top impact",sortDeadline:"By deadline",shareBtn:"Share",shareCopied:"Link copied",chooseUser:"Who are you?",chooseUserSub:"Pick your profile so saved news & events are tracked per person",savedShort:"saved",teamTrack:"View team:",userSwitched:"Switched to {u}",commentsTitle:"Notes & comments",cmtLocal:"(saved on this device)",commentPh:"Write a note…",commentSend:"Send",commentEmpty:"No notes yet — be the first",commentPosted:"Note added",mentionedYou:"mentioned you",notifTitle:"Notifications",noNotif:"No notifications yet",markAllRead:"Mark all read",loginTitle:"Sign in",loginPick:"Choose your profile",loginBtn:"Sign in",loginHint:"Default password: 00000000 (change it in the user menu)",loginNoUser:"User not found",loginBlocked:"This account is blocked",loginWrong:"Wrong username or password",loginSub:"Enter your username and password",welcome:"Welcome {u}",changePw:"Change password",logout:"Log out",saveBtn:"Save",pwTooShort:"New password must be at least 4 chars",pwMismatch:"New passwords do not match",pwWrongOld:"Current password is wrong",pwChanged:"Password changed",readonly:"View-only mode",viewingOf:"Viewing {u}'s saved items (read-only)",adminPanel:"Admin panel",adminTitle:"User management",addUser:"Add user",resetPw:"Reset pw",block:"Block",unblock:"Unblock",delete:"Delete",you:"you",noPerm:"No permission",nameRule:"Name: A-Z 0-9 _ only (2-20 chars)",nameExists:"Name already exists",userAdded:"User added",pwReset:"Reset {u}'s password to 00000000",lastAdmin:"Must keep at least 1 admin",cantSelf:"Can't delete your own account",confirmDel:"Delete user {u}? This cannot be undone",userDeleted:"User deleted",teamPh:"Team",teamName:"Team {t}",noTeam:"— No team —",teamsTitle:"Teams",usersTitle:"Users",addTeam:"Add team",noTeams:"No teams yet",agNotesTitle:"Team notes on this agency",agNotePh:"Add a note about this agency (team-only) — type /everyone to announce to all",agNoteEmpty:"No notes yet — add the first",agNoteAdded:"Note saved",agBroadcast:"Announce to all",agAll:"All teams",agAnnounced:"Announced to everyone",agNoteDeleted:"Note deleted",dmTitle:"Messages",dmYou:"You",dmNoTeam:"No teammates yet — ask an admin to set up teams",dmStart:"Start the conversation",dmPh:"Type a message…",dmNotMate:"You can only message your teammates",cmdTitle:"Quick commands",cmdEg:"e.g. /benefit 90, /dm Oat",mentionHint:"Tag a teammate, e.g. {ex}",mentionNone:"No teammates to tag yet",online:"online",dmExpand:"Expand",bkAction:"What Bitkub (CAS) can do",bkApply:"Apply / submit a proposal for the program or grant",bkMou:"Propose a partnership / prepare an MOU",bkEvent:"Send a representative or host a booth at the event",bkReg:"Assess regulatory impact and prepare compliance",bkEsg:"Extend the ESG / carbon-credit initiatives",bkDigital:"Connect it to the digital-asset business",bkMonitor:"Monitor and assess engagement opportunities",cmdUnknown:"Unknown command",cmdNeedMin:"Open a ministry page first to announce",cmdNeedText:"Type the announcement text",cmdNoMin:"Ministry not found",cHome:"Go to the all-ministry feed",cSaved:"Open your saved items",cCal:"Open the calendar",cBenefit:"Filter by minimum Benefit score",cMessages:"Open messages",cDm:"Message a teammate",cEveryone:"Announce to everyone (on a ministry page)",cMin:"Filter by ministry",cClear:"Clear all filters",cTheme:"Toggle light/dark theme",cAdmin:"Open the admin panel",cSources:"Open source connectors",cHelp:"Show all commands",cLogout:"Log out",edit:"Edit",edited:"edited",cancel:"Cancel",ntTeamNote:"posted a team note on",ntAnnounce:"announced to everyone on",ntDM:"sent you a message",scoringTitle:"Benefit scoring criteria (%)",scoringHint:"Each item is scored by keywords matching your criteria (weighted, shown as %). Add/edit keywords and weights anytime — scores update on cards instantly.",addCrit:"+ Add criterion",critLabel:"Criterion name",critKw:"Keywords (comma separated)",benefitScoreTip:"Benefit score for your team (from admin criteria)",sigFocus:"Matches team focus (crypto/ESG/finance/digital)",sigOpp:"Opportunity / deadline (apply/grant/contest)",sigTeam:"Matches team {t}",teamHi:"Highlights for team {t}",teamViewAs:"View as team:",titlePh:"Job title (e.g. HR Manager)",teamNamePh:"New team name (e.g. People / HR)",teamDescPh:"What this team does / its role (for the AI)",teamKwPh:"Team keywords, comma-separated (e.g. labour, welfare)",sigOfficial:"From an official source",sigRecent:"Fresh news (within 30 days)",sigNeg:"Irrelevant category (penalty)",aiConf:"Confidence",kpTitle:"Key points",kpWho:"Who",kpWhen:"When",kpWhere:"Where",kpWhy:"Why it matters",kpAction:"Action",kpDetail:"Detail",aiNegLabel:"Words that mark an item \"irrelevant\" (penalty)",aiNegSub:"Comma-separated — items containing these are penalised",aiEngineTitle:"The scorer combines these weighted signals:",bfAll:"Benefit: all",bfCustom:"Custom (%)",bfApply:"Go",tabPeople:"People",tabTeams:"Teams",tabAI:"AI & Scoring",tabOverview:"Overview",tabSources:"Sources",ovUsers:"Users",ovTeams:"Teams",ovAdmins:"Admins",ovBlocked:"Blocked",ovSaved:"Total saved",ovItems:"News items",ovSources:"Sources",ovLive:"Live status",ovOnline:"Online",ovOffline:"Offline",ovByTeam:"By team",srcConnTitle:"Source connectors (API / RSS)",srcTestAll:"Test all",srcServer:"Connector server (Live)",srcOnline:"Connected",srcOffline:"Not connected",srcUnit:"sources",srcSt_ok:"Reachable",srcSt_down:"Unreachable",srcSt_unknown:"Not tested",srcSt_testing:"Testing…",srcFullName:"Full name",srcType:"Type",srcStatus:"Status",srcTest:"Test connection",srcOpen:"Open website",srcTesting:"Testing sources…",srcAuth:"Access",srcNote:"Details",srcRedNote:"Note: in the browser most RSS is blocked by CORS (shows red) and must be pulled via the connector server (thaigov-live-server.js); public APIs like data.go.th can be called directly.",authPublic:"Public (direct call)",authKey:"Requires API key",authServer:"Via connector server",srcMovedNote:"Source connectors (API/RSS) have moved into the Admin panel — for security, only admins can view/test them.",srcOpenAdmin:"Open in Admin → Sources",teamsHint:"Create a team, then assign members in the \"People\" tab — members see only their own team's saved items.",teamEmpty:"No members yet",membersShort:"members",usersUnit:"users",stActive:"Active",stBlocked:"Blocked",stAdmin:"Admin",aiThreshTitle:"Benefit badge thresholds",aiThreshDesc:"Set how high a score must be to show green (high) or orange (mid), and whether to hide items below a cut-off.",aiHi:"\"High\" threshold (green)",aiMid:"\"Mid\" threshold (orange)",aiMinShow:"Hide items scoring below",aiMinShowSub:"Set 0% to show everything",saveSettings:"Save settings",settingsSaved:"✓ Saved",scenTitle:"Score tester (Scenario)",scenDesc:"Paste a headline/body to see the score it would get and which criteria it hits — use it to tune your keywords.",scenRun:"Test score",scenSample:"Load sample",scenEmpty:"Type a headline or body first",scenNoCrit:"No scoring criteria yet — add some above first",bandHi:"High benefit",bandMid:"Medium benefit",bandLo:"Low benefit",scenShown:"✓ This item would show in the feed",scenHidden:"✕ This item would be hidden (below {n}%)",scenGot:"Scored {g} of {t} weighted points",changePhoto:"Change photo",removePhoto:"Remove photo",photoSaved:"Profile photo updated",photoRemoved:"Profile photo removed",photoBadType:"File must be an image",photoTooBig:"Image too large (over 8MB)",photoFail:"Upload failed, please try again",noResults:"No items match your filters",noResultsSub:"Try adjusting or clearing the filters (Benefit %, date range, or type) to see more items.",clearFilters:"Clear all filters",filtersCleared:"Filters cleared",presentExit:"✕ Exit presentation",presentTitle:"Presentation mode (press P to exit)",
+searchResults:"Search results",sgMinistries:"Ministries / Agencies",sgItems:"News & activities",viewMinistry:"Open ministry page →",savedMark:"Saved items",calAll:"All",calSaved:"Saved",calFav:"Starred ministries",calBenefit:"Benefit",calAgenda:"This month's events",calEmpty:"No events match the current filter this month — try another filter above",calLegendHint:"Click a colour to show only that ministry (click again to clear)",calNoFav:"No starred ministries yet — star one in the ministry menu first",calNoSaved:"No saved events yet",extMedia:"External media source",liveOffNote:"Offline mode — showing {n} sample items. Live news from the internet (31 feeds: government + Google News + Thairath/Matichon/Khaosod etc.) is not connected",liveOnNote:"LIVE — connected, {n} live items from the internet are in your feed",liveHowBtn:"How to enable live news →",extGnews:"Via Google News",extFrom:"From",heroCount:"total items",dateAll:"Any date",date7:"Last 7 days",date30:"Last 30 days",date90:"Last 3 months",dateYear:"This year",sortLatest:"Latest",sortImpact:"Top impact",sortDeadline:"By deadline",shareBtn:"Share",shareCopied:"Link copied",shareNewsCopied:"News link copied",dmToday:"Today",dmTyping:"typing…",dmDeleted:"Message deleted",chooseUser:"Who are you?",chooseUserSub:"Pick your profile so saved news & events are tracked per person",savedShort:"saved",teamTrack:"View team:",userSwitched:"Switched to {u}",commentsTitle:"Notes & comments",cmtLocal:"(saved on this device)",commentPh:"Write a note…",commentSend:"Send",commentEmpty:"No notes yet — be the first",commentPosted:"Note added",mentionedYou:"mentioned you",notifTitle:"Notifications",noNotif:"No notifications yet",markAllRead:"Mark all read",loginTitle:"Sign in",loginPick:"Choose your profile",loginBtn:"Sign in",loginHint:"Default password: 00000000 (change it in the user menu)",loginNoUser:"User not found",loginBlocked:"This account is blocked",loginWrong:"Wrong username or password",loginSub:"Enter your username and password",welcome:"Welcome {u}",changePw:"Change password",logout:"Log out",saveBtn:"Save",pwTooShort:"New password must be at least 4 chars",pwMismatch:"New passwords do not match",pwWrongOld:"Current password is wrong",pwChanged:"Password changed",readonly:"View-only mode",viewingOf:"Viewing {u}'s saved items (read-only)",adminPanel:"Admin panel",adminTitle:"User management",addUser:"Add user",resetPw:"Reset pw",block:"Block",unblock:"Unblock",delete:"Delete",you:"you",noPerm:"No permission",nameRule:"Name: A-Z 0-9 _ only (2-20 chars)",nameExists:"Name already exists",userAdded:"User added",pwReset:"Reset {u}'s password to 00000000",lastAdmin:"Must keep at least 1 admin",cantSelf:"Can't delete your own account",confirmDel:"Delete user {u}? This cannot be undone",userDeleted:"User deleted",teamPh:"Team",teamName:"Team {t}",noTeam:"— No team —",teamsTitle:"Teams",usersTitle:"Users",addTeam:"Add team",noTeams:"No teams yet",agNotesTitle:"Team notes on this agency",agNotePh:"Add a note about this agency (team-only) — type /everyone to announce to all",agNoteEmpty:"No notes yet — add the first",agNoteAdded:"Note saved",agBroadcast:"Announce to all",agAll:"All teams",agAnnounced:"Announced to everyone",agNoteDeleted:"Note deleted",dmTitle:"Messages",dmYou:"You",dmNoTeam:"No teammates yet — ask an admin to set up teams",dmStart:"Start the conversation",dmPh:"Type a message…",dmNotMate:"You can only message your teammates",cmdTitle:"Quick commands",cmdEg:"e.g. /benefit 90, /dm Oat",mentionHint:"Tag a teammate, e.g. {ex}",mentionNone:"No teammates to tag yet",online:"online",dmExpand:"Expand",bkAction:"What Bitkub (CAS) can do",bkActionTeam:"What team {t} can do",bkTeamLead:"Fits team {t}\u2019s mission",bkApply:"Apply / submit a proposal for the program or grant",bkMou:"Propose a partnership / prepare an MOU",bkEvent:"Send a representative or host a booth at the event",bkReg:"Assess regulatory impact and prepare compliance",bkEsg:"Extend the ESG / carbon-credit initiatives",bkDigital:"Connect it to the digital-asset business",bkMonitor:"Monitor and assess engagement opportunities",cmdUnknown:"Unknown command",cmdNeedMin:"Open a ministry page first to announce",cmdNeedText:"Type the announcement text",cmdNoMin:"Ministry not found",cHome:"Go to the all-ministry feed",cSaved:"Open your saved items",cCal:"Open the calendar",cBenefit:"Filter by minimum Benefit score",cMessages:"Open messages",cDm:"Message a teammate",cEveryone:"Announce to everyone (on a ministry page)",cMin:"Filter by ministry",cClear:"Clear all filters",cTheme:"Toggle light/dark theme",cAdmin:"Open the admin panel",cSources:"Open source connectors",cHelp:"Show all commands",cLogout:"Log out",cConsole:"Open the developer console (admin)",conWelcome:"ThaiGov Connect — Developer Console (admin)",conHint:"Type help for all commands • Enter to run • ↑/↓ history • Esc to close",cTask:"Assign a task to a teammate",taskAssignTitle:"Assigned task",taskAccept:"Accept",taskDoneBtn:"Mark done",tsPending:"Awaiting accept",tsAccepted:"In progress",tsDone:"Done",taskForYou:"for you",taskFor:"for {u}",taskByLabel:"from {u}",taskNeedWho:"Name who: /task @name task detail",taskNoWho:"No assignee \"{u}\" (must be a teammate, @everyone, or a team like @CAS)",taskNeedText:"Add the task detail",taskSentTo:"Assigned to {u}",taskSentN:"Assigned to {n} people",taskAcceptedToast:"Task accepted",taskDoneToast:"Task completed",ntTaskAssign:"assigned you a task",ntTaskAccept:"accepted your task",ntTaskDone:"completed your task",ntGrp:"messaged the group",grpTeamTag:"Team group",grpAll:"everyone on the team",taskSrc:"Re:",taskOpenSrc:"Open the referenced news",taskSrcGone:"That news item is no longer available",taskHintStruct:"Structure:",taskHintNext:"Type next:",taskHintPickWho:"Pick who (tap to insert):",taskHintDetail:"…then the task detail, e.g. contact & coordinate",taskHintDMNoWho:"In a private chat you can skip the name — just type the task detail",edit:"Edit",edited:"edited",cancel:"Cancel",ntTeamNote:"posted a team note on",ntAnnounce:"announced to everyone on",ntDM:"sent you a message",ntTask:"added a team task on",taskTitle:"Team tasks",taskEmpty:"No tasks yet — type /task or add one",taskPh:"Add a task, e.g. contact ministry / coordinate…",taskAdd:"Add task",taskAdded:"Task added",taskToggle:"Toggle done",taskDoneBy:"done by {u}",scoringTitle:"Benefit scoring criteria (%)",scoringHint:"Each item is scored by keywords matching your criteria (weighted, shown as %). Add/edit keywords and weights anytime — scores update on cards instantly.",addCrit:"+ Add criterion",critLabel:"Criterion name",critKw:"Keywords (comma separated)",benefitScoreTip:"Benefit score for your team (from admin criteria)",sigFocus:"Matches team focus (crypto/ESG/finance/digital)",sigOpp:"Opportunity / deadline (apply/grant/contest)",sigTeam:"Matches team {t}",teamHi:"Highlights for team {t}",teamViewAs:"View as team:",titlePh:"Job title (e.g. HR Manager)",teamNamePh:"New team name (e.g. People / HR)",seedTeams:"+ Seed Bitkub teams (9)",seedTeamsDone:"Bitkub teams added (+{n} new)",teamDescPh:"What this team does / its role (for the AI)",teamKwPh:"Team keywords, comma-separated (e.g. labour, welfare)",sigOfficial:"From an official source",sigRecent:"Fresh news (within 30 days)",sigNeg:"Irrelevant category (penalty)",aiConf:"Confidence",kpTitle:"Key points",kpWho:"Who",kpWhen:"When",kpWhere:"Where",kpWhy:"Why it matters",kpAction:"Action",kpDetail:"Detail",aiNegLabel:"Words that mark an item \"irrelevant\" (penalty)",aiNegSub:"Comma-separated — items containing these are penalised",aiEngineTitle:"The scorer combines these weighted signals:",bfAll:"Benefit: all",bfCustom:"Custom (%)",bfApply:"Go",tabPeople:"People",tabTeams:"Teams",tabAI:"AI & Scoring",tabOverview:"Overview",tabSources:"Sources",ovUsers:"Users",ovTeams:"Teams",ovAdmins:"Admins",ovBlocked:"Blocked",ovSaved:"Total saved",ovItems:"News items",ovSources:"Sources",ovLive:"Live status",ovOnline:"Online",ovOffline:"Offline",ovByTeam:"By team",srcConnTitle:"Source connectors (API / RSS)",srcTestAll:"Test all",srcServer:"Connector server (Live)",srcOnline:"Connected",srcOffline:"Not connected",srcUnit:"sources",srcSt_ok:"Reachable",srcSt_down:"Unreachable",srcSt_unknown:"Not tested",srcSt_testing:"Testing…",srcFullName:"Full name",srcType:"Type",srcStatus:"Status",srcTest:"Test connection",srcOpen:"Open website",srcTesting:"Testing sources…",srcAuth:"Access",srcNote:"Details",srcRedNote:"Note: in the browser most RSS is blocked by CORS (shows red) and must be pulled via the connector server (thaigov-live-server.js); public APIs like data.go.th can be called directly.",authPublic:"Public (direct call)",authKey:"Requires API key",authServer:"Via connector server",srcMovedNote:"Source connectors (API/RSS) have moved into the Admin panel — for security, only admins can view/test them.",srcOpenAdmin:"Open in Admin → Sources",teamsHint:"Create a team, then assign members in the \"People\" tab — members see only their own team's saved items.",teamEmpty:"No members yet",membersShort:"members",usersUnit:"users",stActive:"Active",stBlocked:"Blocked",stAdmin:"Admin",aiThreshTitle:"Benefit badge thresholds",aiThreshDesc:"Set how high a score must be to show green (high) or orange (mid), and whether to hide items below a cut-off.",aiHi:"\"High\" threshold (green)",aiMid:"\"Mid\" threshold (orange)",aiMinShow:"Hide items scoring below",aiMinShowSub:"Set 0% to show everything",saveSettings:"Save settings",settingsSaved:"✓ Saved",scenTitle:"Score tester (Scenario)",scenDesc:"Paste a headline/body to see the score it would get and which criteria it hits — use it to tune your keywords.",scenRun:"Test score",scenSample:"Load sample",scenEmpty:"Type a headline or body first",scenNoCrit:"No scoring criteria yet — add some above first",bandHi:"High benefit",bandMid:"Medium benefit",bandLo:"Low benefit",scenShown:"✓ This item would show in the feed",scenHidden:"✕ This item would be hidden (below {n}%)",scenGot:"Scored {g} of {t} weighted points",changePhoto:"Change photo",removePhoto:"Remove photo",photoSaved:"Profile photo updated",photoRemoved:"Profile photo removed",photoBadType:"File must be an image",photoTooBig:"Image too large (over 8MB)",photoFail:"Upload failed, please try again",noResults:"No items match your filters",noResultsSub:"Try adjusting or clearing the filters (Benefit %, date range, or type) to see more items.",clearFilters:"Clear all filters",filtersCleared:"Filters cleared",presentExit:"✕ Exit presentation",presentTitle:"Presentation mode (press P to exit)",
 aiTag:"AI SUMMARY",bkbTag:"BITKUB OPPORTUNITY (Corporate Affairs & Sustainability)",
 dPub:"Published",dEvent:"Event date",dTime:"Time",dLoc:"Venue",dChair:"Chair / Lead agency",dAct:"What this activity does",
 engP:"Participate",engS:"Support",engC:"Connect",
@@ -1819,12 +1943,13 @@ const S={
   sortBy:store.get("sortBy","latest"),
   bfFilter:store.get("bfFilter","all"),
   activeTeam:store.get("activeTeam",""),
+  grpSeen:store.get("grpSeen",{}),
   user:store.get("user",null),
   viewUser:null,
   calMinSel:[]
 };
 if(S.view==="foryou")S.view="feed";
-function persist(){["lang","theme","view","minFilter","typeFilter","statusFilter","agFilter","custom","lastRefresh","calFilter","dateFilter","sortBy","bfFilter","activeTeam"].forEach(k=>store.set(k,S[k]))}
+function persist(){["lang","theme","view","minFilter","typeFilter","statusFilter","agFilter","custom","lastRefresh","calFilter","dateFilter","sortBy","bfFilter","activeTeam","grpSeen"].forEach(k=>store.set(k,S[k]))}
 window.addEventListener("beforeunload",persist);
 const T=k=>(I18N[S.lang][k]!==undefined?I18N[S.lang][k]:I18N.th[k]||k);
 const allItems=()=>ITEMS.concat(S.live||[],S.custom);
@@ -1874,6 +1999,30 @@ async function getTeamInfo(){if(CLOUD){var s=await fdb.ref("config/teams").once(
 async function saveTeamInfo(o){TEAM_INFO=o||{};if(CLOUD){await fdb.ref("config/teams").set(TEAM_INFO)}else store.set("teaminfo",TEAM_INFO)}
 async function setTeamInfo(name,patch){var o=await getTeamInfo();o[name]=Object.assign({},o[name]||{},patch);await saveTeamInfo(o)}
 async function seedTeamInfo(){refreshTeamInfo(await getTeamInfo())}
+/* Curated Bitkub teams (editable after seeding). Sources: Bitkub Capital Group
+   Holdings public info + typical corporate functions. Admin can edit/remove. */
+var BITKUB_TEAMS=[
+ {name:"CAS",desc:"Corporate Affairs & Sustainability — รัฐกิจสัมพันธ์ นโยบายภาครัฐ ความยั่งยืน/ESG และภาพลักษณ์องค์กร",kw:["นโยบาย","รัฐบาล","ก.ล.ต.","ธปท.","ESG","คาร์บอน","ความยั่งยืน","net zero","กำกับดูแล","MOU","ความร่วมมือ","CSR","สิ่งแวดล้อม","ยุทธศาสตร์"]},
+ {name:"Compliance",desc:"Compliance & Regulatory — กำกับการปฏิบัติตามกฎเกณฑ์ ก.ล.ต./ธปท. ป้องกันการฟอกเงิน (AML) และ PDPA",kw:["ก.ล.ต.","sec","ธปท.","aml","ป.ป.ง.","kyc","pdpa","ใบอนุญาต","หลักเกณฑ์","ประกาศ","ระเบียบ","สินทรัพย์ดิจิทัล","กำกับ"]},
+ {name:"Legal",desc:"ฝ่ายกฎหมาย — ติดตามกฎหมาย ร่างกฎหมาย ประกาศ และประเด็นทางกฎหมายที่กระทบธุรกิจ",kw:["พ.ร.บ.","พ.ร.ก.","กฎหมาย","ร่างกฎหมาย","ประกาศ","ราชกิจจา","ข้อบังคับ","ศาล","คดี","ภาษี","สัญญา"]},
+ {name:"BD",desc:"Business Development — พัฒนาธุรกิจ พันธมิตร และโอกาสใหม่ ๆ (ทุน โครงการ ความร่วมมือ)",kw:["ความร่วมมือ","mou","พันธมิตร","ลงทุน","โครงการ","ทุน","เปิดรับสมัคร","ประกวด","แข่งขัน","งบประมาณ","ส่งเสริม","สิทธิประโยชน์","บีโอไอ","boi"]},
+ {name:"Marketing",desc:"Marketing & Brand — แคมเปญ กิจกรรม อีเวนต์ และการสื่อสารแบรนด์",kw:["แคมเปญ","กิจกรรม","งาน","สัมมนา","expo","event","เทศกาล","ประชาสัมพันธ์","สื่อ","ท่องเที่ยว","ผู้บริโภค"]},
+ {name:"People",desc:"People / HR — บุคลากร สวัสดิการ กฎหมายแรงงาน และการพัฒนาทักษะ",kw:["แรงงาน","สวัสดิการ","จ้างงาน","ทักษะ","อบรม","ประกันสังคม","กฎหมายแรงงาน","ค่าจ้าง","upskill","reskill","สุขภาพ"]},
+ {name:"Finance",desc:"Finance & Accounting — การเงิน ภาษี งบประมาณ และนโยบายการเงิน/เศรษฐกิจ",kw:["ภาษี","สรรพากร","งบประมาณ","ดอกเบี้ย","ธปท.","เศรษฐกิจ","การลงทุน","ตลาดทุน","มาตรการการเงิน","กระตุ้นเศรษฐกิจ"]},
+ {name:"Product",desc:"Product & Technology — ผลิตภัณฑ์ดิจิทัล บล็อกเชน และนวัตกรรม (KUB Chain, สินทรัพย์ดิจิทัล)",kw:["สินทรัพย์ดิจิทัล","บล็อกเชน","คริปโท","โทเคน","digital asset","blockchain","web3","defi","fintech","นวัตกรรม","ai","ดิจิทัล","depa","ดีอี"]},
+ {name:"IT-Security",desc:"IT Security / InfoSec — ความมั่นคงปลอดภัยไซเบอร์ การคุ้มครองข้อมูล และความเสี่ยงด้านไอที",kw:["ไซเบอร์","cybersecurity","pdpa","คุ้มครองข้อมูล","ความปลอดภัย","ภัยคุกคาม","data breach","สกมช.","ransomware","ความเสี่ยง"]}
+];
+async function adminSeedBitkubTeams(){
+  if(!adminGuard())return;
+  var names=TEAMS.slice(), info=await getTeamInfo(), added=0;
+  BITKUB_TEAMS.forEach(function(t){
+    if(!names.some(function(x){return x.toLowerCase()===t.name.toLowerCase()})){names.push(t.name);added++;}
+    info[t.name]={desc:t.desc,kw:t.kw.slice()};
+  });
+  await saveTeams(names); await saveTeamInfo(info);
+  renderAdmin();
+  if(typeof toast==="function")toast(T("seedTeamsDone").replace("{n}",added));
+}
 function subscribeTeamInfo(){if(CLOUD){fdb.ref("config/teams").on("value",function(snap){refreshTeamInfo(snap.val()||{});var ao=document.getElementById("admin-overlay");if(ao&&ao.classList.contains("open"))renderTeamsList();render()})}}
 function activeTeam(){var mt=myTeams();if(S.activeTeam&&mt.indexOf(S.activeTeam)>=0)return S.activeTeam;return mt[0]||""}
 function activeTeamKw(){var t=activeTeam();return t?teamKw(t):[]}
@@ -2155,7 +2304,7 @@ function logout(){
   NOTIFS={}; renderBell(); renderDMBadge(); updateUserChip(); closeAcct();
   showLogin();
 }
-function toggleAcct(e){ if(e)e.stopPropagation(); var m=document.getElementById("acct-menu"); if(m)m.classList.toggle("open"); }
+function toggleAcct(e){ if(e)e.stopPropagation(); var m=document.getElementById("acct-menu"); if(!m)return; var willOpen=!m.classList.contains("open"); if(willOpen&&typeof closeOtherHeaderPops==="function")closeOtherHeaderPops("acct"); m.classList.toggle("open"); }
 function closeAcct(){ var m=document.getElementById("acct-menu"); if(m)m.classList.remove("open"); }
 function openChangePw(){ closeAcct(); ["cpw-old","cpw-new","cpw-new2"].forEach(function(id){document.getElementById(id).value=""}); document.getElementById("cpw-err").textContent=""; document.getElementById("cpw-overlay").classList.add("open"); }
 function closeChangePw(){ document.getElementById("cpw-overlay").classList.remove("open"); }
@@ -2219,6 +2368,109 @@ async function removePhoto(){
 function isAdmin(){return S.role==="admin"}
 function openAdmin(){if(!isAdmin())return;closeAcct();renderAdmin();document.getElementById("admin-overlay").classList.add("open");adminTab("overview")}
 function closeAdmin(){document.getElementById("admin-overlay").classList.remove("open")}
+/* ===== Admin developer console ===== */
+var _conHist=[],_conHistIdx=-1;
+function openConsole(){ if(!isAdmin()){toast(T("noPerm"));return} closeAcct();closeAdmin();
+  document.getElementById("console-overlay").classList.add("open");
+  var log=document.getElementById("con-log"); if(log&&!log.childNodes.length){conPrint(T("conWelcome"),"sys");conPrint(T("conHint"),"sys");}
+  setTimeout(function(){var i=document.getElementById("con-input");if(i)i.focus()},60);
+}
+function closeConsole(){document.getElementById("console-overlay").classList.remove("open")}
+function conPrint(text,cls){var log=document.getElementById("con-log");if(!log)return;var d=document.createElement("div");d.className="con-line"+(cls?" "+cls:"");d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;}
+function conKey(e){var inp=e.target;
+  if(e.key==="Enter"){var v=inp.value;if(v.trim()){_conHist.push(v);_conHistIdx=_conHist.length;conPrint("› "+v,"cmd");conExec(v);}inp.value="";}
+  else if(e.key==="ArrowUp"){e.preventDefault();if(_conHistIdx>0){_conHistIdx--;inp.value=_conHist[_conHistIdx]||"";}}
+  else if(e.key==="ArrowDown"){e.preventDefault();if(_conHistIdx<_conHist.length-1){_conHistIdx++;inp.value=_conHist[_conHistIdx]||"";}else{_conHistIdx=_conHist.length;inp.value="";}}
+  else if(e.key==="Escape"){e.preventDefault();closeConsole();}
+}
+async function conExec(line){
+  if(!isAdmin()){conPrint(T("noPerm"),"err");return}
+  var parts=line.trim().replace(/^\//,"").split(/\s+/),cmd=(parts[0]||"").toLowerCase(),a=parts.slice(1);
+  try{await conDispatch(cmd,a,line);}catch(err){conPrint("✕ "+(err&&err.message||err),"err");}
+}
+var CON_HELP=[
+ "help                        — show this help",
+ "whoami                      — current user & role",
+ "stats                       — users / teams / items / live",
+ "user list                   — list users",
+ "user add <name> <pw> [role] — create user",
+ "user pw <name> <newpw>       — set password",
+ "user role <name> admin|member",
+ "user block|unblock <name>",
+ "user team <name> <team>      — toggle team membership",
+ "user title <name> <title…>   — set job title",
+ "user del <name>              — delete user",
+ "team list",
+ "team add <name>",
+ "team desc <name> <text…>",
+ "team kw <name> <k1,k2,…>",
+ "team del <name>",
+ "team seedbitkub             — add the 9 Bitkub teams",
+ "ai show | ai hi <n> | ai mid <n> | ai min <n> | ai neg <w1,w2>",
+ "theme light|dark            — set theme",
+ "lang th|en                  — set language",
+ "source test                 — test all connectors",
+ "announce <text>             — notify everyone",
+ "export users|teams|ai       — dump JSON",
+ "clear | close"
+];
+async function conDispatch(cmd,a,line){
+  var u,rec,names,arg=line.trim().replace(/^\/?\S+\s*/,""); // arg = everything after first token
+  switch(cmd){
+    case "help": case "?": CON_HELP.forEach(function(l){conPrint(l)}); return;
+    case "clear": document.getElementById("con-log").innerHTML=""; return;
+    case "close": closeConsole(); return;
+    case "whoami": conPrint(S.user+" · "+(S.role||"member")+" · teams: "+(myTeams().join(", ")||"—")); return;
+    case "stats": {u=await getAllUsers();names=Object.keys(u);var it=(typeof allItems==="function")?allItems().length:0;var live=(typeof liveStatus!=="undefined"&&liveStatus==="on");conPrint("users: "+names.length+"  admins: "+names.filter(function(n){return u[n].role==="admin"}).length+"  blocked: "+names.filter(function(n){return u[n].blocked}).length);conPrint("teams: "+TEAMS.length+"  items: "+it+"  live: "+(live?"online":"offline"));return;}
+    case "user": return conUser(a,arg);
+    case "team": return conTeam(a,arg);
+    case "ai": return conAI(a);
+    case "theme": if(a[0]==="light"||a[0]==="dark"){S.theme=a[0];persist();applyTheme();conPrint("✓ theme = "+a[0],"ok")}else conPrint("usage: theme light|dark","err"); return;
+    case "lang": if(a[0]==="th"||a[0]==="en"){setLang(a[0]);conPrint("✓ lang = "+a[0],"ok")}else conPrint("usage: lang th|en","err"); return;
+    case "source": if(a[0]==="test"){testAllSources();conPrint("✓ testing all connectors…","ok")}else conPrint("usage: source test","err"); return;
+    case "announce": { if(!arg){conPrint("usage: announce <text>","err");return} var recips=USERS.filter(function(x){return x!==S.user}); if(CLOUD){recips.forEach(function(x){fdb.ref("notifications/"+x).push({from:S.user,type:"agnote",scope:"all",itemTitle:"",text:arg,ts:Date.now(),read:false})})}else{recips.forEach(function(x){var nk="notif__"+x,o=store.get(nk,{})||{},id="n"+Date.now()+Math.floor(Math.random()*999);o[id]={from:S.user,type:"agnote",scope:"all",itemTitle:"",text:arg,ts:Date.now(),read:false};store.set(nk,o)});refreshLocalNotifs&&refreshLocalNotifs()} conPrint("✓ announced to "+recips.length+" users","ok"); return; }
+    case "export": { var d=a[0]==="teams"?{teams:TEAMS,info:TEAM_INFO}:a[0]==="ai"?AICFG:await getAllUsers(); if(a[0]!=="teams"&&a[0]!=="ai"){var safe={};Object.keys(d).forEach(function(k){var r=d[k]||{};safe[k]={role:r.role,blocked:!!r.blocked,teams:userTeams(r),title:r.title||""}});d=safe;} conPrint(JSON.stringify(d,null,2)); return; }
+    default: conPrint("unknown command: "+cmd+"  (try: help)","err");
+  }
+}
+async function conUser(a,arg){
+  var sub=(a[0]||"").toLowerCase(),name=a[1],u=await getAllUsers();
+  if(sub==="list"){Object.keys(u).sort().forEach(function(n){var r=u[n];conPrint(n.padEnd(12)+" "+(r.role==="admin"?"admin ":"member")+" "+(r.blocked?"[blocked] ":"")+(userTeams(r).length?("["+userTeams(r).join(",")+"] "):"")+(r.title||""))});return;}
+  if(!name){conPrint("usage: user <list|add|pw|role|block|unblock|team|title|del> …","err");return;}
+  var exists=Object.keys(u).some(function(k){return k.toLowerCase()===name.toLowerCase()});
+  if(sub==="add"){ if(!/^[A-Za-z0-9_]{2,20}$/.test(name)){conPrint("bad name (A-Z 0-9 _, 2-20)","err");return} if((a[2]||"").length<4){conPrint("pw min 4 chars","err");return} if(exists){conPrint("exists","err");return} await writeUser(name,{pw:await sha256(a[2]),role:(a[3]==="admin"?"admin":"member"),blocked:false,teams:[],team:""}); refreshRoster(await getAllUsers()); renderAdmin&&renderAdmin(); conPrint("✓ added "+name,"ok"); return; }
+  if(!exists){conPrint("no such user: "+name,"err");return;}
+  if(sub==="pw"){ if((a[2]||"").length<4){conPrint("pw min 4","err");return} await writeUser(name,{pw:await sha256(a[2])}); conPrint("✓ password set for "+name,"ok"); return; }
+  if(sub==="role"){ await adminSetRole(name,a[2]==="admin"?"admin":"member"); conPrint("✓ "+name+" → "+(a[2]==="admin"?"admin":"member"),"ok"); return; }
+  if(sub==="block"){ await writeUser(name,{blocked:true}); renderAdmin&&renderAdmin(); conPrint("✓ blocked "+name,"ok"); return; }
+  if(sub==="unblock"){ await writeUser(name,{blocked:false}); renderAdmin&&renderAdmin(); conPrint("✓ unblocked "+name,"ok"); return; }
+  if(sub==="team"){ await adminToggleTeam(name,a[2]); conPrint("✓ toggled team "+a[2]+" for "+name,"ok"); return; }
+  if(sub==="title"){ var t=arg.replace(/^\S+\s+\S+\s*/,""); await writeUser(name,{title:t}); if(!CLOUD)refreshRoster(await getAllUsers()); render&&render(); conPrint("✓ title set for "+name,"ok"); return; }
+  if(sub==="del"){ await adminDeleteUser(name); conPrint("✓ deleted "+name,"ok"); return; }
+  conPrint("unknown: user "+sub,"err");
+}
+async function conTeam(a,arg){
+  var sub=(a[0]||"").toLowerCase(),name=a[1];
+  if(sub==="list"){ if(!TEAMS.length){conPrint("(no teams)");return} TEAMS.forEach(function(t){conPrint(t.padEnd(14)+" "+(teamDesc(t)||"")+"  kw:["+teamKw(t).join(",")+"]")}); return; }
+  if(sub==="seedbitkub"){ await adminSeedBitkubTeams(); conPrint("✓ seeded Bitkub teams","ok"); return; }
+  if(!name){conPrint("usage: team <list|add|desc|kw|del|seedbitkub> …","err");return;}
+  if(sub==="add"){ if(TEAMS.some(function(t){return t.toLowerCase()===name.toLowerCase()})){conPrint("exists","err");return} await saveTeams(TEAMS.concat([name])); renderAdmin&&renderAdmin(); conPrint("✓ team added "+name,"ok"); return; }
+  if(sub==="desc"){ var d=arg.replace(/^\S+\s+\S+\s*/,""); await setTeamInfo(name,{desc:d}); renderAdmin&&renderAdmin(); conPrint("✓ desc set for "+name,"ok"); return; }
+  if(sub==="kw"){ var kw=arg.replace(/^\S+\s+\S+\s*/,"").split(",").map(function(x){return x.trim()}).filter(Boolean); await setTeamInfo(name,{kw:kw}); conPrint("✓ kw set for "+name+" ("+kw.length+")","ok"); return; }
+  if(sub==="del"){ var idx=TEAMS.indexOf(name); if(idx<0){conPrint("no such team","err");return} await adminRemoveTeam(idx); conPrint("✓ removed "+name,"ok"); return; }
+  conPrint("unknown: team "+sub,"err");
+}
+async function conAI(a){
+  var sub=(a[0]||"").toLowerCase();
+  if(sub==="show"||!sub){conPrint("hi="+AICFG.hi+"  mid="+AICFG.mid+"  min="+AICFG.min+"  neg=["+(AICFG.negkw||"")+"]");return;}
+  var n=parseInt(a[1],10);
+  if(sub==="hi"&&!isNaN(n)){await saveAICfg(Object.assign({},AICFG,{hi:n}));}
+  else if(sub==="mid"&&!isNaN(n)){await saveAICfg(Object.assign({},AICFG,{mid:n}));}
+  else if(sub==="min"&&!isNaN(n)){await saveAICfg(Object.assign({},AICFG,{min:n}));}
+  else if(sub==="neg"){await saveAICfg(Object.assign({},AICFG,{negkw:a.slice(1).join(" ")}));}
+  else {conPrint("usage: ai show|hi <n>|mid <n>|min <n>|neg <w1,w2>","err");return;}
+  render&&render(); loadAIFields&&loadAIFields(); conPrint("✓ ai updated","ok");
+}
 async function renderAdminUsers(){
   var body=document.getElementById("admin-users"); if(!body)return;
   var u=await getAllUsers(), names=Object.keys(u).sort();
@@ -2415,7 +2667,7 @@ async function saveCriteria(arr){CRITERIA=arr||[];if(CLOUD){await fdb.ref("confi
 async function seedCriteria(){var c=await getCriteria();if(!c||!c.length){await saveCriteria(DEFAULT_CRITERIA.slice())}else refreshCriteria(c)}
 function subscribeCriteria(){if(CLOUD){fdb.ref("config/criteria").on("value",function(snap){refreshCriteria(snap.val()||[]);var ao=document.getElementById("admin-overlay");if(ao&&ao.classList.contains("open"))renderCriteria();if(S.view==="feed"||S.view==="saved")render()})}}
 /* ===== Smart relevance engine (multi-signal heuristic) ===== */
-var FOCUS_KW=["คริปโท","คริปโต","สินทรัพย์ดิจิทัล","บล็อกเชน","blockchain","โทเคน","token","ดิจิทัล","digital","fintech","ฟินเทค","ESG","คาร์บอน","carbon credit","net zero","ความยั่งยืน","sustainab","PDPA","คุ้มครองข้อมูล","ตลาดทุน","ก.ล.ต.","ธปท.","การเงิน","การลงทุน","invest","ภาษี","tax","AI","ปัญญาประดิษฐ์","สตาร์ทอัพ","startup","นวัตกรรม","innovation"];
+var FOCUS_KW=["คริปโท","คริปโต","สินทรัพย์ดิจิทัล","บล็อกเชน","blockchain","โทเคน","token","ดิจิทัล","digital","fintech","ฟินเทค","ESG","คาร์บอน","carbon credit","net zero","ความยั่งยืน","sustainab","PDPA","คุ้มครองข้อมูล","ตลาดทุน","ก.ล.ต.","sec","ธปท.","bot","การเงิน","การลงทุน","invest","ภาษี","tax","AI","ปัญญาประดิษฐ์","สตาร์ทอัพ","startup","นวัตกรรม","innovation","กำกับดูแล","ใบอนุญาต","หลักเกณฑ์","ประกาศ","ระเบียบ","aml","ป.ป.ง.","kyc","ไซเบอร์","cybersecurity","สกมช.","ดีอี","depa","บีโอไอ","boi","exchange","virtual asset","web3","defi"];
 var OPP_KW=["เปิดรับสมัคร","รับสมัคร","สมัครได้","ทุน","grant","funding","เงินสนับสนุน","งบประมาณ","เดดไลน์","deadline","หมดเขต","สิ้นสุดวันที่","ภายในวันที่","เปิดรับ","ประกวด","แข่งขัน","hackathon","incubat","accelerat","โครงการ","สิทธิประโยชน์","ยกเว้นภาษี","ลดหย่อน"];
 var NEG_KW_DEFAULT=["อุบัติเหตุ","ฆาตกรรม","อาชญากรรม","จับกุม","ยาเสพติด","ดารา","บันเทิง","ซุบซิบ","ดวง","ทำนาย","ลอตเตอรี่","หวย","สลากกินแบ่ง","ฟุตบอล","กีฬา","คอนเสิร์ต","ละคร"];
 function _negKw(){var extra=(AICFG&&AICFG.negkw)?String(AICFG.negkw).split(",").map(function(x){return x.trim()}).filter(Boolean):[];return NEG_KW_DEFAULT.concat(extra)}
@@ -2535,7 +2787,8 @@ function teamBarHTML(){
   var vu=S.viewUser||S.user, mates=teamMates(), mt=myTeams();
   var label=mt.length?mt.map(function(t){return '<span class="tb-team">'+esc(t)+'</span>'}).join(""):T("teamTrack");
   var bar='<div class="team-bar"><span class="tb-label">'+label+'</span>'+mates.map(function(u){
-    return '<button class="team-chip'+(vu===u?" cur":"")+'" onclick="viewUserSaved(\''+u+'\')">'+avatarHTML(u,"sm",true)+''+esc(u)+'<span class="tc-count">'+savedCountOf(u)+'</span></button>';
+    var ut=teamsOf(u), tlabel=ut.length?('<span class="tc-teams">'+ut.map(esc).join(" · ")+'</span>'):'';
+    return '<button class="team-chip'+(vu===u?" cur":"")+'" onclick="viewUserSaved(\''+u+'\')" title="'+esc(ut.join(", "))+'">'+avatarHTML(u,"sm",true)+'<span class="tc-name">'+esc(u)+tlabel+'</span><span class="tc-count">'+savedCountOf(u)+'</span></button>';
   }).join("")+'</div>';
   if(vu!==S.user)bar+='<div class="viewonly-note">'+T("viewingOf").replace("{u}",esc(vu))+'</div>';
   return bar;
@@ -2686,11 +2939,35 @@ function positionFixedUnder(anchor,menu,minW){
   menu.style.left=left+"px";menu.style.right="auto";
 }
 function clearFixedPos(menu){if(menu){menu.style.position="";menu.style.top="";menu.style.left="";menu.style.right="";menu.style.bottom=""}}
+function ddMenu(dd){if(dd._menuEl)return dd._menuEl;dd._menuEl=dd.querySelector(".dd-menu");return dd._menuEl}
+function portalMenu(menu){
+  if(!menu||menu._portaled)return;
+  menu._home={parent:menu.parentNode,next:menu.nextSibling};
+  document.body.appendChild(menu); menu._portaled=true;
+}
+function unportalMenu(menu){
+  if(!menu||!menu._portaled)return; menu._portaled=false;
+  var h=menu._home; clearFixedPos(menu);
+  if(h&&h.parent){ if(h.next&&h.next.parentNode===h.parent)h.parent.insertBefore(menu,h.next); else h.parent.appendChild(menu); }
+}
+function closeOtherDDs(except){document.querySelectorAll(".dd.open").forEach(function(o){if(o!==except){o._pin=false;ddSetOpen(o,false)}})}
 function ddSetOpen(dd,on){
   clearTimeout(dd._closeT);
-  var menu=dd.querySelector(".dd-menu");
-  if(on){dd.classList.add("open");dd.classList.remove("closing");if(dd.closest("#feed-toolbar")&&menu)positionFixedUnder(dd,menu)}
-  else{dd.classList.remove("open");dd.classList.add("closing");dd._closeT=setTimeout(function(){dd.classList.remove("closing");if(dd.closest("#feed-toolbar"))clearFixedPos(menu)},240)}
+  var menu=ddMenu(dd);
+  if(on){
+    closeOtherDDs(dd);
+    dd.classList.add("open");dd.classList.remove("closing");
+    if(menu){
+      menu.style.minWidth=dd.classList.contains("fdd")?"190px":"";
+      portalMenu(menu);menu.classList.add("mopen");positionFixedUnder(dd,menu);
+      menu.onmouseenter=function(){clearTimeout(dd._leaveT)};
+      menu.onmouseleave=function(){if(!dd._pin)dd._leaveT=setTimeout(function(){ddSetOpen(dd,false)},160)};
+    }
+  }else{
+    dd.classList.remove("open");dd.classList.add("closing");
+    if(menu)menu.classList.remove("mopen");
+    dd._closeT=setTimeout(function(){dd.classList.remove("closing");if(menu)unportalMenu(menu);},220);
+  }
 }
 function ddHover(dd,entering){
   clearTimeout(dd._leaveT);
@@ -2706,22 +2983,26 @@ function ddClick(e,btn){
 function toggleDD(e){ddClick(e,document.querySelector('#min-dd .dd-btn'))}
 document.addEventListener("click",e=>{
   if(e.target&&e.target.nodeType===1&&!document.body.contains(e.target))return;
-  document.querySelectorAll(".dd.open").forEach(function(dd){if(!dd.contains(e.target)){dd._pin=false;ddSetOpen(dd,false)}});
+  document.querySelectorAll(".dd.open").forEach(function(dd){var m=dd._menuEl;if(!dd.contains(e.target)&&!(m&&m.contains(e.target))){dd._pin=false;ddSetOpen(dd,false)}});
   var np=document.getElementById("notif-panel"),nw=document.querySelector(".notif-wrap");
   if(np&&np.classList.contains("open")&&nw&&!nw.contains(e.target))np.classList.remove("open");
   var am=document.getElementById("acct-menu"),aw=document.querySelector(".acct-wrap");
   if(am&&am.classList.contains("open")&&aw&&!aw.contains(e.target))am.classList.remove("open");
   var dp=document.getElementById("dm-pop"),dw=document.querySelector(".dm-wrap2");
-  if(dp&&dp.classList.contains("open")&&dw&&!dw.contains(e.target))dp.classList.remove("open");
+  if(dp&&dp.classList.contains("open")&&dw&&!dw.contains(e.target))closeDMPop();
 });
-function _repositionOpenMenus(){
-  document.querySelectorAll("#feed-toolbar .dd.open").forEach(function(dd){positionFixedUnder(dd,dd.querySelector(".dd-menu"))});
-  var sg=document.getElementById("search-sug"); if(sg&&sg.classList.contains("open"))posSug(sg);
+var _repoScheduled=false;
+function _repoWork(){
+  _repoScheduled=false;
+  var dds=document.querySelectorAll("#feed-toolbar .dd.open");
+  var sg=document.getElementById("search-sug"), sgOpen=sg&&sg.classList.contains("open");
+  if(!dds.length&&!sgOpen)return;
+  dds.forEach(function(dd){positionFixedUnder(dd,dd.querySelector(".dd-menu"))});
+  if(sgOpen)posSug(sg);
 }
-window.addEventListener("resize",_repositionOpenMenus);
-window.addEventListener("scroll",_repositionOpenMenus,true);
-document.addEventListener("DOMContentLoaded",function(){var tb=document.getElementById("feed-toolbar");if(tb)tb.addEventListener("scroll",_repositionOpenMenus)});
-(function(){var tb=document.getElementById("feed-toolbar");if(tb)tb.addEventListener("scroll",_repositionOpenMenus)})();
+function _repositionOpenMenus(){ if(_repoScheduled)return; _repoScheduled=true; requestAnimationFrame(_repoWork); }
+window.addEventListener("resize",_repositionOpenMenus,{passive:true});
+window.addEventListener("scroll",_repositionOpenMenus,{passive:true,capture:true});
 function latestPub(id){let m="";allItems().forEach(it=>{if(it.min===id&&it.pub&&it.pub>m)m=it.pub});return m}
 function minOrder(){
   return Object.keys(MINISTRIES).sort((a,b)=>{
@@ -2946,6 +3227,11 @@ function bitkubActions(it){
   var hay=((it.title||"")+" "+(it.sum||"")+" "+(it.bkb||"")+" "+(it.act||"")).toLowerCase();
   var has=function(arr){return arr.some(function(k){return hay.indexOf(String(k).toLowerCase())>=0})};
   var acts=[];
+  // team-specific lead action: if item matches the active team's keywords, reference the team + its role
+  var t=(typeof activeTeam==="function")?activeTeam():"";
+  if(t){var kw=(typeof teamKw==="function")?teamKw(t):[];
+    if(kw.length&&has(kw)){var d=(typeof teamDesc==="function")?teamDesc(t):"";acts.push(T("bkTeamLead").replace("{t}",t)+(d?(" — "+d):""));}
+  }
   if(has(["เปิดรับสมัคร","รับสมัคร","สมัคร","ทุน","grant","funding","เงินสนับสนุน","ประกวด","แข่งขัน","hackathon"]))acts.push(T("bkApply"));
   if(has(["mou","ความร่วมมือ","ร่วมมือ","partnership","บันทึกข้อตกลง","ลงนาม"]))acts.push(T("bkMou"));
   if(has(["สัมมนา","อบรม","เวิร์กช็อป","ประชุม","งาน","เสวนา","forum","summit","expo","event"])||it.evStart)acts.push(T("bkEvent"));
@@ -2953,13 +3239,16 @@ function bitkubActions(it){
   if(has(["esg","คาร์บอน","carbon","net zero","ยั่งยืน","sustainab","สิ่งแวดล้อม"]))acts.push(T("bkEsg"));
   if(has(["คริปโท","สินทรัพย์ดิจิทัล","บล็อกเชน","โทเคน","digital asset","blockchain"]))acts.push(T("bkDigital"));
   if(!acts.length)acts.push(T("bkMonitor"));
-  // dedupe, cap 3
   var seen={},out=[];acts.forEach(function(a){if(!seen[a]){seen[a]=1;out.push(a)}});
-  return out.slice(0,3);
+  return out.slice(0,4);
+}
+function bkActionTitle(){
+  var t=(typeof activeTeam==="function")?activeTeam():"";
+  return t?T("bkActionTeam").replace("{t}",t):T("bkAction");
 }
 function bitkubBoxHTML(it){
   var acts=bitkubActions(it); if(!acts.length)return"";
-  return '<div class="bk-action"><div class="bk-action-t"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>'+T("bkAction")+'</div><ul>'+acts.map(function(a){return '<li>'+esc(a)+'</li>'}).join("")+'</ul></div>';
+  return '<div class="bk-action"><div class="bk-action-t"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>'+esc(bkActionTitle())+'</div><ul>'+acts.map(function(a){return '<li>'+esc(a)+'</li>'}).join("")+'</ul></div>';
 }
 function cardHTML(it){
   const m=MINISTRIES[it.min],saved=S.saved.includes(it.id);
@@ -3181,18 +3470,21 @@ var SLASH_CMDS=[
  {cmd:"/calendar",k:"cCal",run:function(){setView("cal")}},
  {cmd:"/benefit",arg:"90",k:"cBenefit",run:function(a){var n=parseInt(a,10);S.bfFilter=(isNaN(n)||n<=0)?"all":String(Math.min(100,n));persist();if(S.view!=="feed")setView("feed");else render()}},
  {cmd:"/messages",k:"cMessages",run:function(){openDMPanel()}},
+ {cmd:"/task",arg:"@who detail",k:"cTask",run:function(){openDMPanel();toast(T("taskNeedWho"))}},
  {cmd:"/dm",arg:"@user",k:"cDm",run:function(a){var q=String(a||"").replace(/^@/,"").toLowerCase();var u=dmContacts().find(function(x){return x.toLowerCase()===q});if(u)openDM(u);else if(a)toast(T("dmNotMate"));else openDMPanel()}},
  {cmd:"/everyone",arg:"text",k:"cEveryone",run:function(a){slashAnnounce(a)}},
  {cmd:"/ministry",arg:"name",k:"cMin",run:function(a){var q=String(a||"").toLowerCase();var id=Object.keys(MINISTRIES).find(function(k){var m=MINISTRIES[k];return k===q||m.abbr.toLowerCase()===q||m.th.indexOf(a)>=0||m.en.toLowerCase().indexOf(q)>=0});if(id){if(S.view!=="feed")setView("feed");pickMin(id)}else toast(T("cmdNoMin"))}},
  {cmd:"/clear",k:"cClear",run:function(){clearFilters()}},
  {cmd:"/theme",k:"cTheme",run:function(){toggleTheme()}},
  {cmd:"/admin",k:"cAdmin",run:function(){if(isAdmin())openAdmin();else toast(T("noPerm"))}},
+ {cmd:"/console",k:"cConsole",admin:true,run:function(){if(isAdmin())openConsole();else toast(T("noPerm"))}},
  {cmd:"/sources",k:"cSources",run:function(){if(isAdmin()){openAdmin();adminTab("sources")}else toast(T("noPerm"))}},
  {cmd:"/help",k:"cHelp",run:function(){var el=document.getElementById("search");if(el){el.value="/";el.focus();onSearch()}}},
  {cmd:"/logout",k:"cLogout",run:function(){logout()}}
 ];
 function parseSlash(q){q=q.trim();var sp=q.indexOf(" ");var cmd=(sp<0?q:q.slice(0,sp)).toLowerCase();var rest=sp<0?"":q.slice(sp+1).trim();return {cmd:cmd,rest:rest}}
-function slashMatches(cmd){return SLASH_CMDS.filter(function(x){return x.cmd.indexOf(cmd)===0})}
+function slashList(){var adm=isAdmin();return SLASH_CMDS.filter(function(x){return !x.admin||adm})}
+function slashMatches(cmd){return slashList().filter(function(x){return x.cmd.indexOf(cmd)===0})}
 function runSlash(q){
   var p=parseSlash(q), c=SLASH_CMDS.find(function(x){return x.cmd===p.cmd});
   if(!c){var cand=slashMatches(p.cmd);if(cand.length===1)c=cand[0];}
@@ -3234,7 +3526,8 @@ function applySearch(){
   if(S.view!=="feed"&&S.view!=="saved")setView("feed");else render();
 }
 function posSug(box){
-  var anchor=box.closest(".search")||box.parentElement; if(!anchor)return;
+  var anchor=document.querySelector(".search")||box.closest(".search")||box.parentElement; if(!anchor)return;
+  if(box.parentNode!==document.body){document.body.appendChild(box);} // portal out of .search (Safari-safe)
   var r=anchor.getBoundingClientRect();
   box.style.position="fixed";box.style.top=(r.bottom+8)+"px";
   var w=Math.max(r.width,320); w=Math.min(w,window.innerWidth-16);
@@ -3246,7 +3539,7 @@ function renderSug(q){
   if(!q){box.classList.remove("open");box.innerHTML="";clearFixedPos(box);box.style.width="";return}
   if(q.charAt(0)==="/"){
     var p=parseSlash(q), list=slashMatches(p.cmd);
-    if(!list.length)list=SLASH_CMDS.slice();
+    if(!list.length)list=slashList();
     var chtml='<div class="sg-head">'+T("cmdTitle")+' <span class="sg-eg">'+T("cmdEg")+'</span></div>'+list.slice(0,12).map(function(x){
       var ex=x.arg?('<span class="sg-cmd-ex">'+esc(x.cmd+" "+x.arg)+'</span>'):'';
       return '<div class="sg-item" onclick="clickSlash(\''+x.cmd+'\')"><span class="sg-cmd">'+x.cmd+(x.arg?' <i>'+esc(x.arg)+'</i>':'')+'</span><div class="sg-t">'+T(x.k)+ex+'</div></div>';
@@ -3342,19 +3635,59 @@ function postComment(itemId,itemTitle,text){
   }
 }
 function cmtTime(ts){if(!ts)return"";var d=new Date(ts),p=function(n){return String(n).padStart(2,"0")};return p(d.getDate())+"/"+p(d.getMonth()+1)+" "+p(d.getHours())+":"+p(d.getMinutes())}
+/* ===== Team tasks per item (/task) ===== */
+function taskVisible(t){if(!t)return false;if(!t.team)return true;return myTeams().indexOf(t.team)>=0}
+function listenTasks(itemId){
+  if(CLOUD){fdb.ref("tasks/"+itemId).on("value",function(snap){var v=snap.val()||{};drawTasks(itemId,Object.keys(v).map(function(k){var o=v[k]||{};o.id=k;return o}))})}
+  else drawTasks(itemId,store.get("task__"+itemId,[])||[]);
+}
+function drawTasks(itemId,arr){
+  var box=document.getElementById("task-list"); if(!box)return;
+  arr=(arr||[]).filter(taskVisible).slice().sort(function(a,b){return (a.done?1:0)-(b.done?1:0)||(a.ts||0)-(b.ts||0)});
+  if(!arr.length){box.innerHTML='<div class="cmt-empty" style="padding:8px">'+T("taskEmpty")+'</div>';return}
+  box.innerHTML=arr.map(function(t){
+    var canDel=t.by===S.user||isAdmin();
+    return '<div class="task-item'+(t.done?" done":"")+'"><button class="task-check" onclick="toggleTask('+itemId+',\''+esc(t.id)+'\')" title="'+T("taskToggle")+'">'+(t.done?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':'')+'</button>'+
+      '<div class="task-body"><div class="task-text">'+esc(t.text)+'</div><div class="task-meta">'+esc(t.by||"")+(t.team?' · '+esc(t.team):'')+(t.done&&t.doneBy?' · '+T("taskDoneBy").replace("{u}",esc(t.doneBy)):'')+'</div></div>'+
+      (canDel?'<button class="task-del" onclick="delTask('+itemId+',\''+esc(t.id)+'\')" title="'+T("delete")+'">×</button>':'')+
+    '</div>';
+  }).join("");
+}
+function addTask(itemId,text){
+  text=(text||"").trim(); if(!text||!S.user)return;
+  var team=(typeof activeTeam==="function"&&activeTeam())||myTeam()||"";
+  var t={text:text,by:S.user,team:team,done:false,ts:Date.now()};
+  var recips=teamMates().filter(function(u){return u!==S.user});
+  var title=(_curComment&&_curComment.title)||"";
+  if(CLOUD){fdb.ref("tasks/"+itemId).push(t);recips.forEach(function(u){fdb.ref("notifications/"+u).push({from:S.user,type:"task",itemId:itemId,itemTitle:title,text:text,ts:Date.now(),read:false})});}
+  else{var k="task__"+itemId,arr=store.get(k,[])||[];t.id="t"+Date.now()+Math.floor(Math.random()*999);arr.push(t);store.set(k,arr);drawTasks(itemId,arr);recips.forEach(function(u){var nk="notif__"+u,o=store.get(nk,{})||{},nid="n"+Date.now()+Math.floor(Math.random()*999);o[nid]={from:S.user,type:"task",itemId:itemId,itemTitle:title,text:text,ts:Date.now(),read:false};store.set(nk,o)});refreshLocalNotifs();}
+  if(typeof toast==="function")toast(T("taskAdded"));
+}
+function toggleTask(itemId,id){
+  if(CLOUD){var ref=fdb.ref("tasks/"+itemId+"/"+id);ref.once("value").then(function(s){var t=s.val()||{};ref.update({done:!t.done,doneBy:!t.done?S.user:null})});}
+  else{var k="task__"+itemId,a=store.get(k,[])||[];for(var i=0;i<a.length;i++){if(a[i].id===id){a[i].done=!a[i].done;a[i].doneBy=a[i].done?S.user:null}}store.set(k,a);drawTasks(itemId,a);}
+}
+function delTask(itemId,id){
+  if(CLOUD){fdb.ref("tasks/"+itemId+"/"+id).remove();}
+  else{var k="task__"+itemId,a=(store.get(k,[])||[]).filter(function(x){return x.id!==id});store.set(k,a);drawTasks(itemId,a);}
+}
 function renderComments(itemId,itemTitle){
   _curComment={id:itemId,title:itemTitle||""};
   var wrap=document.getElementById("cmt-wrap"); if(!wrap)return;
-  wrap.innerHTML='<div class="cmt-head">'+T("commentsTitle")+(CLOUD?'':' <span class="cmt-local">'+T("cmtLocal")+'</span>')+'</div>'+
+  wrap.innerHTML='<div class="cmt-head" style="display:flex;align-items:center;gap:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>'+T("taskTitle")+'</div>'+
+    '<div class="task-list" id="task-list"></div>'+
+    '<div class="task-form"><input id="task-input" placeholder="'+T("taskPh")+'" onkeydown="if(event.key===\'Enter\'){addTaskFromInput('+itemId+');event.preventDefault()}"><button class="btn ghost" onclick="addTaskFromInput('+itemId+')">'+T("taskAdd")+'</button></div>'+
+    '<div class="cmt-head" style="margin-top:18px">'+T("commentsTitle")+(CLOUD?'':' <span class="cmt-local">'+T("cmtLocal")+'</span>')+'</div>'+
     '<div class="cmt-list" id="cmt-list"></div>'+
     '<div class="cmt-form">'+
       ''+avatarHTML(S.user||"","sm")+''+
-      '<div class="cmt-input-wrap"><textarea id="comment-input" rows="1" placeholder="'+T("commentPh")+'" oninput="onCommentInput(event,'+itemId+')"></textarea><div class="mention-pop" id="mention-pop"></div></div>'+
+      '<div class="cmt-input-wrap"><textarea id="comment-input" rows="1" placeholder="'+T("commentPh")+'" oninput="onCommentInput(event,'+itemId+')"></textarea><div class="mention-pop" id="mention-pop"></div><div class="th-hint" id="cmt-hint" style="display:none"></div></div>'+
       '<button class="btn primary cmt-send" onclick="sendComment('+itemId+')">'+T("commentSend")+'</button>'+
     '</div>'+
     '<div class="cmt-tagrow">'+mentionable().map(function(u){return '<button class="cmt-tagbtn" onmousedown="quickTag(event,\''+u+'\')">@'+u+'</button>'}).join("")+'</div>';
-  listenComments(itemId);
+  listenTasks(itemId); listenComments(itemId);
 }
+function addTaskFromInput(itemId){var i=document.getElementById("task-input");if(!i||!i.value.trim())return;var v=i.value.trim();if(/^@/.test(v)||/^\/task\b/i.test(v)){if(assignTask((/^\/task\b/i.test(v)?v:("/task "+v)),{type:"note",itemId:itemId,itemTitle:(_curComment&&_curComment.title)||""}))i.value="";return;}addTask(itemId,v.replace(/^\/task\s*/i,""));i.value="";}
 function drawComments(arr){
   var list=document.getElementById("cmt-list"); if(!list)return;
   arr=(arr||[]).slice().sort(function(a,b){return (a.ts||0)-(b.ts||0)});
@@ -3370,6 +3703,8 @@ function listenComments(itemId){
 }
 function sendComment(itemId){
   var inp=document.getElementById("comment-input"); if(!inp||!inp.value.trim())return;
+  var v=inp.value.trim();
+  if(/^\/task\b/i.test(v)){assignTask(v,{type:"note",itemId:itemId,itemTitle:(_curComment&&_curComment.title)||""});inp.value="";inp.style.height="auto";var _th=document.getElementById("cmt-hint");if(_th){_th.style.display="none";_th.innerHTML="";}return;}
   postComment(itemId,(_curComment&&_curComment.title)||"",inp.value);
   inp.value=""; inp.style.height="auto";
   var mp=document.getElementById("mention-pop"); if(mp)mp.style.display="none";
@@ -3378,6 +3713,9 @@ function sendComment(itemId){
 }
 function onCommentInput(e,itemId){
   var inp=e.target; inp.style.height="auto"; inp.style.height=Math.min(inp.scrollHeight,120)+"px";
+  var th=document.getElementById("cmt-hint");
+  if(/^\/task\b/i.test(inp.value||"")){var mp0=document.getElementById("mention-pop");if(mp0)mp0.style.display="none";if(th){th.innerHTML=taskHintHTML({type:"note",itemId:itemId,itemTitle:(_curComment&&_curComment.title)||""});th.style.display="block";}return;}
+  else if(th){th.style.display="none";th.innerHTML="";}
   var caret=inp.selectionStart,upto=inp.value.slice(0,caret),m=upto.match(/@([A-Za-z]*)$/);
   var box=document.getElementById("mention-pop"); if(!box)return;
   if(m){var q=m[1].toLowerCase(),mates=mentionable(),mm=mates.filter(function(u){return u.toLowerCase().indexOf(q)===0});
@@ -3414,7 +3752,7 @@ function renderBell(){
   var b=document.getElementById("notif-badge"); if(b){var n=unreadCount();b.textContent=n;b.style.display=n?"grid":"none"}
   var panel=document.getElementById("notif-panel"); if(panel&&panel.classList.contains("open"))renderNotifPanel();
 }
-function toggleNotifPanel(){var p=document.getElementById("notif-panel");if(!p)return;if(p.classList.toggle("open"))renderNotifPanel()}
+function toggleNotifPanel(){var p=document.getElementById("notif-panel");if(!p)return;var willOpen=!p.classList.contains("open");if(willOpen)closeOtherHeaderPops("notif");if(p.classList.toggle("open"))renderNotifPanel()}
 function renderNotifPanel(){
   var p=document.getElementById("notif-panel"); if(!p)return;
   var ids=Object.keys(NOTIFS||{}).sort(function(a,b){return (NOTIFS[b].ts||0)-(NOTIFS[a].ts||0)});
@@ -3425,10 +3763,17 @@ function notifLabel(x){
   if(!x)return"";
   if(x.type==="agnote")return x.scope==="all"?T("ntAnnounce"):T("ntTeamNote");
   if(x.type==="dm")return T("ntDM");
+  if(x.type==="task")return T("ntTask");
+  if(x.type==="taskassign")return T("ntTaskAssign");
+  if(x.type==="taskaccept")return T("ntTaskAccept");
+  if(x.type==="taskdone")return T("ntTaskDone");
+  if(x.type==="grp")return T("ntGrp")+(x.team?" # "+esc(x.team):"");
   return T("mentionedYou");
 }
 function openNotif(id){var x=(NOTIFS||{})[id]||{};markNotifRead(id);var np=document.getElementById("notif-panel");if(np)np.classList.remove("open");
   if(x.type==="agnote"){if(x.min){S.minFilter=x.min;S.agFilter=null;S.view="feed";persist();renderAll()}return}
+  if(x.type==="grp"){if(x.team)openDM("#"+x.team);return}
+  if(x.type==="taskassign"||x.type==="taskaccept"||x.type==="taskdone"){if(x.team)openDM("#"+x.team);else openDM(x.from);return}
   if(x.type==="dm"){openDM(x.from);return}
   if(findItem(+x.itemId))openModal(+x.itemId);
 }
@@ -3453,11 +3798,14 @@ function askNotifPerm(){try{if(("Notification" in window)&&Notification.permissi
 var DMS={},DM_UNREAD={},_dmRefs=[],_dmOpen=null,_dmSig="";
 function dmPairKey(a,b){return [a,b].sort().join("__")}
 function dmContacts(){return teamMates().filter(function(u){return u!==S.user})}
-function maybeResubDM(){var sig=dmContacts().slice().sort().join(",");if(sig!==_dmSig){subscribeDM()}else renderDMBadge()}
-function _dmLocalLoad(){dmContacts().forEach(function(u){var arr=(store.get("dm__"+dmPairKey(S.user,u),[])||[]);DMS[u]=arr;DM_UNREAD[u]=arr.filter(function(m){return m.to===S.user&&!m.read}).length})}
+function maybeResubDM(){var sig=dmThreadList().slice().sort().join(",");if(sig!==_dmSig){subscribeDM()}else renderDMBadge()}
+function _dmLocalLoad(){
+  dmContacts().forEach(function(u){var arr=(store.get("dm__"+dmPairKey(S.user,u),[])||[]);DMS[u]=arr;DM_UNREAD[u]=arr.filter(function(m){return m.to===S.user&&!m.read}).length});
+  myTeams().forEach(function(t){var gk="#"+t,arr=(store.get("dmg__"+t,[])||[]);DMS[gk]=arr;DM_UNREAD[gk]=arr.filter(function(m){return m.from!==S.user&&(m.ts||0)>(grpSeen()[gk]||0)}).length});
+}
 function subscribeDM(){
   _dmRefs.forEach(function(r){try{r.off()}catch(e){}}); _dmRefs=[]; DMS={}; DM_UNREAD={};
-  _dmSig=dmContacts().slice().sort().join(",");
+  _dmSig=dmThreadList().slice().sort().join(",");
   if(!S.user){renderDMBadge();return}
   if(CLOUD){
     dmContacts().forEach(function(u){
@@ -3468,6 +3816,18 @@ function subscribeDM(){
         renderDMBadge();
         var ov=document.getElementById("dm-overlay");
         if(ov&&ov.classList.contains("open")){renderDMContacts(); if(_dmOpen===u)renderDMThread(u)}
+        if(dmPopOpen())renderDMPop();
+      });
+      _dmRefs.push(ref);
+    });
+    myTeams().forEach(function(t){
+      var gk="#"+t, ref=fdb.ref("dmg/"+t);
+      ref.on("value",function(snap){
+        var v=snap.val()||{}, arr=Object.keys(v).map(function(k){var o=v[k]||{};o.id=k;return o}).sort(function(a,b){return (a.ts||0)-(b.ts||0)});
+        DMS[gk]=arr; DM_UNREAD[gk]=arr.filter(function(m){return m.from!==S.user&&(m.ts||0)>(grpSeen()[gk]||0)}).length;
+        renderDMBadge();
+        var ov=document.getElementById("dm-overlay");
+        if(ov&&ov.classList.contains("open")){renderDMContacts(); if(_dmOpen===gk)renderDMThread(gk)}
         if(dmPopOpen())renderDMPop();
       });
       _dmRefs.push(ref);
@@ -3488,75 +3848,170 @@ function openDMPanel(){
   if(c.length)openDM((_dmOpen&&c.indexOf(_dmOpen)>=0)?_dmOpen:c[0]);
   else document.getElementById("dm-main").innerHTML='<div class="dm-empty">'+T("dmNoTeam")+'</div>';
 }
-function closeDM(){document.getElementById("dm-overlay").classList.remove("open")}
+function closeDM(){document.getElementById("dm-overlay").classList.remove("open");stopWatchTyping();}
 /* ---- chat speech-bubble popover ---- */
+var _dmPopPinned=false,_dmHoverT=null;
+function closeOtherHeaderPops(except){
+  if(except!=="notif"){var np=document.getElementById("notif-panel");if(np)np.classList.remove("open");}
+  if(except!=="acct"){var am=document.getElementById("acct-menu");if(am)am.classList.remove("open");}
+  if(except!=="dm"){var dp=document.getElementById("dm-pop");if(dp&&dp.classList.contains("open")){dp.classList.remove("open");_dmPopPinned=false;stopWatchTyping();}}
+}
+function openDMPop(){
+  var p=document.getElementById("dm-pop"); if(!p||!S.user)return;
+  clearTimeout(_dmHoverT);
+  closeOtherHeaderPops("dm");
+  if(!CLOUD)_dmLocalLoad();
+  if(!p.classList.contains("open")){p.classList.add("open");renderDMPop();}
+}
 function toggleDMPop(){
   var p=document.getElementById("dm-pop"); if(!p)return;
-  if(p.classList.contains("open")){p.classList.remove("open");return}
-  if(!S.user)return; if(!CLOUD)_dmLocalLoad();
-  p.classList.add("open"); renderDMPop();
+  if(p.classList.contains("open")&&_dmPopPinned){_dmPopPinned=false;closeDMPop();return}
+  _dmPopPinned=true; openDMPop();
 }
-function closeDMPop(){var p=document.getElementById("dm-pop");if(p)p.classList.remove("open")}
+function dmHoverEnter(){ if(!S.user)return; clearTimeout(_dmHoverT); openDMPop(); }
+function dmHoverLeave(){ if(_dmPopPinned)return; clearTimeout(_dmHoverT); _dmHoverT=setTimeout(closeDMPop,320); }
+function closeDMPop(){clearTimeout(_dmHoverT);_dmPopPinned=false;var p=document.getElementById("dm-pop");if(p)p.classList.remove("open");stopWatchTyping();}
 function expandDMPop(){closeDMPop();openDMPanel()}
 function dmPopOpen(){var p=document.getElementById("dm-pop");return p&&p.classList.contains("open")}
 function renderDMPop(){
   var p=document.getElementById("dm-pop"); if(!p||!p.classList.contains("open"))return;
   var head='<div class="dmp-head"><b>'+T("dmTitle")+'</b><div class="dmp-head-btns"><button title="'+T("dmExpand")+'" onclick="expandDMPop()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button><button title="'+T("cancel")+'" onclick="closeDMPop()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div></div>';
-  var c=dmContacts();
+  var c=dmThreadList();
   if(!c.length){p.innerHTML=head+'<div class="dm-empty">'+T("dmNoTeam")+'</div>';return}
   if(!_dmOpen||c.indexOf(_dmOpen)<0){
     p.innerHTML=head+'<div class="dmp-contacts">'+c.map(function(u){
-      var arr=DMS[u]||[],last=arr.length?arr[arr.length-1]:null,un=DM_UNREAD[u]||0;
-      var prev=last?((last.from===S.user?T("dmYou")+": ":"")+last.text):"";
-      return '<button class="dm-contact" onclick="dmPopOpenThread(\''+esc(u)+'\')">'+avatarHTML(u,"sm",true)+'<div class="dm-c-body"><div class="dm-c-name">'+esc(u)+(un?'<span class="dm-c-un">'+un+'</span>':'')+'</div><div class="dm-c-last">'+esc(prev).slice(0,40)+'</div></div></button>';
+      var g=isGrp(u),arr=DMS[u]||[],last=arr.length?arr[arr.length-1]:null,un=DM_UNREAD[u]||0;
+      var prev=last?((last.kind==="task"?"📋 ":"")+(last.from===S.user?T("dmYou")+": ":(g?esc(last.from)+": ":""))+(last.text||"")):"";
+      return '<button class="dm-contact'+(g?" grp":"")+'" onclick="dmPopOpenThread(\''+esc(u)+'\')">'+threadAvatarHTML(u)+'<div class="dm-c-body"><div class="dm-c-name">'+esc(threadLabel(u))+(g?'<span class="grp-tag">'+T("grpTeamTag")+'</span>':'')+(un?'<span class="dm-c-un">'+un+'</span>':'')+'</div><div class="dm-c-last">'+esc(prev).slice(0,40)+'</div></div></button>';
     }).join("")+'</div>';
     return;
   }
-  var u=_dmOpen, arr=DMS[u]||[];
-  var msgs=arr.length?arr.map(function(m){var mine=m.from===S.user;return '<div class="dm-msg'+(mine?" me":"")+'">'+(mine?'':avatarHTML(m.from,"sm"))+'<div class="dm-bubble">'+esc(m.text)+'<span class="dm-time">'+cmtTime(m.ts)+'</span></div></div>'}).join(""):'<div class="dm-empty">'+T("dmStart")+'</div>';
-  p.innerHTML=head+'<div class="dmp-thread"><div class="dmp-back" onclick="_dmOpen=null;renderDMPop()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>'+avatarHTML(u,"sm",true)+'<b>'+esc(u)+'</b>'+(isOnline(u)?'<span class="dm-online">'+T("online")+'</span>':'')+'</div>'+
-    '<div class="dmp-msgs" id="dmp-msgs">'+msgs+'</div>'+
-    '<div class="dmp-form"><textarea id="dmp-input" rows="1" placeholder="'+T("dmPh")+'" oninput="autoGrow(this)" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();sendDMPop()}"></textarea><button class="btn primary" onclick="sendDMPop()">'+T("commentSend")+'</button></div>';
+  var u=_dmOpen, arr=DMS[u]||[], g=isGrp(u);
+  p.innerHTML=head+'<div class="dmp-thread"><div class="dmp-back" onclick="stopWatchTyping();_dmOpen=null;renderDMPop()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>'+threadAvatarHTML(u)+'<b>'+esc(threadLabel(u))+'</b>'+(g?'<span class="grp-tag">'+T("grpTeamTag")+'</span>':(isOnline(u)?'<span class="dm-online">'+T("online")+'</span>':''))+'</div>'+
+    '<div class="dmp-msgs" id="dmp-msgs">'+dmMessagesHTML(arr,u)+(g?"":typingHTML())+'</div>'+
+    '<div class="th-hint" id="dmp-hint" style="display:none"></div>'+
+    '<div class="dmp-form"><textarea id="dmp-input" rows="1" placeholder="'+T("dmPh")+'" oninput="autoGrow(this);'+(g?'':'dmTyping(\''+esc(u)+'\');')+'taskInputHint(this,document.getElementById(\'dmp-hint\'),'+threadCtxJS(u)+')" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();sendDMPop()}"></textarea><button class="btn primary" onclick="sendDMPop()">'+T("commentSend")+'</button></div>';
   var ml=document.getElementById("dmp-msgs"); if(ml)ml.scrollTop=ml.scrollHeight;
-  markDMRead(u);
+  if(g)grpMarkSeen(grpTeam(u)); else markDMRead(u);
+  if(!g)renderTypingIndicator(u);
 }
-function dmPopOpenThread(u){_dmOpen=u;renderDMPop();markDMRead(u)}
+function dmPopOpenThread(u){_dmOpen=u;renderDMPop();if(isGrp(u)){grpMarkSeen(grpTeam(u));stopWatchTyping();}else{markDMRead(u);watchTyping(u);}}
 function sendDMPop(){
   var inp=document.getElementById("dmp-input"); if(!inp||!inp.value.trim()||!_dmOpen)return;
-  var u=_dmOpen; if(dmContacts().indexOf(u)<0){toast(T("dmNotMate"));return}
-  var text=inp.value.trim(), key=dmPairKey(S.user,u), msg={from:S.user,to:u,text:text,ts:Date.now(),read:false};
+  var u=_dmOpen, text=inp.value.trim();
+  var h=document.getElementById("dmp-hint"); if(h){h.style.display="none";h.innerHTML="";}
+  if(isGrp(u)){ sendGroupText(grpTeam(u),text); if(dmPopOpen())renderDMPop(); inp.value="";autoGrow(inp); return; }
+  if(dmContacts().indexOf(u)<0){toast(T("dmNotMate"));return}
+  if(/^\/task\b/i.test(text)){assignTask(text,{type:"dm",peer:u});inp.value="";autoGrow(inp);if(dmPopOpen())renderDMPop();return;}
+  _clearTyping(u);
+  var key=dmPairKey(S.user,u), msg={from:S.user,to:u,text:text,ts:Date.now(),read:false};
   if(CLOUD){fdb.ref("dm/"+key).push(msg);fdb.ref("notifications/"+u).push({from:S.user,type:"dm",text:text,ts:Date.now(),read:false});}
   else{var k="dm__"+key,arr=store.get(k,[])||[];msg.id="dm"+Date.now()+Math.floor(Math.random()*999);arr.push(msg);store.set(k,arr);DMS[u]=arr;var nk="notif__"+u,o=store.get(nk,{})||{},nid="n"+Date.now()+Math.floor(Math.random()*999);o[nid]={from:S.user,type:"dm",text:text,ts:Date.now(),read:false};store.set(nk,o);renderDMPop();}
   inp.value="";autoGrow(inp);
 }
 function renderDMContacts(){
   var box=document.getElementById("dm-contacts"); if(!box)return;
-  var c=dmContacts();
+  var c=dmThreadList();
   box.innerHTML=c.length?c.map(function(u){
-    var arr=DMS[u]||[], last=arr.length?arr[arr.length-1]:null, un=DM_UNREAD[u]||0;
-    var preview=last?((last.from===S.user?T("dmYou")+": ":"")+last.text):"";
-    return '<button class="dm-contact'+(_dmOpen===u?" cur":"")+'" onclick="openDM(\''+esc(u)+'\')">'+avatarHTML(u,"sm",true)+'<div class="dm-c-body"><div class="dm-c-name">'+esc(u)+(un?'<span class="dm-c-un">'+un+'</span>':'')+'</div><div class="dm-c-last">'+esc(preview).slice(0,46)+'</div></div></button>';
+    var g=isGrp(u),arr=DMS[u]||[], last=arr.length?arr[arr.length-1]:null, un=DM_UNREAD[u]||0;
+    var preview=last?((last.kind==="task"?"📋 ":"")+(last.from===S.user?T("dmYou")+": ":(g?esc(last.from)+": ":""))+(last.text||"")):"";
+    return '<button class="dm-contact'+(_dmOpen===u?" cur":"")+(g?" grp":"")+'" onclick="openDM(\''+esc(u)+'\')">'+threadAvatarHTML(u)+'<div class="dm-c-body"><div class="dm-c-name">'+esc(threadLabel(u))+(g?'<span class="grp-tag">'+T("grpTeamTag")+'</span>':'')+(un?'<span class="dm-c-un">'+un+'</span>':'')+'</div><div class="dm-c-last">'+esc(preview).slice(0,46)+'</div></div></button>';
   }).join(""):'<div class="dm-empty" style="padding:14px">'+T("dmNoTeam")+'</div>';
 }
+/* ---- LINE-style message rendering ---- */
+function dmTime(ts){var d=new Date(ts),p=function(n){return String(n).padStart(2,"0")};return p(d.getHours())+":"+p(d.getMinutes())}
+function dmDayKey(ts){var d=new Date(ts);return d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()}
+function dmDayLabel(ts){
+  var d=new Date(ts);
+  if(dmDayKey(ts)===dmDayKey(Date.now()))return T("dmToday");
+  var thm=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+  var enm=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  if(S.lang==="en")return enm[d.getMonth()]+" "+d.getDate()+", "+d.getFullYear();
+  return d.getDate()+" "+thm[d.getMonth()]+" "+(d.getFullYear()+543);
+}
+var _dmEditId=null;
+function dmMessagesHTML(arr,u){
+  if(!arr||!arr.length)return '<div class="dm-empty">'+T("dmStart")+'</div>';
+  var group=isGrp(u), out="",lastDay=null;
+  arr.forEach(function(m){
+    var dk=dmDayKey(m.ts);
+    if(dk!==lastDay){out+='<div class="dm-daysep"><span>'+esc(dmDayLabel(m.ts))+'</span></div>';lastDay=dk;}
+    if(m.kind==="task"){out+=taskCardHTML(m,u);return;}
+    var mine=m.from===S.user, tt='<span class="dm-t">'+dmTime(m.ts)+(m.editedTs?" ·"+T("edited"):"")+'</span>';
+    if(mine&&!group&&_dmEditId===m.id&&m.id){
+      out+='<div class="dm-row me editing"><div class="dm-edit"><textarea id="dmedit-'+esc(m.id)+'" rows="1" oninput="autoGrow(this)">'+esc(m.text)+'</textarea><div class="dm-edit-btns"><button class="adm-btn" onclick="saveDMEdit(\''+esc(u)+'\',\''+esc(m.id)+'\')">'+T("saveBtn")+'</button><button class="adm-btn" onclick="cancelDMEdit()">'+T("cancel")+'</button></div></div></div>';
+      return;
+    }
+    var acts=(mine&&!group&&m.id)?('<span class="dm-acts"><button title="'+T("edit")+'" onclick="startDMEdit(\''+esc(m.id)+'\')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button title="'+T("delete")+'" onclick="delDM(\''+esc(u)+'\',\''+esc(m.id)+'\')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></span>'):'';
+    var nameTag=(group&&!mine)?('<div class="dm-gname">'+esc(m.from)+'</div>'):'';
+    out+='<div class="dm-row'+(mine?" me":"")+'">'+(mine?tt:avatarHTML(m.from,"sm"))+'<div class="dm-bcol">'+nameTag+'<div class="dm-bubble">'+esc(m.text)+'</div></div>'+(mine?acts:tt)+'</div>';
+  });
+  return out;
+}
+function _rerenderDM(){var ov=document.getElementById("dm-overlay");if(ov&&ov.classList.contains("open")&&_dmOpen)renderDMThread(_dmOpen);if(dmPopOpen())renderDMPop();}
+function startDMEdit(id){_dmEditId=id;_rerenderDM();setTimeout(function(){var e=document.getElementById("dmedit-"+id);if(e){e.focus();autoGrow(e)}},0)}
+function cancelDMEdit(){_dmEditId=null;_rerenderDM()}
+function saveDMEdit(u,id){
+  var e=document.getElementById("dmedit-"+id); if(!e)return; var txt=e.value.trim(); if(!txt){return}
+  var key=dmPairKey(S.user,u);
+  if(CLOUD){fdb.ref("dm/"+key+"/"+id).update({text:txt,editedTs:Date.now()});}
+  else{var k="dm__"+key,a=store.get(k,[])||[];for(var i=0;i<a.length;i++){if(a[i].id===id){a[i].text=txt;a[i].editedTs=Date.now()}}store.set(k,a);DMS[u]=a;}
+  _dmEditId=null;_rerenderDM();
+}
+function delDM(u,id){
+  var key=dmPairKey(S.user,u);
+  if(CLOUD){fdb.ref("dm/"+key+"/"+id).remove();}
+  else{var k="dm__"+key,a=(store.get(k,[])||[]).filter(function(m){return m.id!==id});store.set(k,a);DMS[u]=a;}
+  if(_dmEditId===id)_dmEditId=null;_rerenderDM();
+  if(typeof toast==="function")toast(T("dmDeleted"));
+}
+/* ---- typing indicator ---- */
+var TYPING={}, _typingRef=null, _typingOpen=null, _typingClearT=null, _typingTick=null;
+function isTyping(u){return (Date.now()-(TYPING[u]||0))<4500}
+function renderTypingIndicator(u){var on=isTyping(u);document.querySelectorAll(".dm-typing").forEach(function(el){el.style.display=on?"flex":"none"})}
+function watchTyping(u){
+  if(_typingRef){try{_typingRef.off()}catch(e){}_typingRef=null;}
+  _typingOpen=u; TYPING={};
+  if(CLOUD&&u){_typingRef=fdb.ref("typing/"+dmPairKey(S.user,u)+"/"+u);_typingRef.on("value",function(s){TYPING[u]=+s.val()||0;renderTypingIndicator(u)});}
+  clearInterval(_typingTick);_typingTick=setInterval(function(){if(_typingOpen)renderTypingIndicator(_typingOpen)},1600);
+}
+function stopWatchTyping(){if(_typingRef){try{_typingRef.off()}catch(e){}_typingRef=null;}clearInterval(_typingTick);_typingTick=null;_typingOpen=null;TYPING={};}
+function dmTyping(u){
+  if(!CLOUD||!S.user||!u)return;
+  var now=Date.now();
+  if(!dmTyping._last||now-dmTyping._last>900){dmTyping._last=now;try{fdb.ref("typing/"+dmPairKey(S.user,u)+"/"+S.user).set(now)}catch(e){}}
+  clearTimeout(_typingClearT);_typingClearT=setTimeout(function(){try{fdb.ref("typing/"+dmPairKey(S.user,u)+"/"+S.user).set(0)}catch(e){}},2600);
+}
+function typingHTML(){return '<div class="dm-typing" style="display:none"><span class="dm-typing-bubble"><i></i><i></i><i></i></span></div>'}
 function openDM(u){
   if(!u)return;
   var ov=document.getElementById("dm-overlay"); if(ov&&!ov.classList.contains("open"))ov.classList.add("open");
   _dmOpen=u; if(!CLOUD)_dmLocalLoad();
-  renderDMContacts(); renderDMThread(u); markDMRead(u);
+  renderDMContacts(); renderDMThread(u);
+  if(isGrp(u)){grpMarkSeen(grpTeam(u));stopWatchTyping();}else{markDMRead(u);watchTyping(u);}
 }
 function renderDMThread(u){
   var main=document.getElementById("dm-main"); if(!main)return;
-  var arr=DMS[u]||[];
-  var msgs=arr.length?arr.map(function(m){var mine=m.from===S.user;return '<div class="dm-msg'+(mine?" me":"")+'">'+(mine?'':avatarHTML(m.from,"sm"))+'<div class="dm-bubble">'+esc(m.text)+'<span class="dm-time">'+cmtTime(m.ts)+(m.editedTs?" · "+T("edited"):"")+'</span></div></div>'}).join(""):'<div class="dm-empty">'+T("dmStart")+'</div>';
-  main.innerHTML='<div class="dm-thread-head">'+avatarHTML(u,"sm",true)+'<b>'+esc(u)+'</b>'+(isOnline(u)?'<span class="dm-online">'+T("online")+'</span>':'')+'</div>'+
-    '<div class="dm-msgs" id="dm-msgs">'+msgs+'</div>'+
-    '<div class="dm-form">'+avatarHTML(S.user||"","sm")+'<textarea id="dm-input" rows="1" placeholder="'+T("dmPh")+'" oninput="autoGrow(this)" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();sendDM(\''+esc(u)+'\')}"></textarea><button class="btn primary" onclick="sendDM(\''+esc(u)+'\')">'+T("commentSend")+'</button></div>';
+  var arr=DMS[u]||[], g=isGrp(u);
+  var head=g?('<div class="dm-thread-head"><span class="grp-ava">#</span><b>'+esc(grpTeam(u))+'</b><span class="grp-tag">'+T("grpTeamTag")+'</span><span class="u-title">'+T("grpAll")+'</span></div>')
+            :('<div class="dm-thread-head">'+avatarHTML(u,"sm",true)+'<b>'+esc(u)+'</b>'+(userTitle(u)?'<span class="u-title">'+esc(userTitle(u))+'</span>':'')+(isOnline(u)?'<span class="dm-online">'+T("online")+'</span>':'')+'</div>');
+  main.innerHTML=head+
+    '<div class="dm-msgs" id="dm-msgs">'+dmMessagesHTML(arr,u)+(g?"":typingHTML())+'</div>'+
+    '<div class="th-hint" id="dm-hint" style="display:none"></div>'+
+    '<div class="dm-form">'+avatarHTML(S.user||"","sm")+'<textarea id="dm-input" rows="1" placeholder="'+T("dmPh")+'" oninput="autoGrow(this);'+(g?'':'dmTyping(\''+esc(u)+'\');')+'taskInputHint(this,document.getElementById(\'dm-hint\'),'+threadCtxJS(u)+')" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();sendDM(\''+esc(u)+'\')}"></textarea><button class="btn primary" onclick="sendDM(\''+esc(u)+'\')">'+T("commentSend")+'</button></div>';
   var ml=document.getElementById("dm-msgs"); if(ml)ml.scrollTop=ml.scrollHeight;
+  if(!g)renderTypingIndicator(u);
 }
+function _clearTyping(u){if(CLOUD&&S.user&&u){try{fdb.ref("typing/"+dmPairKey(S.user,u)+"/"+S.user).set(0)}catch(e){}}}
 function sendDM(u){
   var inp=document.getElementById("dm-input"); if(!inp||!inp.value.trim()||!S.user)return;
+  var text0=inp.value.trim();
+  var h=document.getElementById("dm-hint"); if(h){h.style.display="none";h.innerHTML="";}
+  if(isGrp(u)){ sendGroupText(grpTeam(u),text0); if(!CLOUD)renderDMThread(u); inp.value="";autoGrow(inp); return; }
   if(dmContacts().indexOf(u)<0){toast(T("dmNotMate"));return}
-  var text=inp.value.trim(), key=dmPairKey(S.user,u), msg={from:S.user,to:u,text:text,ts:Date.now(),read:false};
+  if(/^\/task\b/i.test(text0)){assignTask(text0,{type:"dm",peer:u});inp.value="";autoGrow(inp);if(!CLOUD)renderDMThread(u);return;}
+  _clearTyping(u);
+  var text=text0, key=dmPairKey(S.user,u), msg={from:S.user,to:u,text:text,ts:Date.now(),read:false};
   if(CLOUD){
     fdb.ref("dm/"+key).push(msg);
     fdb.ref("notifications/"+u).push({from:S.user,type:"dm",text:text,ts:Date.now(),read:false});
@@ -3568,9 +4023,164 @@ function sendDM(u){
   inp.value="";autoGrow(inp);
 }
 function markDMRead(u){
+  if(isGrp(u)){grpMarkSeen(grpTeam(u));return;}
   var key=dmPairKey(S.user,u), arr=DMS[u]||[];
   if(CLOUD){arr.forEach(function(m){if(m.to===S.user&&!m.read&&m.id)fdb.ref("dm/"+key+"/"+m.id+"/read").set(true)})}
   else{var k="dm__"+key,a=store.get(k,[])||[],ch=false;a.forEach(function(m){if(m.to===S.user&&!m.read){m.read=true;ch=true}});if(ch)store.set(k,a);DMS[u]=a;DM_UNREAD[u]=0;renderDMBadge();renderDMContacts()}
+}
+/* ===== Team group chat + task assignment ===== */
+function isGrp(u){return typeof u==="string"&&u.charAt(0)==="#"}
+function grpTeam(u){return isGrp(u)?u.slice(1):""}
+function grpSeen(){return (S.grpSeen=S.grpSeen||{})}
+function grpMarkSeen(team){grpSeen()["#"+team]=Date.now();persist();var gk="#"+team;DM_UNREAD[gk]=0;renderDMBadge();}
+function myGroups(){return myTeams().map(function(t){return "#"+t})}
+function dmThreadList(){return myGroups().concat(dmContacts())}
+function threadLabel(u){return isGrp(u)?("# "+grpTeam(u)):u}
+function threadAvatarHTML(u){return isGrp(u)?('<span class="grp-ava">#</span>'):avatarHTML(u,"sm",true);}
+function threadCtxJS(u){return isGrp(u)?("{type:'group',team:'"+esc(grpTeam(u))+"'}"):("{type:'dm',peer:'"+esc(u)+"'}");}
+/* resolve an @token -> array of usernames (excludes self) */
+function resolveAssignees(token){
+  var t=String(token||"").replace(/^@/,"").trim(); if(!t)return [];
+  var tl=t.toLowerCase();
+  if(tl==="everyone"||tl==="all"||t==="ทุกคน"||t==="ทุกคนในทีม")return teamMates().filter(function(u){return u!==S.user});
+  var team=TEAMS.find(function(x){return x.toLowerCase()===tl});
+  if(team)return USERS.filter(function(u){return teamsOf(u).indexOf(team)>=0&&u!==S.user});
+  var person=USERS.find(function(u){return u.toLowerCase()===tl});
+  return person?[person]:[];
+}
+/* parse "/task @who detail" (ctx.type: dm|group|note) */
+function parseTaskCmd(raw,ctx){
+  var body=String(raw||"").replace(/^\/task\s*/i,"").trim();
+  var m=body.match(/^@(\S+)\s*([\s\S]*)$/);
+  var who=null,assignees=[],text=body;
+  if(m){who="@"+m[1];assignees=resolveAssignees(who);text=(m[2]||"").trim();}
+  if(!who&&ctx&&ctx.type==="dm"&&ctx.peer){assignees=[ctx.peer];}
+  return {who:who,assignees:assignees,text:text};
+}
+function notifyUser(target,notif){
+  if(!target||target===S.user)return;
+  if(CLOUD){fdb.ref("notifications/"+target).push(notif);}
+  else{var nk="notif__"+target,o=store.get(nk,{})||{},nid="n"+Date.now()+Math.floor(Math.random()*99999);o[nid]=notif;store.set(nk,o);}
+}
+function pushDMRaw(u,msg,notif){
+  var key=dmPairKey(S.user,u);
+  if(CLOUD){fdb.ref("dm/"+key).push(msg);if(notif)notifyUser(u,notif);}
+  else{var k="dm__"+key,arr=store.get(k,[])||[];msg.id=msg.id||("dm"+Date.now()+Math.floor(Math.random()*99999));arr.push(msg);store.set(k,arr);DMS[u]=arr;if(notif)notifyUser(u,notif);}
+}
+function pushGrpRaw(team,msg,notifText,notifType){
+  if(CLOUD){fdb.ref("dmg/"+team).push(msg);}
+  else{var k="dmg__"+team,arr=store.get(k,[])||[];msg.id=msg.id||("g"+Date.now()+Math.floor(Math.random()*99999));arr.push(msg);store.set(k,arr);DMS["#"+team]=arr;}
+  var recips=USERS.filter(function(x){return x!==S.user&&teamsOf(x).indexOf(team)>=0});
+  recips.forEach(function(x){notifyUser(x,{from:S.user,type:notifType||"grp",team:team,text:notifText||msg.text||"",ts:Date.now(),read:false})});
+}
+/* MAIN: assign a task. ctx={type:'dm',peer} | {type:'group',team} | {type:'note',itemId,itemTitle} */
+function assignTask(raw,ctx){
+  if(!S.user)return false;
+  var p=parseTaskCmd(raw,ctx);
+  if(!p.text){toast(T("taskNeedText"));return false;}
+  if((!ctx||ctx.type!=="dm")&&!p.who){toast(T("taskNeedWho"));return false;}
+  if(!p.assignees.length){toast((p.who?T("taskNoWho").replace("{u}",p.who.replace(/^@/,"")):T("taskNeedWho")));return false;}
+  var src=(ctx&&ctx.type==="note")?{srcId:ctx.itemId,srcTitle:ctx.itemTitle||""}:{};
+  // group task card in the group thread (when assigned from a group)
+  if(ctx&&ctx.type==="group"&&ctx.team){
+    p.assignees.forEach(function(a){
+      var gmsg=Object.assign({from:S.user,kind:"task",assignee:a,text:p.text,tstatus:"pending",ts:Date.now()},src);
+      pushGrpRaw(ctx.team,gmsg,S.user+": /task @"+a,"taskassign");
+      notifyUser(a,{from:S.user,type:"taskassign",team:ctx.team,text:p.text,ts:Date.now(),read:false});
+    });
+  } else {
+    // DM task card to each assignee's private chat
+    p.assignees.forEach(function(a){
+      var msg=Object.assign({from:S.user,to:a,kind:"task",text:p.text,tstatus:"pending",ts:Date.now(),read:false},src);
+      pushDMRaw(a,msg,{from:S.user,type:"taskassign",text:p.text,ts:Date.now(),read:false});
+    });
+    // note context: also record on the news item so the whole team sees it there
+    if(ctx&&ctx.type==="note"&&ctx.itemId!=null){addTask(ctx.itemId,p.text+" ("+T("taskFor").replace("{u}",p.assignees.join(", "))+")");}
+  }
+  toast(p.assignees.length>1?T("taskSentN").replace("{n}",p.assignees.length):T("taskSentTo").replace("{u}",p.assignees[0]));
+  if(!CLOUD){refreshLocalNotifs();}
+  _rerenderDM(); renderDMBadge();
+  return true;
+}
+/* accept / done — u is the thread key (peer for DM, "#team" for group) */
+function setTaskStatus(u,id,status){
+  var isG=isGrp(u);
+  var apply=function(msg){
+    var target=(msg.from===S.user)?(isG?msg.assignee:msg.to):msg.from;
+    var type=status==="accepted"?"taskaccept":status==="done"?"taskdone":"taskassign";
+    notifyUser(target,{from:S.user,type:type,team:isG?grpTeam(u):null,text:msg.text||"",ts:Date.now(),read:false});
+    toast(status==="done"?T("taskDoneToast"):T("taskAcceptedToast"));
+  };
+  if(CLOUD){
+    var path=isG?("dmg/"+grpTeam(u)+"/"+id):("dm/"+dmPairKey(S.user,u)+"/"+id);
+    var ref=fdb.ref(path);
+    ref.once("value").then(function(s){var msg=s.val()||{};ref.update({tstatus:status});apply(msg);});
+  }else{
+    var k=isG?("dmg__"+grpTeam(u)):("dm__"+dmPairKey(S.user,u)),a=store.get(k,[])||[],found=null;
+    a.forEach(function(m){if(m.id===id){m.tstatus=status;found=m;}});store.set(k,a);DMS[u]=a;
+    if(found)apply(found);
+    _rerenderDM();
+  }
+}
+function openTaskSrc(id){
+  id=+id; if(typeof findItem==="function"&&!findItem(id)){if(typeof toast==="function")toast(T("taskSrcGone"));return;}
+  closeDMPop(); var ov=document.getElementById("dm-overlay"); if(ov)ov.classList.remove("open");
+  stopWatchTyping(); openModal(id);
+}
+function taskCardHTML(m,u){
+  var isG=isGrp(u);
+  var amAssigner=m.from===S.user;
+  var amAssignee=isG?(m.assignee===S.user):(m.to===S.user);
+  var st=m.tstatus||"pending";
+  var chip='<span class="tk-chip tk-'+st+'">'+(st==="done"?T("tsDone"):st==="accepted"?T("tsAccepted"):T("tsPending"))+'</span>';
+  var whoLine=isG?('<div class="tk-who">'+(amAssignee?T("taskForYou"):T("taskFor").replace("{u}",esc(m.assignee||"")))+'</div>'):'';
+  var byLine=(!amAssigner)?('<div class="tk-by">'+T("taskByLabel").replace("{u}",esc(m.from))+'</div>'):'';
+  var hasSrc=m.srcTitle&&m.srcId!=null&&(typeof findItem!=="function"||findItem(+m.srcId));
+  var srcLine=hasSrc?('<button type="button" class="tk-src tk-srclink" onclick="openTaskSrc('+(+m.srcId)+')" title="'+T("taskOpenSrc")+'">'+T("taskSrc")+' '+esc(m.srcTitle)+' <span class="tk-srcgo">→</span></button>')
+             :(m.srcTitle?('<div class="tk-src">'+T("taskSrc")+' '+esc(m.srcTitle)+'</div>'):'');
+  var btns="";
+  if(amAssignee&&st!=="done"){
+    if(st==="pending")btns+='<button class="tk-btn accept" onclick="setTaskStatus(\''+esc(u)+'\',\''+esc(m.id)+'\',\'accepted\')">'+T("taskAccept")+'</button>';
+    btns+='<button class="tk-btn done" onclick="setTaskStatus(\''+esc(u)+'\',\''+esc(m.id)+'\',\'done\')">'+T("taskDoneBtn")+'</button>';
+  }
+  var head='<div class="tk-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><b>'+T("taskAssignTitle")+'</b>'+chip+'</div>';
+  return '<div class="dm-row task'+(amAssigner?" me":"")+'"><div class="task-card'+(st==="done"?" done":"")+'">'+head+byLine+whoLine+'<div class="tk-text">'+esc(m.text)+'</div>'+srcLine+(btns?('<div class="tk-btns">'+btns+'</div>'):'')+'<div class="tk-time">'+dmTime(m.ts)+'</div></div></div>';
+}
+/* group send */
+function sendGroupText(team,text){
+  text=(text||"").trim(); if(!text)return;
+  if(/^\/task\b/i.test(text)){assignTask(text,{type:"group",team:team});return;}
+  var msg={from:S.user,text:text,ts:Date.now()};
+  pushGrpRaw(team,msg,text,"grp");
+  if(!CLOUD)_rerenderDM();
+}
+/* Minecraft-style /task syntax hint */
+function taskHintHTML(ctx){
+  var struct=(ctx&&ctx.type==="dm")?"/task &lt;รายละเอียดงาน&gt;":"/task @&lt;ใคร&gt; &lt;รายละเอียดงาน&gt;";
+  var picks="";
+  if(!ctx||ctx.type!=="dm"){
+    var opts=["@everyone"].concat(myTeams().map(function(t){return "@"+t})).concat(mentionable().map(function(u){return "@"+u}));
+    picks='<div class="th-pick"><span class="th-lbl">'+T("taskHintPickWho")+'</span>'+opts.slice(0,10).map(function(o){return '<button class="th-chip" onmousedown="taskHintInsert(event,\''+esc(o)+'\')">'+esc(o)+'</button>'}).join("")+'</div>';
+  }
+  var next=(ctx&&ctx.type==="dm")?T("taskHintDMNoWho"):T("taskHintDetail");
+  return '<div class="th-struct"><span class="th-lbl">'+T("taskHintStruct")+'</span> <code>'+struct+'</code></div>'+picks+'<div class="th-next">'+T("taskHintNext")+' '+esc(next)+'</div>';
+}
+function taskHintInsert(e,tok){
+  e.preventDefault();
+  var box=e.target.closest(".th-hint"); var id=box&&box.id;
+  var map={"dm-hint":"dm-input","dmp-hint":"dmp-input","cmt-hint":"comment-input"};
+  var ta=document.getElementById((map[id])||"dm-input"); if(!ta)return;
+  var v=ta.value;
+  if(/^\/task\s*@\S*\s*$/i.test(v)||/^\/task\s*$/i.test(v)||!/^\/task\b/i.test(v)){ta.value="/task "+tok+" ";}
+  else{ta.value=v.replace(/\s*$/,"")+" "+tok+" ";}
+  ta.focus(); ta.dispatchEvent(new Event("input"));
+}
+/* attach live hint to a chat textarea; hintBoxId = element to fill */
+function taskInputHint(ta,hintBox,ctx){
+  if(!ta||!hintBox)return;
+  var v=ta.value||"";
+  if(/^\/task\b/i.test(v)){hintBox.innerHTML=taskHintHTML(ctx);hintBox.style.display="block";}
+  else{hintBox.style.display="none";hintBox.innerHTML="";}
 }
 /* ===== Online presence ===== */
 function subscribePresence(){
@@ -3640,10 +4250,11 @@ function copyItem(id){
   else fallbackCopy(txt,done);
 }
 function shareItem(id){
-  var url=location.origin+location.pathname+"#item="+id;
-  try{history.replaceState(null,"",url)}catch(e){}
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){toast(T("shareCopied"))},function(){fallbackCopy(url,function(){toast(T("shareCopied"))})})}
-  else fallbackCopy(url,function(){toast(T("shareCopied"))});
+  var it=findItem(id);
+  var url=(it&&it.src)?it.src:(location.origin+location.pathname+"#item="+id);
+  var msg=(it&&it.src)?T("shareNewsCopied"):T("shareCopied");
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){toast(msg)},function(){fallbackCopy(url,function(){toast(msg)})})}
+  else fallbackCopy(url,function(){toast(msg)});
 }
 function fallbackCopy(txt,done){
   const ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";
