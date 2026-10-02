@@ -3907,8 +3907,13 @@ async function getAllUsers(){
   return store.get("users_auth",{})||{};
 }
 async function writeUser(name,obj){
-  if(CLOUD){await fdb.ref("users/"+name).update(obj)}
+  if(CLOUD){
+    try{ await fdb.ref("users/"+name).update(obj); if(typeof CLOUD_STATUS==="object")CLOUD_STATUS.writeOK=true; }
+    catch(e){ if(typeof CLOUD_STATUS==="object"){CLOUD_STATUS.writeOK=false;CLOUD_STATUS.lastErr=(e&&e.message)||"user write denied";} if(typeof isAdmin==="function"&&isAdmin()&&typeof toast==="function"&&/permission|denied/i.test(String((e&&e.message)||"")))toast(T("cloudDenied")); }
+  }
   else{var u=store.get("users_auth",{})||{};u[name]=Object.assign({},u[name]||{},obj);store.set("users_auth",u)}
+  // optimistic local update so the change shows immediately (before the cloud listener returns)
+  try{ if(typeof USER_META==="object"&&USER_META){ USER_META[name]=Object.assign({},USER_META[name]||{},obj); } }catch(e){}
 }
 async function ensureSeeded(){
   var u=await getAllUsers(),dh=await sha256(DEFAULT_PW);
